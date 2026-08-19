@@ -1,0 +1,6 @@
+{
+  "name": "SpotPicks",
+  "description": "Scalable local discovery and recommendation platform for Delhi and beyond. Discover. Explore. Pick the Best.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
