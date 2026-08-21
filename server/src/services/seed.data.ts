@@ -1543,3 +1543,8 @@ export const generateFullDemoBusinesses = (): SeedBusiness[] => {
 
   return result;
 };
+
+export const mockBusinesses = SEED_BUSINESSES;
+export const mockCategories = SEED_CATEGORIES;
+export const mockLocations = SEED_LOCATIONS;
+

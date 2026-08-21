@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-white border-t border-slate-200 text-slate-600 text-sm">
       <Container size="xl" className="py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand & Vision */}
           <div className="lg:col-span-2 space-y-4">
             <Link to={ROUTES.HOME} className="flex items-center gap-2.5">
@@ -65,6 +65,50 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
+          {/* Popular Curated Guides (SEO Pages) */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Top 10 Guides
+            </h4>
+            <ul className="space-y-2 text-xs text-slate-500">
+              <li>
+                <Link to="/best-restaurants-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best Restaurants in Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-cafes-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best Cafes in Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-momos-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best Momos in Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-date-places-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Romantic Date Places
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-parks-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best Parks & Gardens
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-markets-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best Shopping Markets
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-pg-in-delhi" className="hover:text-indigo-600 transition-colors">
+                  Best PGs & Hostels
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Top Localities in Delhi */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
@@ -88,33 +132,43 @@ export const Footer: React.FC = () => {
           {/* Platform & Roles */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-              SpotPicks Platform
+              Discovery Hubs
             </h4>
             <ul className="space-y-2 text-xs text-slate-500">
               <li>
-                <Link to={ROUTES.EXPLORE} className="hover:text-indigo-600 transition-colors">
-                  Explore Directory
+                <Link to="/events" className="hover:text-indigo-600 transition-colors">
+                  Live Events & Fests
                 </Link>
               </li>
               <li>
-                <Link to={ROUTES.LOGIN} className="hover:text-indigo-600 transition-colors">
-                  Business Owner Login
+                <Link to="/offers" className="hover:text-indigo-600 transition-colors">
+                  Deals & Coupons
                 </Link>
               </li>
               <li>
-                <Link to={ROUTES.REGISTER} className="hover:text-indigo-600 transition-colors">
-                  Claim or List a Spot
+                <Link to="/students" className="hover:text-indigo-600 transition-colors">
+                  Student Hub
                 </Link>
               </li>
               <li>
-                <a
-                  href="/api/v1/health"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-indigo-600 transition-colors inline-flex items-center gap-1 font-semibold text-slate-700"
-                >
-                  System API Health <ArrowUpRight className="h-3 w-3" />
-                </a>
+                <Link to="/housing" className="hover:text-indigo-600 transition-colors">
+                  Housing & PGs
+                </Link>
+              </li>
+              <li>
+                <Link to="/jobs" className="hover:text-indigo-600 transition-colors">
+                  Jobs & Internships
+                </Link>
+              </li>
+              <li>
+                <Link to="/discover" className="hover:text-indigo-600 transition-colors">
+                  Vibe Discovery
+                </Link>
+              </li>
+              <li>
+                <Link to="/articles" className="hover:text-indigo-600 transition-colors font-medium text-slate-700">
+                  Delhi Magazine
+                </Link>
               </li>
             </ul>
           </div>

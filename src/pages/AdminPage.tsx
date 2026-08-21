@@ -24,8 +24,10 @@ import { Badge } from '../components/ui/Badge';
 import { authService } from '../services/authService';
 import { discoveryService } from '../services/discoveryService';
 import { useAuth } from '../hooks/useAuth';
-import { User, UserRole } from '../types';
+import { User, UserRole, ReportItem } from '../types';
 import { apiClient } from '../api/apiClient';
+import { reportApi } from '../api/reportApi';
+import { Flag, CheckCircle, XCircle } from 'lucide-react';
 
 interface TestLog {
   id: string;
@@ -47,6 +49,9 @@ export const AdminPage: React.FC = () => {
   const [isSeeding, setIsSeeding] = useState(false);
   const [seedResult, setSeedResult] = useState<any>(null);
 
+  const [reportsList, setReportsList] = useState<ReportItem[]>([]);
+  const [isLoadingReports, setIsLoadingReports] = useState(false);
+
   const fetchUsers = async () => {
     setIsLoadingUsers(true);
     try {
@@ -59,9 +64,33 @@ export const AdminPage: React.FC = () => {
     }
   };
 
+  const fetchReports = async () => {
+    setIsLoadingReports(true);
+    try {
+      const res = await reportApi.getReports({ limit: 20 });
+      setReportsList(res.data || []);
+    } catch (e) {
+      console.warn('Failed to load reports', e);
+    } finally {
+      setIsLoadingReports(false);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchReports();
   }, []);
+
+  const handleUpdateReportStatus = async (reportId: string, status: string) => {
+    try {
+      await reportApi.updateStatus(reportId, { status });
+      setReportsList((prev) =>
+        prev.map((r) => (r._id === reportId ? { ...r, status: status as any } : r))
+      );
+    } catch (e: any) {
+      alert(e.message || 'Failed to update report status');
+    }
+  };
 
   const handleRoleChange = async (targetUserId: string, newRole: UserRole) => {
     setUpdatingUserId(targetUserId);
@@ -575,6 +604,111 @@ export const AdminPage: React.FC = () => {
               </tbody>
             </table>
           </div>
+        </Card>
+
+        {/* Community Moderation & Reports Queue */}
+        <Card className="p-6 border-slate-200 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <Flag className="h-5 w-5 text-rose-600" />
+                <span>Content Moderation & Flagged Reports Queue</span>
+              </h2>
+              <p className="text-xs text-slate-500">
+                Review community-flagged reviews, fake listings, inaccurate info, or inappropriate comments.
+              </p>
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchReports}
+              leftIcon={<RefreshCw className="h-3.5 w-3.5" />}
+            >
+              Refresh Queue
+            </Button>
+          </div>
+
+          {reportsList.length === 0 ? (
+            <div className="py-8 text-center text-slate-400 text-xs font-medium">
+              No pending reports in the moderation queue.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-slate-600">
+                <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200">
+                  <tr>
+                    <th className="py-3 px-4">Target</th>
+                    <th className="py-3 px-4">Reason</th>
+                    <th className="py-3 px-4">Details</th>
+                    <th className="py-3 px-4">Reporter</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {reportsList.map((r) => (
+                    <tr key={r._id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3 px-4">
+                        <div className="font-bold text-slate-900">{r.targetName || r.targetId}</div>
+                        <div className="text-[10px] text-slate-400 font-mono uppercase">{r.targetType}</div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className="px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200 font-semibold text-[11px]">
+                          {r.reason}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 max-w-xs truncate text-slate-700">
+                        {r.details || 'No extra notes provided.'}
+                      </td>
+                      <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
+                        {r.reporterEmail || (r.reportedBy ? (r.reportedBy as any).email || (r.reportedBy as any).name : 'Anonymous Explorer')}
+                      </td>
+                      <td className="py-3 px-4">
+                        <Badge
+                          variant={
+                            r.status === 'RESOLVED'
+                              ? 'success'
+                              : r.status === 'DISMISSED'
+                              ? 'neutral'
+                              : 'warning'
+                          }
+                          size="sm"
+                        >
+                          {r.status}
+                        </Badge>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-1.5">
+                          {r.status === 'PENDING' && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateReportStatus(r._id, 'RESOLVED')}
+                                className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-colors cursor-pointer"
+                              >
+                                Resolve
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateReportStatus(r._id, 'DISMISSED')}
+                                className="px-2.5 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[11px] transition-colors cursor-pointer"
+                              >
+                                Dismiss
+                              </button>
+                            </>
+                          )}
+                          {r.status !== 'PENDING' && (
+                            <span className="text-[11px] text-slate-400 italic">Action completed</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </Card>
       </Container>
     </div>

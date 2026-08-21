@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { ENV } from './env';
 
+// Disable buffering to prevent hanging requests when MongoDB Atlas is disconnected/unreachable
+mongoose.set('bufferCommands', false);
+
 interface DBStatus {
   isConnected: boolean;
   state: string;
@@ -37,7 +40,7 @@ class DatabaseConnection {
     const trimmed = uri.trim();
     if (trimmed.length === 0) return false;
     // Check for unpopulated placeholders in .env template
-    if (trimmed.includes('<username>') || trimmed.includes('<password>')) return false;
+    if (trimmed.includes('<username>') || trimmed.includes('<password>') || trimmed.includes('CLUSTER_NAME')) return false;
     if (trimmed.startsWith('mongodb://') || trimmed.startsWith('mongodb+srv://')) {
       return true;
     }
@@ -49,7 +52,7 @@ class DatabaseConnection {
 
     if (!this.isValidMongoUri(uri)) {
       this.lastError = 'MONGODB_URI is not configured with valid credentials';
-      console.log('ℹ️ [MongoDB] Running in offline development mode. Configure MONGODB_URI in .env or Settings to connect MongoDB Atlas.');
+      console.log('ℹ️ [MongoDB] Running in offline development mode with fast in-memory store.');
       return false;
     }
 
@@ -67,8 +70,9 @@ class DatabaseConnection {
       console.log('⏳ [MongoDB] Connecting to MongoDB Atlas cluster...');
 
       const conn = await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 3000,
-        socketTimeoutMS: 30000,
+        serverSelectionTimeoutMS: 2000,
+        connectTimeoutMS: 2000,
+        socketTimeoutMS: 10000,
       });
 
       console.log(`✅ [MongoDB] Connected successfully: ${conn.connection.host}/${conn.connection.name}`);
@@ -79,7 +83,7 @@ class DatabaseConnection {
       this.isConnecting = false;
       const errorMessage = err instanceof Error ? err.message : String(err);
       this.lastError = errorMessage;
-      console.warn(`⚠️ [MongoDB] Could not reach database server: ${errorMessage}. SpotPicks will continue in resilient offline mode.`);
+      console.warn(`⚠️ [MongoDB] Could not reach database server: ${errorMessage}. SpotPicks resilient offline engine active.`);
       return false;
     }
   }
@@ -118,3 +122,4 @@ class DatabaseConnection {
 }
 
 export const dbConnection = DatabaseConnection.getInstance();
+

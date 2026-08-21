@@ -20,6 +20,7 @@ import {
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
+import { NotificationBell } from '../notifications/NotificationBell';
 import { SUPPORTED_CITIES } from '../../constants/locations';
 import { useFilterStore } from '../../store/useFilterStore';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -155,7 +156,7 @@ export const Navbar: React.FC = () => {
         </form>
 
         {/* Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <nav className="hidden lg:flex items-center gap-5 text-sm font-medium text-slate-600">
           <Link
             to={ROUTES.HOME}
             className={`transition-colors hover:text-indigo-600 ${
@@ -167,44 +168,85 @@ export const Navbar: React.FC = () => {
             Home
           </Link>
           <Link
-            to={ROUTES.EXPLORE}
+            to="/events"
             className={`transition-colors hover:text-indigo-600 ${
-              location.pathname === ROUTES.EXPLORE || location.pathname === ROUTES.CATEGORIES
+              location.pathname.startsWith('/events')
                 ? 'text-indigo-600 font-semibold'
                 : ''
             }`}
           >
-            Categories
+            Events
           </Link>
           <Link
-            to={ROUTES.LOCATIONS}
+            to="/offers"
             className={`transition-colors hover:text-indigo-600 ${
-              location.pathname === ROUTES.LOCATIONS || location.pathname.startsWith('/location')
+              location.pathname.startsWith('/offers')
                 ? 'text-indigo-600 font-semibold'
                 : ''
             }`}
           >
-            Localities
+            Offers
           </Link>
           <Link
-            to={ROUTES.BUSINESSES}
+            to="/students"
             className={`transition-colors hover:text-indigo-600 ${
-              location.pathname === ROUTES.BUSINESSES || location.pathname === ROUTES.SEARCH
+              location.pathname.startsWith('/students')
                 ? 'text-indigo-600 font-semibold'
                 : ''
             }`}
           >
-            All Spots
+            Students
           </Link>
           <Link
-            to={ROUTES.COLLECTIONS}
+            to="/housing"
             className={`transition-colors hover:text-indigo-600 ${
-              location.pathname === ROUTES.COLLECTIONS
+              location.pathname.startsWith('/housing')
                 ? 'text-indigo-600 font-semibold'
                 : ''
             }`}
           >
-            Collections
+            Housing
+          </Link>
+          <Link
+            to="/jobs"
+            className={`transition-colors hover:text-indigo-600 ${
+              location.pathname.startsWith('/jobs')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            Jobs
+          </Link>
+          <Link
+            to="/discover"
+            className={`transition-colors hover:text-indigo-600 ${
+              location.pathname.startsWith('/discover') || location.pathname.startsWith('/special')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            Vibes
+          </Link>
+          <Link
+            to="/best-restaurants-in-delhi"
+            className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/best-')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+            <span>Top 10</span>
+          </Link>
+          <Link
+            to="/articles"
+            className={`transition-colors hover:text-indigo-600 ${
+              location.pathname.startsWith('/articles') || location.pathname.startsWith('/article')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            Magazine
           </Link>
           {hasRole(['BUSINESS_OWNER', 'ADMIN', 'SUPER_ADMIN']) && (
             <Link
@@ -216,7 +258,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <Briefcase className="h-3.5 w-3.5" />
-              <span>Business Hub</span>
+              <span>Business</span>
             </Link>
           )}
           {hasRole(['ADMIN', 'SUPER_ADMIN']) && (
@@ -229,13 +271,14 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <Shield className="h-3.5 w-3.5 text-indigo-600" />
-              <span>Admin Panel</span>
+              <span>Admin</span>
             </Link>
           )}
         </nav>
 
         {/* Actions / Auth */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-2.5">
+          <NotificationBell />
           {isAuthenticated && user ? (
             <div className="relative">
               <button
@@ -389,6 +432,63 @@ export const Navbar: React.FC = () => {
               className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
             >
               Home
+            </Link>
+            <Link
+              to="/events"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Live Events & Fests
+            </Link>
+            <Link
+              to="/offers"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Deals & Coupons
+            </Link>
+            <Link
+              to="/students"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Student Hub (PGs, Cafes, Cheap Food)
+            </Link>
+            <Link
+              to="/housing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Housing & PGs
+            </Link>
+            <Link
+              to="/jobs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Jobs & Internships
+            </Link>
+            <Link
+              to="/discover"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Vibe Discovery (Couples, Friends, Luxury)
+            </Link>
+            <Link
+              to="/best-restaurants-in-delhi"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-50 text-indigo-700 flex items-center gap-1.5"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+              <span>Top 10 Picks & SEO Guides</span>
+            </Link>
+            <Link
+              to="/articles"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
+            >
+              Editorial Magazine & Stories
             </Link>
             <Link
               to={ROUTES.EXPLORE}

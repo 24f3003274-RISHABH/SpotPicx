@@ -364,6 +364,75 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
             </motion.div>
+
+            {/* Phase 10: Specialized Hub Quick Action Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-6 max-w-5xl mx-auto text-left">
+              <Link
+                to="/events"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-indigo-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <Calendar className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Live Events</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Concerts & Comedy</div>
+              </Link>
+
+              <Link
+                to="/offers"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-emerald-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <DollarSign className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Deals & Coupons</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Up to 50% Off</div>
+              </Link>
+
+              <Link
+                to="/students"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-indigo-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <GraduationCap className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Student Hub</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">PGs & Study Cafes</div>
+              </Link>
+
+              <Link
+                to="/housing"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-amber-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <Hotel className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Housing & PGs</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Flats & Co-living</div>
+              </Link>
+
+              <Link
+                to="/jobs"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-cyan-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Internships & Jobs</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Freshers & Gigs</div>
+              </Link>
+
+              <Link
+                to="/discover"
+                className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 hover:border-rose-500/50 hover:shadow-md transition-all group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-sm mb-2 group-hover:scale-110 transition-transform">
+                  <Heart className="h-4 w-4" />
+                </div>
+                <div className="font-bold text-xs text-slate-900 leading-tight">Vibe Discovery</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">Couples & Luxury</div>
+              </Link>
+            </div>
           </div>
         </Container>
       </section>
@@ -584,7 +653,95 @@ export const HomePage: React.FC = () => {
         </Container>
       </section>
 
-      {/* 5. COMMUNITY TRUST & SPOTPICKS VALUE PROPOSITION */}
+      {/* 5. TOP 10 CURATED GUIDES & EDITORIAL STORIES */}
+      <section className="space-y-8">
+        <Container size="xl" className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200 pb-4">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-widest text-indigo-600 flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-amber-500" /> Curated Top 10 Guides & Editorial
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+                Definitive Best in Delhi Rankings
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                Evaluated by local food critics, lifestyle editors, and community data.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Link
+                to="/articles"
+                className="text-xs font-bold text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition"
+              >
+                <span>Read Magazine</span>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                title: 'Best Restaurants in Delhi',
+                tag: 'Fine Dining & Heritage',
+                slug: 'best-restaurants-in-delhi',
+                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600',
+                count: 'Top 10 Evaluated',
+              },
+              {
+                title: 'Best Cafes in Delhi',
+                tag: 'Specialty Coffee & Wi-Fi',
+                slug: 'best-cafes-in-delhi',
+                image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600',
+                count: 'Top 10 Evaluated',
+              },
+              {
+                title: 'Best Momos in Delhi',
+                tag: 'Tibetan & Tandoori',
+                slug: 'best-momos-in-delhi',
+                image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600',
+                count: 'Top 10 Evaluated',
+              },
+              {
+                title: 'Best Date Places in Delhi',
+                tag: 'Romantic Haveli Rooftops',
+                slug: 'best-date-places-in-delhi',
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600',
+                count: 'Top 10 Evaluated',
+              },
+            ].map((guide) => (
+              <Link
+                key={guide.slug}
+                to={`/${guide.slug}`}
+                className="group relative h-56 rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg hover:border-indigo-400 transition-all flex flex-col justify-end p-5 text-white"
+              >
+                <img
+                  src={guide.image}
+                  alt={guide.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+                <div className="absolute top-3.5 left-3.5 z-10">
+                  <span className="text-[10px] font-bold bg-amber-500 text-slate-950 px-2 py-0.5 rounded-md shadow-sm">
+                    {guide.count}
+                  </span>
+                </div>
+                <div className="relative z-10 space-y-1">
+                  <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider">
+                    {guide.tag}
+                  </span>
+                  <h3 className="text-base font-bold text-white group-hover:text-amber-200 transition-colors">
+                    {guide.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* 6. COMMUNITY TRUST & SPOTPICKS VALUE PROPOSITION */}
       <section className="bg-slate-900 text-white py-14 rounded-3xl mx-4 sm:mx-8 md:mx-12 overflow-hidden shadow-2xl">
         <Container size="xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">

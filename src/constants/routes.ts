@@ -14,7 +14,42 @@ export const ROUTES = {
   PROFILE: '/profile',
   SAVED: '/saved',
   COLLECTIONS: '/collections',
-  ADMIN: '/admin',
+  COLLECTION_DETAILS: '/collections/:id',
+  ARTICLES: '/articles',
+  ARTICLE_DETAILS: '/articles/:slug',
+
+  // Phase 10: Events, Offers, Jobs & Specialized Discovery
+  EVENTS: '/events',
+  EVENT_DETAILS: '/events/:slug',
+  OFFERS: '/offers',
+  STUDENTS: '/students',
+  HOUSING: '/housing',
+  JOBS: '/jobs',
+  SPECIAL_DISCOVERY: '/discover',
+
+  // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
+  BUSINESS_LISTINGS: '/business/businesses',
+  BUSINESS_CREATE: '/business/businesses/new',
+  BUSINESS_EDIT: '/business/businesses/:id/edit',
+  BUSINESS_REVIEWS: '/business/reviews',
+  BUSINESS_OFFERS: '/business/offers',
+  BUSINESS_ANALYTICS: '/business/analytics',
+
+  // Admin Dashboard Routes
+  ADMIN: '/admin',
+  ADMIN_USERS: '/admin/users',
+  ADMIN_BUSINESSES: '/admin/businesses',
+  ADMIN_CATEGORIES: '/admin/categories',
+  ADMIN_LOCATIONS: '/admin/locations',
+  ADMIN_CLAIMS: '/admin/claims',
+  ADMIN_REVIEWS: '/admin/reviews',
+  ADMIN_REPORTS: '/admin/reports',
+  ADMIN_EVENTS: '/admin/events',
+  ADMIN_OFFERS: '/admin/offers',
+  ADMIN_ARTICLES: '/admin/articles',
+  ADMIN_SEO_PAGES: '/admin/seo-pages',
+
   NOT_FOUND: '*',
 } as const;
+

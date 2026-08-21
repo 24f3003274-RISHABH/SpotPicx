@@ -5,16 +5,37 @@ import { createApp } from './server/src/app';
 import { dbConnection } from './server/src/config/db';
 import { ENV } from './server/src/config/env';
 import { errorHandler } from './server/src/middleware/errorHandler';
+import { SitemapService } from './server/src/services/sitemap.service';
 
 async function startServer() {
   // Initialize Express with security, CORS, Morgan, and /api/v1 routes
   const app = createApp();
   const PORT = ENV.PORT || 3000;
 
+  // Root level sitemap & robots.txt for standard search crawler requests
+  app.get('/sitemap.xml', async (req, res) => {
+    const host = req.get('host') || 'spotpicks.delhi';
+    const protocol = req.protocol || 'https';
+    const baseUrl = `${protocol}://${host}`;
+    const xml = await SitemapService.generateSitemapXml(baseUrl);
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+
+  app.get('/robots.txt', (req, res) => {
+    const host = req.get('host') || 'spotpicks.delhi';
+    const protocol = req.protocol || 'https';
+    const baseUrl = `${protocol}://${host}`;
+    const txt = SitemapService.generateRobotsTxt(baseUrl);
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(txt);
+  });
+
   // Initialize MongoDB connection asynchronously (does not block web app if credentials pending)
   dbConnection.connect().catch((err) => {
     console.warn('MongoDB initialization check:', err.message);
   });
+
 
   // Attach Vite middleware in development or static files in production
   if (process.env.NODE_ENV !== 'production') {

@@ -30,6 +30,8 @@ import {
   Utensils,
   Landmark,
   Compass,
+  Layers,
+  Flag,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
@@ -38,6 +40,12 @@ import { BusinessCard } from '../components/discovery/BusinessCard';
 import { BusinessDetailSkeleton } from '../components/ui/Skeletons';
 import { DistanceBadge } from '../components/location/DistanceBadge';
 import { MapView } from '../components/location/MapView';
+import { ReviewList } from '../components/reviews/ReviewList';
+import { SaveToCollectionModal } from '../components/collections/SaveToCollectionModal';
+import { ReportModal } from '../components/common/ReportModal';
+import { ShareButton } from '../components/common/ShareButton';
+import { ClaimBusinessModal } from '../components/business/ClaimBusinessModal';
+import { businessOwnerService } from '../services/businessOwnerService';
 import { useBusiness, useBusinesses } from '../hooks/useDiscovery';
 import { useSavedStore } from '../store/useSavedStore';
 import { useAuthStore } from '../store/useAuthStore';
@@ -71,16 +79,10 @@ export const BusinessDetailPage: React.FC = () => {
 
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [nearbyCategoryFilter, setNearbyCategoryFilter] = useState<'all' | 'cafes' | 'restaurants' | 'heritage'>('all');
-
-  // Review Form Modal
-  const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [newRating, setNewRating] = useState(5);
-  const [newComment, setNewComment] = useState('');
-  const [newAuthor, setNewAuthor] = useState(user?.name || 'Local Explorer');
-  const [submittingReview, setSubmittingReview] = useState(false);
-  const [customReviews, setCustomReviews] = useState<UserReview[]>([]);
 
   const { data: business, isLoading, error } = useBusiness(slug);
 
@@ -152,12 +154,6 @@ export const BusinessDetailPage: React.FC = () => {
     ? mapService.calculateDistanceKm(userCoords, { lat: business.latitude, lng: business.longitude })
     : null;
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
   const handleSaveToggle = () => {
     toggleSaveSpot(business);
   };
@@ -188,57 +184,6 @@ export const BusinessDetailPage: React.FC = () => {
   };
 
   const openStatus = isCurrentlyOpen();
-
-  // Curated initial reviews
-  const defaultReviews: UserReview[] = [
-    {
-      id: 'rev-1',
-      author: 'Aarav Sharma',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-      rating: 5,
-      date: '2 days ago',
-      comment:
-        'Absolute gem in Delhi! The ambiance is authentic, staff is courteous, and the signature offerings are top tier. Highly recommend!',
-      likes: 14,
-    },
-    {
-      id: 'rev-2',
-      author: 'Priya Mehra',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-      rating: 5,
-      date: '1 week ago',
-      comment:
-        'SpotPicks verified recommendation was spot on. Easy navigation and parking nearby.',
-      likes: 9,
-    },
-  ];
-
-  const allReviews = [...customReviews, ...defaultReviews];
-
-  const handleAddReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-
-    setSubmittingReview(true);
-    setTimeout(() => {
-      const createdReview: UserReview = {
-        id: `rev-${Date.now()}`,
-        author: newAuthor.trim() || 'Verified Explorer',
-        avatar:
-          user?.avatar ||
-          `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(newAuthor)}`,
-        rating: newRating,
-        date: 'Just now',
-        comment: newComment.trim(),
-        likes: 0,
-      };
-
-      setCustomReviews([createdReview, ...customReviews]);
-      setNewComment('');
-      setSubmittingReview(false);
-      setReviewModalOpen(false);
-    }, 400);
-  };
 
   // Nearby Places calculation: Compute distances and sort
   const allNearbyWithDistance = (nearbyPoolData?.data || [])
@@ -299,11 +244,27 @@ export const BusinessDetailPage: React.FC = () => {
 
             <button
               type="button"
-              onClick={handleShare}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+              onClick={() => setIsCollectionModalOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 hover:text-indigo-600 text-xs font-bold transition-colors cursor-pointer"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5" />}
-              <span>{copied ? 'Link Copied!' : 'Share'}</span>
+              <Layers className="h-3.5 w-3.5 text-indigo-600" />
+              <span>Add to Collection</span>
+            </button>
+
+            <ShareButton
+              title={business.name}
+              text={`Check out ${business.name} in ${business.locality}, Delhi on SpotPicks!`}
+              variant="outline"
+              size="sm"
+            />
+
+            <button
+              type="button"
+              onClick={() => setIsReportModalOpen(true)}
+              className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:border-rose-200 text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
+              title="Report an issue with this spot"
+            >
+              <Flag className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
@@ -460,61 +421,12 @@ export const BusinessDetailPage: React.FC = () => {
               </div>
             )}
 
-            {/* Reviews Section */}
-            <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
-                <div>
-                  <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                    <MessageSquare className="h-5 w-5 text-indigo-600" />
-                    <span>Verified Reviews & Ratings</span>
-                  </h2>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    Real feedback from local residents and verified Delhi visitors.
-                  </p>
-                </div>
-
-                <Button
-                  size="sm"
-                  variant="primary"
-                  onClick={() => setReviewModalOpen(true)}
-                  leftIcon={<Sparkles className="h-3.5 w-3.5" />}
-                >
-                  Write a Review
-                </Button>
-              </div>
-
-              {/* Reviews List */}
-              <div className="space-y-4 divide-y divide-slate-100">
-                {allReviews.map((rev) => (
-                  <div key={rev.id} className="pt-4 first:pt-0 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <img
-                          src={rev.avatar}
-                          alt={rev.author}
-                          className="w-8 h-8 rounded-full bg-slate-100 object-cover"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div>
-                          <div className="text-xs font-bold text-slate-900">{rev.author}</div>
-                          <div className="text-[10px] text-slate-400">{rev.date}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-0.5 text-amber-400">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`h-3.5 w-3.5 ${
-                              i < rev.rating ? 'fill-amber-400' : 'text-slate-200'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-xs text-slate-600 leading-relaxed pl-10.5">{rev.comment}</p>
-                  </div>
-                ))}
-              </div>
+            {/* Reviews & Ratings Section */}
+            <div className="space-y-6">
+              <ReviewList
+                businessId={business._id || business.slug}
+                businessName={business.name}
+              />
             </div>
           </div>
 
@@ -559,6 +471,7 @@ export const BusinessDetailPage: React.FC = () => {
                 {business.phone && (
                   <a
                     href={`tel:${business.phone}`}
+                    onClick={() => businessOwnerService.trackInteraction(business._id, 'phone_click')}
                     className="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 transition-colors"
                   >
                     <Phone className="h-4 w-4 text-indigo-600" />
@@ -570,6 +483,7 @@ export const BusinessDetailPage: React.FC = () => {
                     href={business.website}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => businessOwnerService.trackInteraction(business._id, 'website_click')}
                     className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 transition-colors"
                   >
                     <div className="flex items-center gap-2 truncate">
@@ -586,11 +500,30 @@ export const BusinessDetailPage: React.FC = () => {
                 href={directionsUrl}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => businessOwnerService.trackInteraction(business._id, 'direction_click')}
                 className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md cursor-pointer"
               >
                 <Navigation className="h-4 w-4" />
                 <span>Get Directions ({activeMapProvider.name})</span>
               </a>
+
+              {/* Business Ownership Claim Callout */}
+              <div className="pt-3 border-t border-slate-100 flex flex-col items-center text-center gap-1.5 bg-slate-50/80 p-3 rounded-2xl border border-dashed border-slate-200">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                  <ShieldCheck className="h-4 w-4 text-rose-600" />
+                  <span>Own or manage this establishment?</span>
+                </div>
+                <p className="text-[11px] text-slate-500">
+                  Claim this SpotPicks listing to respond to reviews, update menus & hours, and publish deals.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsClaimModalOpen(true)}
+                  className="mt-1 px-4 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-rose-300 text-rose-600 hover:bg-rose-50 text-xs font-bold transition-all shadow-xs cursor-pointer"
+                >
+                  Claim This Spot
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -748,81 +681,28 @@ export const BusinessDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* Review Submission Modal */}
-      {reviewModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <h3 className="text-lg font-bold text-slate-900">Write a Review</h3>
-                <p className="text-xs text-slate-500">{business.name}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setReviewModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+      {/* Save to Collection Modal */}
+      <SaveToCollectionModal
+        business={business}
+        isOpen={isCollectionModalOpen}
+        onClose={() => setIsCollectionModalOpen(false)}
+      />
 
-            <form onSubmit={handleAddReview} className="space-y-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 block">Your Rating</label>
-                <div className="flex items-center gap-2">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setNewRating(s)}
-                      className="p-1 text-amber-400 hover:scale-110 transition-transform cursor-pointer"
-                    >
-                      <Star
-                        className={`h-7 w-7 ${
-                          s <= newRating ? 'fill-amber-400' : 'text-slate-200'
-                        }`}
-                      />
-                    </button>
-                  ))}
-                  <span className="text-xs font-bold text-slate-600 ml-2">{newRating} of 5 Stars</span>
-                </div>
-              </div>
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        targetType="BUSINESS"
+        targetId={business._id || business.slug}
+        targetName={business.name}
+      />
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 block">Your Name</label>
-                <input
-                  type="text"
-                  value={newAuthor}
-                  onChange={(e) => setNewAuthor(e.target.value)}
-                  placeholder="e.g. Rahul Verma"
-                  className="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 font-medium"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 block">Your Experience Review</label>
-                <textarea
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Tell other Delhiites about the food quality, ambience, seating, parking, or value for money..."
-                  rows={4}
-                  className="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 font-medium"
-                  required
-                />
-              </div>
-
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-                <Button variant="outline" size="sm" type="button" onClick={() => setReviewModalOpen(false)}>
-                  Cancel
-                </Button>
-                <Button variant="primary" size="sm" type="submit" disabled={submittingReview}>
-                  {submittingReview ? 'Posting...' : 'Submit Review'}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Claim Business Modal */}
+      <ClaimBusinessModal
+        business={business}
+        isOpen={isClaimModalOpen}
+        onClose={() => setIsClaimModalOpen(false)}
+      />
     </div>
   );
 };

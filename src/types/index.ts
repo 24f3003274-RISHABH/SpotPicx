@@ -243,3 +243,347 @@ export interface HealthResponse {
     version: string;
   };
 }
+
+export interface ReviewResponseAuthor {
+  _id: string;
+  name: string;
+  avatar?: string;
+  username?: string;
+  role?: string;
+}
+
+export interface ReviewBusinessResponse {
+  comment: string;
+  respondedAt: string;
+  respondedBy: string;
+}
+
+export interface Review {
+  _id: string;
+  id?: string;
+  rating: number;
+  title: string;
+  comment: string;
+  images: string[];
+  visitDate?: string;
+  business: string | Business;
+  businessName?: string;
+  businessSlug?: string;
+  user: ReviewResponseAuthor;
+  likes: string[];
+  likeCount: number;
+  isReported?: boolean;
+  response?: ReviewBusinessResponse;
+  status: 'PUBLISHED' | 'PENDING' | 'FLAGGED' | 'REMOVED';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RatingBreakdown {
+  5: number;
+  4: number;
+  3: number;
+  2: number;
+  1: number;
+}
+
+export interface ReviewStats {
+  total: number;
+  average: number;
+  breakdown: RatingBreakdown;
+}
+
+export interface ReviewListResponse {
+  success: boolean;
+  data: Review[];
+  stats: ReviewStats;
+  pagination: PaginationMeta;
+}
+
+export type CollectionVisibility = 'PUBLIC' | 'PRIVATE';
+
+export interface SpotCollection {
+  _id: string;
+  id?: string;
+  name: string;
+  slug: string;
+  description: string;
+  coverImage: string;
+  visibility: CollectionVisibility;
+  owner: {
+    _id: string;
+    name: string;
+    avatar?: string;
+    username?: string;
+  };
+  items: Business[];
+  itemIds?: string[];
+  itemCount: number;
+  likes?: string[];
+  isCurated?: boolean;
+  category?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type ReportTargetType = 'BUSINESS' | 'REVIEW' | 'PHOTO' | 'COLLECTION' | 'USER' | 'CONTENT';
+export type ReportReason =
+  | 'SPAM_OR_FAKE'
+  | 'INAPPROPRIATE_CONTENT'
+  | 'OUTDATED_OR_CLOSED'
+  | 'INCORRECT_LOCATION'
+  | 'HARASSMENT'
+  | 'COPYRIGHT'
+  | 'OTHER';
+export type ReportStatus = 'PENDING' | 'INVESTIGATING' | 'RESOLVED' | 'DISMISSED';
+
+export interface ReportItem {
+  _id: string;
+  targetType: ReportTargetType;
+  targetId: string;
+  targetName?: string;
+  reason: ReportReason;
+  details: string;
+  reporter?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  reporterEmail?: string;
+  status: ReportStatus;
+  adminNotes?: string;
+  createdAt: string;
+}
+
+export type NotificationType =
+  | 'REVIEW_RESPONSE'
+  | 'REVIEW_LIKED'
+  | 'COLLECTION_SAVED'
+  | 'BUSINESS_VERIFIED'
+  | 'SYSTEM_ALERT';
+
+export interface UserNotification {
+  _id: string;
+  recipient: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  link?: string;
+  isRead: boolean;
+  metadata?: Record<string, any>;
+  createdAt: string;
+}
+
+export type RankingMethodType =
+  | 'rating'
+  | 'reviewCount'
+  | 'popularity'
+  | 'distance'
+  | 'engagement'
+  | 'newest'
+  | 'custom';
+
+export interface SEOContentSection {
+  title: string;
+  body: string;
+  bulletPoints?: string[];
+}
+
+export interface SEOFaq {
+  question: string;
+  answer: string;
+}
+
+export interface SEOPageFilters {
+  priceRange?: string[];
+  amenities?: string[];
+  tags?: string[];
+  minRating?: number;
+  dietaryOptions?: string[];
+}
+
+export interface SEOPage {
+  _id: string;
+  id?: string;
+  title: string;
+  slug: string;
+  metaTitle?: string;
+  metaDescription: string;
+  h1: string;
+  intro: string;
+  category?: string;
+  location?: string;
+  locality?: string;
+  intent?: string;
+  filters?: SEOPageFilters;
+  rankingMethod: RankingMethodType;
+  contentSections: SEOContentSection[];
+  faq: SEOFaq[];
+  relatedPages: string[];
+  relatedCategories?: string[];
+  relatedLocations?: string[];
+  published: boolean;
+  canonicalUrl?: string;
+  keywords?: string[];
+  top10?: (Business & { rankingScore?: number; rank?: number })[];
+  stats?: {
+    avgRating: number;
+    totalReviews: number;
+    verifiedCount: number;
+    localities: string[];
+    generatedAt: string;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Article {
+  _id: string;
+  id?: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  author: string;
+  authorRole?: string;
+  authorAvatar?: string;
+  category: string;
+  tags: string[];
+  locations: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  published: boolean;
+  publishedAt?: string;
+  readingTimeMinutes: number;
+  featured: boolean;
+  relatedBusinesses?: Business[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ----------------------------------------------------
+// Phase 10: Events, Offers, Jobs & Specialized Discovery
+// ----------------------------------------------------
+
+export type EventCategoryType =
+  | 'Concert'
+  | 'Comedy'
+  | 'Theatre'
+  | 'Exhibition'
+  | 'Workshop'
+  | 'Hackathon'
+  | 'Tech'
+  | 'Startup'
+  | 'Food Festival'
+  | 'Cultural';
+
+export type EventStatus = 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
+
+export interface EventItem {
+  _id: string;
+  id?: string;
+  title: string;
+  slug: string;
+  description: string;
+  images: string[];
+  category: EventCategoryType | string;
+  venue: string;
+  location: {
+    address?: string;
+    locality: string;
+    city: string;
+    coordinates?: [number, number];
+  };
+  startDate: string;
+  endDate: string;
+  ticketPrice: string | number;
+  bookingUrl?: string;
+  organizer: string;
+  tags: string[];
+  featured?: boolean;
+  status: EventStatus;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type JobType = 'Internship' | 'Part-time' | 'Full-time' | 'Freelance';
+
+export interface JobItem {
+  _id: string;
+  id?: string;
+  title: string;
+  slug: string;
+  company: string;
+  companyLogo?: string;
+  description: string;
+  location: string;
+  type: JobType;
+  salary: string;
+  skills: string[];
+  experience: string;
+  applyUrl: string;
+  deadline: string;
+  tags: string[];
+  featured?: boolean;
+  status: 'ACTIVE' | 'CLOSED';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OfferItem {
+  _id: string;
+  id?: string;
+  title: string;
+  description: string;
+  business: {
+    _id?: string;
+    id?: string;
+    name: string;
+    slug: string;
+    locality?: string;
+    city?: string;
+    rating?: number;
+    image?: string;
+    images?: string[];
+    address?: string;
+  } | any;
+  discount: string;
+  couponCode: string;
+  validFrom: string;
+  validUntil: string;
+  terms: string[];
+  status?: 'ACTIVE' | 'EXPIRED' | 'DRAFT';
+  isActive: boolean;
+  claimedCount?: number;
+  featured?: boolean;
+  category?: string;
+  tags?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type SpecialIntentType =
+  | 'couples'
+  | 'families'
+  | 'friends'
+  | 'solo'
+  | 'students'
+  | 'budget'
+  | 'luxury'
+  | 'hidden-gems';
+
+export interface SpecialDiscoveryData {
+  intent: SpecialIntentType;
+  meta: {
+    title: string;
+    tagline: string;
+    curatorNote: string;
+    recommendedTags: string[];
+  };
+  items: Business[];
+  total: number;
+}
+
+
+
