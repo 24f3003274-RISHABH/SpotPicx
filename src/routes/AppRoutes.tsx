@@ -43,6 +43,7 @@ import { BusinessAnalyticsTab } from '../pages/business/BusinessAnalyticsTab';
 // Admin Dashboard Components
 import { AdminDashboardLayout } from '../pages/admin/AdminDashboardLayout';
 import { AdminOverviewTab } from '../pages/admin/AdminOverviewTab';
+import { AdminAnalyticsTab } from '../pages/admin/AdminAnalyticsTab';
 import { AdminUsersTab } from '../pages/admin/AdminUsersTab';
 import { AdminBusinessesTab } from '../pages/admin/AdminBusinessesTab';
 import { AdminClaimsTab } from '../pages/admin/AdminClaimsTab';
@@ -156,6 +157,7 @@ export const AppRoutes: React.FC = () => {
           }
         >
           <Route index element={<AdminOverviewTab />} />
+          <Route path="analytics" element={<AdminAnalyticsTab />} />
           <Route path="users" element={<AdminUsersTab />} />
           <Route path="businesses" element={<AdminBusinessesTab />} />
           <Route path="claims" element={<AdminClaimsTab />} />

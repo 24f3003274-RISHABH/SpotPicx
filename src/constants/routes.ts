@@ -38,6 +38,7 @@ export const ROUTES = {
 
   // Admin Dashboard Routes
   ADMIN: '/admin',
+  ADMIN_ANALYTICS: '/admin/analytics',
   ADMIN_USERS: '/admin/users',
   ADMIN_BUSINESSES: '/admin/businesses',
   ADMIN_CATEGORIES: '/admin/categories',

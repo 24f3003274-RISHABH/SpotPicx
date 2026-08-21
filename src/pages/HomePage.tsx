@@ -37,9 +37,13 @@ import { useSearch } from '../hooks/useSearch';
 import { ROUTES } from '../constants/routes';
 import { POPULAR_DELHI_LOCALITIES } from '../constants/locations';
 import { Business } from '../types';
+import { AISearchBox } from '../components/search/AISearchBox';
+import { TrendingSection } from '../components/discovery/TrendingSection';
+import { PersonalizedPicksSection } from '../components/discovery/PersonalizedPicksSection';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const [showAISearch, setShowAISearch] = useState(false);
 
   // Curated Discovery Tab State
   const [activeTab, setActiveTab] = useState<
@@ -340,6 +344,44 @@ export const HomePage: React.FC = () => {
                 onSearch={(q) => navigate(`/search?q=${encodeURIComponent(q)}`)}
               />
 
+              {/* AI Natural Language Search Launcher */}
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAISearch(!showAISearch)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-950 text-indigo-200 border border-indigo-500/40 hover:border-indigo-400 hover:text-white shadow-md text-xs font-bold transition-all cursor-pointer group"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                  <span>Use Natural Language AI Search (Gemini 3.7)</span>
+                  <span className="px-1.5 py-0.5 rounded bg-indigo-500/30 text-[10px] text-indigo-300 font-extrabold uppercase">
+                    New
+                  </span>
+                </button>
+              </div>
+
+              {/* Collapsible AI Search Box */}
+              {showAISearch && (
+                <div className="pt-2 text-left animate-in fade-in zoom-in-95 duration-200">
+                  <AISearchBox
+                    onClose={() => setShowAISearch(false)}
+                    onApplyCriteria={(criteria) => {
+                      const params = new URLSearchParams();
+                      if (criteria.category) params.set('category', criteria.category);
+                      if (criteria.locality) params.set('locality', criteria.locality);
+                      if (criteria.priceMax) params.set('priceMax', criteria.priceMax.toString());
+                      if (criteria.priceRange) params.set('priceRange', criteria.priceRange);
+                      if (criteria.amenities && criteria.amenities.length > 0) {
+                        params.set('amenities', criteria.amenities.join(','));
+                      }
+                      if (criteria.tags && criteria.tags.length > 0) {
+                        params.set('q', criteria.tags.join(' '));
+                      }
+                      navigate(`/search?${params.toString()}`);
+                    }}
+                  />
+                </div>
+              )}
+
               {/* Popular Searches Quick Badges */}
               <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1 text-xs text-slate-500">
                 <span className="font-semibold text-slate-700 flex items-center gap-1 text-[11px] uppercase tracking-wider">
@@ -437,7 +479,7 @@ export const HomePage: React.FC = () => {
         </Container>
       </section>
 
-      {/* 2. CATEGORY SECTIONS (Restaurants, Cafes, Places, Shopping, Hotels, Nightlife, Services, Events) */}
+      {/* 2. CATEGORY SECTIONS */}
       <section className="space-y-6">
         <Container size="xl" className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200 pb-4">
@@ -496,6 +538,12 @@ export const HomePage: React.FC = () => {
           </div>
         </Container>
       </section>
+
+      {/* 2.5 PHASE 11: PERSONALIZED PICKS & TRENDING INTELLIGENCE */}
+      <Container size="xl" className="space-y-12">
+        <PersonalizedPicksSection />
+        <TrendingSection onSearchSelect={(query) => navigate(`/search?q=${encodeURIComponent(query)}`)} />
+      </Container>
 
       {/* 3. CURATED DISCOVERY SECTIONS (Trending, Popular, Best Rated, Near You, Hidden Gems, Budget, Student Picks, Date Ideas, Food Explorer, Weekend Ideas) */}
       <section className="space-y-8 bg-slate-100/60 py-12 border-y border-slate-200">

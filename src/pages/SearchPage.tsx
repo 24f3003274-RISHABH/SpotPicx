@@ -28,9 +28,16 @@ import { useCategories, useLocations } from '../hooks/useDiscovery';
 import { Business } from '../types';
 import { MapCoordinate } from '../services/map/types';
 import { mapService } from '../services/map';
+import { AISearchBox } from '../components/search/AISearchBox';
+import { usePersonalization } from '../hooks/usePersonalization';
+import { searchService } from '../services/searchService';
+import { StructuredSearchCriteria } from '../types';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { recordView } = usePersonalization();
+  const [showAISearchModal, setShowAISearchModal] = useState(false);
+  const [activeAICriteria, setActiveAICriteria] = useState<StructuredSearchCriteria | null>(null);
 
   // URL query params
   const qParam = searchParams.get('q') || '';
@@ -178,6 +185,15 @@ export const SearchPage: React.FC = () => {
 
             {/* Geolocation & Mobile Filter Trigger */}
             <div className="flex items-center gap-2 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setShowAISearchModal(!showAISearchModal)}
+                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-950 text-indigo-200 hover:text-white border border-indigo-500/40 hover:border-indigo-400 flex items-center gap-1.5 shadow-md cursor-pointer transition-all"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                <span>AI Search (Gemini)</span>
+              </button>
+
               <CurrentLocationButton
                 onLocationAcquired={handleLocationAcquired}
                 onLocationCleared={handleLocationCleared}
@@ -194,6 +210,32 @@ export const SearchPage: React.FC = () => {
               </button>
             </div>
           </div>
+
+          {/* AI Search Drawer / Modal */}
+          {showAISearchModal && (
+            <div className="pt-2 animate-in fade-in zoom-in-95 duration-200">
+              <AISearchBox
+                defaultPrompt={qParam}
+                onClose={() => setShowAISearchModal(false)}
+                onApplyCriteria={(criteria) => {
+                  setActiveAICriteria(criteria);
+                  setShowAISearchModal(false);
+                  const newParams = new URLSearchParams();
+                  if (criteria.category) newParams.set('category', criteria.category);
+                  if (criteria.locality) newParams.set('locality', criteria.locality);
+                  if (criteria.priceMax) newParams.set('priceMax', criteria.priceMax.toString());
+                  if (criteria.priceRange) newParams.set('priceRange', criteria.priceRange);
+                  if (criteria.amenities && criteria.amenities.length > 0) {
+                    newParams.set('amenities', criteria.amenities.join(','));
+                  }
+                  if (criteria.tags && criteria.tags.length > 0) {
+                    newParams.set('q', criteria.tags.join(' '));
+                  }
+                  setSearchParams(newParams);
+                }}
+              />
+            </div>
+          )}
 
           {/* Autocomplete Search Bar */}
           <div className="w-full">
@@ -508,11 +550,21 @@ export const SearchPage: React.FC = () => {
                       : 'space-y-3'
                   }
                 >
-                  {businesses.map((biz) => (
+                  {businesses.map((biz, idx) => (
                     <div
                       key={biz._id || biz.slug}
                       onMouseEnter={() => setHoveredSpotId(biz._id || biz.slug)}
                       onMouseLeave={() => setHoveredSpotId(null)}
+                      onClick={() => {
+                        recordView(biz);
+                        searchService.trackClick({
+                          query: qParam || localityParam || categoryParam || 'explore',
+                          businessId: biz._id || biz.slug,
+                          businessName: biz.name,
+                          position: idx + 1,
+                          page: pageParam,
+                        });
+                      }}
                       className="transition-transform duration-200"
                     >
                       <BusinessCard

@@ -585,5 +585,137 @@ export interface SpecialDiscoveryData {
   total: number;
 }
 
+// ----------------------------------------------------
+// Phase 11: AI Search, Analytics & Personalization
+// ----------------------------------------------------
+
+export interface StructuredSearchCriteria {
+  category?: string;
+  subcategory?: string;
+  locality?: string;
+  city?: string;
+  priceMax?: number;
+  priceMin?: number;
+  priceRange?: PriceRange;
+  minRating?: number;
+  openNow?: boolean;
+  amenities: string[];
+  tags: string[];
+  intent: string;
+  cleanedQuery?: string;
+  confidence: number;
+  explanation?: string;
+  provider: string;
+  rawAnalysis?: string;
+}
+
+export interface AISearchApiResponse extends SearchApiResponse {
+  aiCriteria: StructuredSearchCriteria;
+  aiMetadata: {
+    providerUsed: string;
+    fallbackUsed: boolean;
+    aiExecutionTimeMs: number;
+  };
+}
+
+export interface TrendingSearchItem {
+  query: string;
+  count: number;
+  category?: string;
+  locality?: string;
+  trend: 'up' | 'stable' | 'hot';
+}
+
+export interface TrendingBusinessItem {
+  id: string;
+  name: string;
+  slug: string;
+  category?: string;
+  locality?: string;
+  rating?: number;
+  score: number;
+  badge?: string;
+  image?: string;
+}
+
+export interface TrendingCategoryItem {
+  name: string;
+  slug: string;
+  searchCount: number;
+  icon?: string;
+  image?: string;
+}
+
+export interface TrendingData {
+  businesses: TrendingBusinessItem[];
+  searches: TrendingSearchItem[];
+  categories: TrendingCategoryItem[];
+}
+
+export interface UserPreferencesProfile {
+  recentlyViewed?: Array<{ id: string; category?: string; locality?: string; priceRange?: string; timestamp?: number }>;
+  savedCategories?: string[];
+  favoriteLocations?: string[];
+  preferredPriceRanges?: string[];
+  searchHistory?: string[];
+}
+
+export interface PersonalizedRecommendationsResponse {
+  isPersonalized: boolean;
+  confidenceScore: number;
+  reason: string;
+  items: any[];
+}
+
+export interface AdminSearchAnalyticsData {
+  summary: {
+    totalSearches: number;
+    totalClicks: number;
+    ctr: string;
+    avgResponseTimeMs: number;
+    totalZeroResultSearches: number;
+    aiSearchesCount: number;
+    aiSuccessRate: string;
+  };
+  dailySearches: Array<{
+    date: string;
+    searches: number;
+    zeroResults: number;
+    avgLatencyMs: number;
+  }>;
+  popularSearches: Array<{
+    query: string;
+    count: number;
+    category?: string;
+    location?: string;
+    clickRate: string;
+    resultCount: number;
+  }>;
+  topCategories: Array<{
+    name: string;
+    count: number;
+    percentage: number;
+    color: string;
+  }>;
+  topLocations: Array<{
+    name: string;
+    searches: number;
+    businesses: number;
+  }>;
+  zeroResultQueries: Array<{
+    query: string;
+    count: number;
+    potentialCategory: string;
+    seoOpportunity: string;
+  }>;
+  mostViewedBusinesses: Array<{
+    name: string;
+    locality: string;
+    views: number;
+    saves: number;
+    rating: number;
+  }>;
+}
+
 
 

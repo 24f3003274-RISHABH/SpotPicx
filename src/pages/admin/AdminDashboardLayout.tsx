@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 import {
   ShieldAlert,
   LayoutDashboard,
+  BarChart3,
   Users,
   Store,
   FolderTree,
@@ -24,6 +25,7 @@ export const AdminDashboardLayout: React.FC = () => {
 
   const adminNav = [
     { label: 'Overview', path: ROUTES.ADMIN, icon: LayoutDashboard, exact: true },
+    { label: 'Search Analytics', path: ROUTES.ADMIN_ANALYTICS, icon: BarChart3 },
     { label: 'Users', path: ROUTES.ADMIN_USERS, icon: Users },
     { label: 'Businesses', path: ROUTES.ADMIN_BUSINESSES, icon: Store },
     { label: 'Ownership Claims', path: ROUTES.ADMIN_CLAIMS, icon: ShieldCheck },

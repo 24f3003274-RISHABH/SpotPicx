@@ -50,6 +50,7 @@ import { useBusiness, useBusinesses } from '../hooks/useDiscovery';
 import { useSavedStore } from '../store/useSavedStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { useGeolocation } from '../hooks/useGeolocation';
+import { usePersonalization } from '../hooks/usePersonalization';
 import { mapService } from '../services/map';
 import { Business } from '../types';
 
@@ -85,6 +86,14 @@ export const BusinessDetailPage: React.FC = () => {
   const [nearbyCategoryFilter, setNearbyCategoryFilter] = useState<'all' | 'cafes' | 'restaurants' | 'heritage'>('all');
 
   const { data: business, isLoading, error } = useBusiness(slug);
+  const { recordView } = usePersonalization();
+
+  // Track user personalization profile
+  React.useEffect(() => {
+    if (business) {
+      recordView(business);
+    }
+  }, [business?._id || business?.slug]);
 
   // Fetch broader spots for nearby discovery
   const { data: nearbyPoolData } = useBusinesses({
