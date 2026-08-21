@@ -111,12 +111,13 @@ export interface Business {
   tags: string[];
   amenities: string[];
   features: string[];
-  openingHours?: Record<string, string>;
+  openingHours?: Record<string, string> | Array<{ day: string; open: string; close: string; isClosed?: boolean }>;
   verified: boolean;
   claimed: boolean;
   owner?: User | string | null;
   status: BusinessStatus;
   distanceKm?: number;
+  popularity?: number;
   rankingScore?: number;
   createdAt: string;
   updatedAt: string;

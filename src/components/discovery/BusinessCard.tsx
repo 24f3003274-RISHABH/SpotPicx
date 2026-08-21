@@ -11,10 +11,11 @@ import {
   Clock,
   ExternalLink,
   Navigation,
+  Heart,
 } from 'lucide-react';
 import { Business } from '../../types';
 import { Badge } from '../ui/Badge';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useSavedStore } from '../../store/useSavedStore';
 
 interface BusinessCardProps {
   business: Business;
@@ -29,7 +30,9 @@ const priceRangeMap: Record<string, { label: string; text: string; color: string
 };
 
 export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode = 'grid' }) => {
-  const { user, isAuthenticated } = useAuthStore();
+  const { isSpotSaved, toggleSaveSpot } = useSavedStore();
+  const spotId = business._id || business.slug;
+  const isSaved = isSpotSaved(spotId);
 
   const primaryImage =
     business.images && business.images.length > 0
@@ -53,9 +56,49 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
 
   const distanceText = formatDistance(business.distanceKm);
 
+  // Determine open status based on current day and time
+  const isCurrentlyOpen = (): { isOpen: boolean; label: string } => {
+    if (!business.openingHours || business.openingHours.length === 0) {
+      return { isOpen: true, label: 'Open Now' };
+    }
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const currentDay = days[new Date().getDay()];
+    const todaySchedule = business.openingHours.find(
+      (h) => h.day.toLowerCase() === currentDay
+    );
+
+    if (!todaySchedule || todaySchedule.isClosed) {
+      return { isOpen: false, label: 'Closed Today' };
+    }
+
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const parseTime = (timeStr: string) => {
+      const [h, m] = timeStr.split(':').map(Number);
+      return (h || 0) * 60 + (m || 0);
+    };
+
+    const openMin = parseTime(todaySchedule.open);
+    const closeMin = parseTime(todaySchedule.close);
+
+    if (currentMinutes >= openMin && currentMinutes <= closeMin) {
+      return { isOpen: true, label: `Open until ${todaySchedule.close}` };
+    }
+    return { isOpen: false, label: `Closed • Opens ${todaySchedule.open}` };
+  };
+
+  const openStatus = isCurrentlyOpen();
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleSaveSpot(business);
+  };
+
   if (viewMode === 'list') {
     return (
-      <div className="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all overflow-hidden flex flex-col sm:flex-row">
+      <div className="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all overflow-hidden flex flex-col sm:flex-row focus-within:ring-2 focus-within:ring-indigo-500">
         {/* Image */}
         <div className="relative sm:w-64 h-48 sm:h-auto shrink-0 bg-slate-100 overflow-hidden">
           <img
@@ -63,13 +106,29 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
             alt={business.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
+            referrerPolicy="no-referrer"
           />
           {business.verified && (
-            <div className="absolute top-3 left-3 bg-emerald-600/90 backdrop-blur-xs text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-xs">
+            <div className="absolute top-3 left-3 bg-emerald-600/95 backdrop-blur-xs text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-xs">
               <CheckCircle2 className="h-3 w-3" />
               <span>Verified</span>
             </div>
           )}
+
+          {/* Bookmark Button */}
+          <button
+            type="button"
+            onClick={handleFavoriteClick}
+            aria-label={isSaved ? `Remove ${business.name} from saved` : `Save ${business.name}`}
+            className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all cursor-pointer shadow-md ${
+              isSaved
+                ? 'bg-rose-500 text-white hover:bg-rose-600 scale-105'
+                : 'bg-slate-900/60 text-white hover:bg-slate-900/80 hover:scale-110'
+            }`}
+          >
+            <Heart className={`h-4 w-4 ${isSaved ? 'fill-white' : ''}`} />
+          </button>
+
           <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-xs text-white text-xs font-bold px-2 py-0.5 rounded-md">
             {priceInfo.label} • {business.locality}
           </div>
@@ -79,9 +138,21 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
         <div className="p-5 flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1.5">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600">
-                {categoryName}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600">
+                  {categoryName}
+                </span>
+                <span className="text-slate-300">•</span>
+                <div className="flex items-center gap-1 text-[11px] font-medium text-slate-600">
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      openStatus.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-400'
+                    }`}
+                  />
+                  <span>{openStatus.label}</span>
+                </div>
+              </div>
+
               <div className="flex items-center gap-2">
                 {distanceText && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200/60 px-2 py-0.5 rounded-md">
@@ -99,7 +170,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
               </div>
             </div>
 
-            <Link to={`/business/${business.slug}`}>
+            <Link to={`/business/${business.slug}`} className="focus:outline-none">
               <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
                 {business.name}
               </h3>
@@ -156,7 +227,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
 
   // Default Grid View Card
   return (
-    <div className="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all overflow-hidden flex flex-col h-full">
+    <div className="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all overflow-hidden flex flex-col h-full focus-within:ring-2 focus-within:ring-indigo-500">
       {/* Card Image */}
       <div className="relative h-48 w-full bg-slate-100 overflow-hidden shrink-0">
         <img
@@ -164,37 +235,65 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
           alt={business.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          referrerPolicy="no-referrer"
         />
 
-        {/* Top Badges */}
+        {/* Top Badges & Favorite Button */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none">
-          {business.verified ? (
-            <div className="bg-emerald-600/90 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-xs pointer-events-auto">
-              <CheckCircle2 className="h-3 w-3" />
-              <span>Verified</span>
-            </div>
-          ) : (
-            <div className="bg-slate-800/80 backdrop-blur-xs text-white text-[10px] font-medium px-2 py-0.5 rounded-md pointer-events-auto">
-              SpotPicks
-            </div>
-          )}
-
-          <div className="flex items-center gap-1 pointer-events-auto">
-            {distanceText && (
-              <span className="bg-slate-900/90 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
-                {distanceText}
-              </span>
+          <div className="flex items-center gap-1.5 pointer-events-auto">
+            {business.verified ? (
+              <div className="bg-emerald-600/95 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-xs">
+                <CheckCircle2 className="h-3 w-3" />
+                <span>Verified</span>
+              </div>
+            ) : (
+              <div className="bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-medium px-2 py-0.5 rounded-md">
+                SpotPicks
+              </div>
             )}
             <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold shadow-xs ${priceInfo.color}`}>
               {priceInfo.label}
             </span>
           </div>
+
+          <div className="flex items-center gap-1.5 pointer-events-auto">
+            {distanceText && (
+              <span className="bg-slate-950/90 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
+                {distanceText}
+              </span>
+            )}
+
+            {/* Favorite / Bookmark Heart */}
+            <button
+              type="button"
+              onClick={handleFavoriteClick}
+              aria-label={isSaved ? `Remove ${business.name} from saved` : `Save ${business.name}`}
+              className={`p-1.5 rounded-full backdrop-blur-md transition-all cursor-pointer shadow-md ${
+                isSaved
+                  ? 'bg-rose-500 text-white hover:bg-rose-600 scale-105'
+                  : 'bg-slate-950/60 text-white hover:bg-slate-950/80 hover:scale-110'
+              }`}
+            >
+              <Heart className={`h-3.5 w-3.5 ${isSaved ? 'fill-white' : ''}`} />
+            </button>
+          </div>
         </div>
 
-        {/* Locality badge on image */}
-        <div className="absolute bottom-3 left-3 bg-slate-950/75 backdrop-blur-xs text-white text-[11px] font-medium px-2 py-0.5 rounded-md flex items-center gap-1">
-          <MapPin className="h-3 w-3 text-indigo-400" />
-          <span>{business.locality}</span>
+        {/* Locality & Open status badge on bottom of image */}
+        <div className="absolute bottom-3 inset-x-3 flex items-center justify-between pointer-events-none">
+          <div className="bg-slate-950/80 backdrop-blur-xs text-white text-[11px] font-medium px-2 py-0.5 rounded-md flex items-center gap-1">
+            <MapPin className="h-3 w-3 text-indigo-400" />
+            <span className="truncate max-w-[120px]">{business.locality}</span>
+          </div>
+
+          <div className="bg-slate-950/85 backdrop-blur-xs text-white text-[10px] font-medium px-2 py-0.5 rounded-md flex items-center gap-1">
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                openStatus.isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'
+              }`}
+            />
+            <span>{openStatus.isOpen ? 'Open Now' : 'Closed'}</span>
+          </div>
         </div>
       </div>
 
@@ -216,7 +315,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
             </div>
           </div>
 
-          <Link to={`/business/${business.slug}`}>
+          <Link to={`/business/${business.slug}`} className="focus:outline-none">
             <h3 className="font-bold text-slate-900 text-base group-hover:text-indigo-600 transition-colors line-clamp-1">
               {business.name}
             </h3>
@@ -248,7 +347,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
 
         {/* Footer Action */}
         <div className="pt-3 mt-4 border-t border-slate-100 flex items-center justify-between">
-          <div className="text-[11px] text-slate-400 truncate max-w-[150px]">
+          <div className="text-[11px] text-slate-400 truncate max-w-[140px]">
             {business.address}
           </div>
           <Link

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   Search,
   MapPin,
-  Star,
   SlidersHorizontal,
   Navigation,
   Sparkles,
@@ -12,28 +11,23 @@ import {
   Map as MapIcon,
   X,
   RotateCcw,
-  CheckCircle2,
-  ChevronDown,
   Filter,
   Layers,
-  ArrowUpDown,
-  Tag,
-  Coffee,
-  Wifi,
-  ShieldCheck,
-  Clock,
-  ExternalLink,
+  ChevronDown,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Card } from '../components/ui/Card';
-import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { BusinessCard } from '../components/discovery/BusinessCard';
 import { SearchAutocomplete } from '../components/search/SearchAutocomplete';
-import { SearchMapPreview } from '../components/search/SearchMapPreview';
+import { MapView } from '../components/location/MapView';
+import { CurrentLocationButton } from '../components/location/CurrentLocationButton';
+import { LocationSelector } from '../components/location/LocationSelector';
 import { useSearch } from '../hooks/useSearch';
 import { useCategories, useLocations } from '../hooks/useDiscovery';
 import { Business } from '../types';
+import { MapCoordinate } from '../services/map/types';
+import { mapService } from '../services/map';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,12 +50,13 @@ export const SearchPage: React.FC = () => {
   const tagsParam = searchParams.get('tags') ? searchParams.get('tags')!.split(',') : [];
   const amenitiesParam = searchParams.get('amenities') ? searchParams.get('amenities')!.split(',') : [];
 
-  // Local UI State
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
+  // Responsive / View state
+  const [mobileView, setMobileView] = useState<'list' | 'map'>('list');
+  const [listingViewMode, setListingViewMode] = useState<'grid' | 'list'>('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [geoLoading, setGeoLoading] = useState(false);
-  const [geoError, setGeoError] = useState<string | null>(null);
   const [selectedMapSpot, setSelectedMapSpot] = useState<Business | null>(null);
+  const [hoveredSpotId, setHoveredSpotId] = useState<string | null>(null);
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
 
   // Fetch Categories & Localities for Filter Sidebar
   const { data: categoriesData } = useCategories();
@@ -81,7 +76,7 @@ export const SearchPage: React.FC = () => {
     priceMax: priceMaxParam,
     sort: sortParam,
     page: pageParam,
-    limit: 20,
+    limit: 24,
     openNow: openNowParam,
     lat: latParam,
     lng: lngParam,
@@ -114,42 +109,30 @@ export const SearchPage: React.FC = () => {
 
   const handleClearAllFilters = () => {
     setSearchParams({});
-    setGeoError(null);
+    setSelectedMapSpot(null);
   };
 
-  // Browser Geolocation Trigger
-  const handleRequestNearMe = () => {
-    if (!navigator.geolocation) {
-      setGeoError('Geolocation is not supported by your browser');
-      return;
+  const handleLocationAcquired = (coords: MapCoordinate) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('lat', coords.lat.toFixed(4));
+    newParams.set('lng', coords.lng.toFixed(4));
+    newParams.set('sort', 'distance');
+    if (!newParams.get('radius')) newParams.set('radius', '10');
+    setSearchParams(newParams);
+  };
+
+  const handleLocationCleared = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('lat');
+    newParams.delete('lng');
+    if (newParams.get('sort') === 'distance') {
+      newParams.set('sort', 'recommended');
     }
-
-    setGeoLoading(true);
-    setGeoError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setGeoLoading(false);
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('lat', position.coords.latitude.toFixed(6));
-        newParams.set('lng', position.coords.longitude.toFixed(6));
-        newParams.set('sort', 'distance');
-        if (!newParams.get('radius')) newParams.set('radius', '10');
-        setSearchParams(newParams);
-      },
-      (err) => {
-        setGeoLoading(false);
-        // Fallback to Connaught Place coordinates for preview if denied
-        setGeoError('Location permission denied. Using central Delhi demo location.');
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('lat', '28.6304');
-        newParams.set('lng', '77.2197');
-        newParams.set('sort', 'distance');
-        setSearchParams(newParams);
-      },
-      { timeout: 8000, enableHighAccuracy: true }
-    );
+    setSearchParams(newParams);
   };
+
+  const userCoords: MapCoordinate | null =
+    latParam && lngParam ? { lat: latParam, lng: lngParam } : null;
 
   const hasActiveFilters = Boolean(
     categoryParam ||
@@ -167,24 +150,24 @@ export const SearchPage: React.FC = () => {
   const popularPresetQueries = [
     'best cafes in Delhi',
     'momos under 200',
-    'laptop repair near Nehru Place',
     'quiet cafes with WiFi',
-    'hostels near JNU',
+    'laptop repair in Nehru Place',
     'rooftop date places',
+    'student food in Majnu Ka Tilla',
   ];
 
   return (
-    <div className="py-6 md:py-8 space-y-6">
+    <div className="py-6 md:py-8 space-y-6 pb-24 lg:pb-12">
       <Container size="xl" className="space-y-6">
-        {/* Top Search & Presets Header */}
+        {/* Top Breadcrumb & Actions Bar */}
         <div className="space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="text-xs text-slate-400 font-medium">
-                <Link to="/" className="hover:text-indigo-600">Home</Link> &gt; <span>Search & Discovery Engine</span>
+                <Link to="/" className="hover:text-indigo-600">Home</Link> &gt; <span>Search & Discovery Map</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 flex items-center gap-2">
-                <span>{qParam ? `Discovery: "${qParam}"` : 'Discover Delhi Spots'}</span>
+                <span>{qParam ? `Discovery: "${qParam}"` : localityParam ? `Spots in ${localityParam}` : 'Explore Delhi NCR Spots'}</span>
                 {isFetching && (
                   <span className="text-xs font-normal text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md animate-pulse">
                     Searching...
@@ -193,27 +176,18 @@ export const SearchPage: React.FC = () => {
               </h1>
             </div>
 
-            {/* Quick Near Me Geolocation Button */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleRequestNearMe}
-                disabled={geoLoading}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 shadow-xs cursor-pointer ${
-                  latParam && lngParam
-                    ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                    : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-300 hover:text-indigo-600'
-                }`}
-              >
-                <Navigation className={`h-3.5 w-3.5 ${latParam ? 'text-emerald-600 fill-emerald-600' : 'text-indigo-600'}`} />
-                <span>{geoLoading ? 'Acquiring GPS...' : latParam ? 'Near Me Active (GPS)' : 'Find Near Me'}</span>
-              </button>
+            {/* Geolocation & Mobile Filter Trigger */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <CurrentLocationButton
+                onLocationAcquired={handleLocationAcquired}
+                onLocationCleared={handleLocationCleared}
+                onPermissionDenied={() => setMobileFilterOpen(true)}
+              />
 
-              {/* Mobile Filter Toggle Button */}
               <button
                 type="button"
                 onClick={() => setMobileFilterOpen(true)}
-                className="lg:hidden px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 flex items-center gap-1.5 shadow-xs"
+                className="lg:hidden px-3.5 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 shadow-2xs cursor-pointer"
               >
                 <Filter className="h-3.5 w-3.5 text-indigo-600" />
                 <span>Filters {hasActiveFilters && '•'}</span>
@@ -226,11 +200,11 @@ export const SearchPage: React.FC = () => {
             <SearchAutocomplete
               initialValue={qParam}
               onSearch={(newQ) => updateFilter('q', newQ)}
-              placeholder='Try "momos under 200", "quiet cafes with WiFi", "laptop repair in Nehru Place"...'
+              placeholder='Try "quiet cafes with WiFi", "momos under 200", "laptop repair in Nehru Place"...'
             />
           </div>
 
-          {/* Preset Chips */}
+          {/* Preset Discovery Chips */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
             <span className="text-slate-400 font-semibold shrink-0 text-[11px] uppercase tracking-wider flex items-center gap-1">
               <Sparkles className="h-3 w-3 text-indigo-500" />
@@ -252,9 +226,9 @@ export const SearchPage: React.FC = () => {
             ))}
           </div>
 
-          {/* NLP Parsed Query Insight Banner (Deterministic Parser Feedback) */}
+          {/* NLP Parsed Query Insight Banner */}
           {parsedQuery && (parsedQuery.intent !== 'STANDARD' || parsedQuery.category || parsedQuery.locality || parsedQuery.priceRange || parsedQuery.tags.length > 0) && (
-            <div className="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-bold text-indigo-900 flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5 text-indigo-600" />
@@ -292,29 +266,16 @@ export const SearchPage: React.FC = () => {
                 ))}
               </div>
 
-              <div className="text-[11px] text-indigo-700/80 font-medium">
-                Deterministic Natural Language Engine
+              <div className="text-[11px] text-indigo-700/80 font-semibold">
+                Deterministic Search Parser
               </div>
-            </div>
-          )}
-
-          {geoError && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs px-3.5 py-2 rounded-xl flex items-center justify-between">
-              <span>{geoError}</span>
-              <button
-                type="button"
-                onClick={() => setGeoError(null)}
-                className="text-amber-600 hover:text-amber-900 font-bold ml-2"
-              >
-                ✕
-              </button>
             </div>
           )}
         </div>
 
-        {/* Search Results & Controls Bar */}
+        {/* Results Meta & Sort Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-y border-slate-200 py-3">
-          <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
+          <div className="flex items-center gap-2 text-xs text-slate-600 font-medium flex-wrap">
             <span className="font-bold text-slate-900">{pagination?.total || businesses.length}</span> spots found
             {localityParam && <span>in <strong className="text-indigo-600">{localityParam}</strong></span>}
             {categoryParam && <span>for <strong className="text-indigo-600">{categoryParam}</strong></span>}
@@ -322,13 +283,13 @@ export const SearchPage: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-3">
-            {/* View Mode Switcher */}
-            <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+            {/* View Mode Switcher for Desktop */}
+            <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
               <button
                 type="button"
-                onClick={() => setViewMode('grid')}
+                onClick={() => setListingViewMode('grid')}
                 className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                  viewMode === 'grid' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                  listingViewMode === 'grid' ? 'bg-white text-indigo-600 shadow-2xs' : 'text-slate-500 hover:text-slate-800'
                 }`}
                 title="Grid View"
               >
@@ -336,23 +297,13 @@ export const SearchPage: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setViewMode('list')}
+                onClick={() => setListingViewMode('list')}
                 className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                  viewMode === 'list' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                  listingViewMode === 'list' ? 'bg-white text-indigo-600 shadow-2xs' : 'text-slate-500 hover:text-slate-800'
                 }`}
                 title="List View"
               >
                 <List className="h-3.5 w-3.5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('map')}
-                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                  viewMode === 'map' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'
-                }`}
-                title="Map Pinpoint View"
-              >
-                <MapIcon className="h-3.5 w-3.5" />
               </button>
             </div>
 
@@ -379,11 +330,15 @@ export const SearchPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content Layout: Sidebar Filters + Results */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-          {/* Desktop Filter Sidebar */}
-          <div className="hidden lg:block lg:col-span-1 space-y-6 sticky top-24">
-            <Card className="p-5 space-y-5 border-slate-200 shadow-xs">
+        {/* 
+          Phase 6 Responsive Discovery Layout:
+          Desktop: 3-column / split view (25% filters, 45% listings, 30% sticky interactive map)
+          Mobile: Full screen toggle between List and Map!
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* 1. Desktop Filter Sidebar (3 cols = 25%) */}
+          <div className="hidden lg:block lg:col-span-3 space-y-5 sticky top-24">
+            <Card className="p-5 space-y-5 border-slate-200 shadow-xs rounded-2xl">
               <div className="flex items-center justify-between font-bold text-sm text-slate-900 pb-3 border-b border-slate-100">
                 <span className="flex items-center gap-1.5">
                   <SlidersHorizontal className="h-4 w-4 text-indigo-600" /> Filters
@@ -400,9 +355,24 @@ export const SearchPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Category Filter */}
+              {/* Locality Selector */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                  Delhi Neighborhood
+                </label>
+                <LocationSelector
+                  selectedLocality={localityParam}
+                  selectedRadiusKm={radiusParam}
+                  onSelectLocality={(loc) => updateFilter('locality', loc)}
+                  onSelectRadius={(rad) => updateFilter('radius', rad)}
+                  onClear={() => updateFilter('locality', '')}
+                  showRadius={Boolean(latParam)}
+                />
+              </div>
+
+              {/* Category Filter */}
+              <div className="space-y-2 pt-3 border-t border-slate-100">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                   Category
                 </label>
                 <select
@@ -419,69 +389,9 @@ export const SearchPage: React.FC = () => {
                 </select>
               </div>
 
-              {/* Locality Filter */}
-              <div className="space-y-2 pt-3 border-t border-slate-100">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Delhi Hubs & Localities
-                </label>
-                <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
-                  <label className="flex items-center gap-2 text-xs text-slate-700 hover:text-indigo-600 cursor-pointer font-medium">
-                    <input
-                      type="radio"
-                      name="locality"
-                      checked={!localityParam}
-                      onChange={() => updateFilter('locality', '')}
-                      className="rounded-full text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span>All Localities (Delhi NCR)</span>
-                  </label>
-                  {localities.map((loc) => (
-                    <label
-                      key={loc._id || loc.slug}
-                      className="flex items-center gap-2 text-xs text-slate-700 hover:text-indigo-600 cursor-pointer font-medium"
-                    >
-                      <input
-                        type="radio"
-                        name="locality"
-                        checked={localityParam === loc.name}
-                        onChange={() => updateFilter('locality', loc.name)}
-                        className="rounded-full text-indigo-600 focus:ring-indigo-500"
-                      />
-                      <span>{loc.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Distance Radius (when coordinates active) */}
-              {latParam && (
-                <div className="space-y-2 pt-3 border-t border-slate-100">
-                  <div className="flex items-center justify-between text-xs">
-                    <label className="font-bold uppercase tracking-wider text-slate-500">
-                      Search Radius
-                    </label>
-                    <span className="font-bold text-indigo-600">{radiusParam} km</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="2"
-                    max="30"
-                    step="2"
-                    value={radiusParam}
-                    onChange={(e) => updateFilter('radius', e.target.value)}
-                    className="w-full accent-indigo-600 cursor-pointer"
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400">
-                    <span>2 km</span>
-                    <span>10 km</span>
-                    <span>30 km</span>
-                  </div>
-                </div>
-              )}
-
               {/* Price Tier Filter */}
               <div className="space-y-2 pt-3 border-t border-slate-100">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                   Price Tier
                 </label>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -490,7 +400,6 @@ export const SearchPage: React.FC = () => {
                     { id: 'BUDGET', label: '₹ Budget' },
                     { id: 'MODERATE', label: '₹₹ Moderate' },
                     { id: 'PREMIUM', label: '₹₹₹ Premium' },
-                    { id: 'LUXURY', label: '₹₹₹₹ Luxury' },
                   ].map((p) => (
                     <button
                       key={p.id}
@@ -510,7 +419,7 @@ export const SearchPage: React.FC = () => {
 
               {/* Minimum Rating */}
               <div className="space-y-2 pt-3 border-t border-slate-100">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                   Rating
                 </label>
                 <div className="flex flex-wrap gap-1.5">
@@ -536,13 +445,13 @@ export const SearchPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Amenities & Badges */}
+              {/* Amenities */}
               <div className="space-y-2 pt-3 border-t border-slate-100">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Amenities & Tags
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                  Popular Amenities
                 </label>
                 <div className="space-y-1.5">
-                  {['Free High-Speed WiFi', 'Outdoor Seating', 'Valet Parking', 'Pet Friendly', 'AC'].map((amenity) => {
+                  {['Free High-Speed WiFi', 'Outdoor Seating', 'Valet Parking', 'AC'].map((amenity) => {
                     const isSelected = amenitiesParam.includes(amenity);
                     return (
                       <label
@@ -569,33 +478,21 @@ export const SearchPage: React.FC = () => {
             </Card>
           </div>
 
-          {/* Results Grid / List / Map */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Map View Mode */}
-            {viewMode === 'map' ? (
-              <div className="space-y-4">
-                <SearchMapPreview
-                  businesses={businesses}
-                  userLocation={latParam && lngParam ? { lat: latParam, lng: lngParam } : null}
-                  radiusKm={radiusParam}
-                  selectedBusinessId={selectedMapSpot?._id}
-                  onSelectBusiness={(b) => setSelectedMapSpot(b)}
-                />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {businesses.slice(0, 4).map((b) => (
-                    <BusinessCard key={b._id || b.slug} business={b} viewMode="grid" />
-                  ))}
-                </div>
-              </div>
-            ) : businesses.length === 0 ? (
-              <Card className="p-12 text-center space-y-4 border-dashed border-slate-300">
+          {/* 2. Listings Column (5.5 cols = ~45% on desktop) */}
+          <div
+            className={`space-y-6 ${
+              mobileView === 'map' ? 'hidden lg:block' : 'block'
+            } ${isMapExpanded ? 'lg:col-span-5' : 'lg:col-span-5'}`}
+          >
+            {businesses.length === 0 ? (
+              <Card className="p-12 text-center space-y-4 border-dashed border-slate-300 rounded-2xl">
                 <div className="h-14 w-14 mx-auto rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
                   <Search className="h-7 w-7" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">No matching spots found</h3>
                   <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-                    We couldn't find spots matching all your search constraints. Try clearing some filters or searching for popular terms like "momos", "cafes", or "repair".
+                    Try clearing some filters or searching for popular Delhi terms like "cafes", "momos", or "hostels".
                   </p>
                 </div>
                 <Button variant="outline" size="sm" onClick={handleClearAllFilters}>
@@ -604,30 +501,25 @@ export const SearchPage: React.FC = () => {
               </Card>
             ) : (
               <>
-                {/* Visual Discovery Map preview snippet at top if coordinates active */}
-                {latParam && lngParam && (
-                  <SearchMapPreview
-                    businesses={businesses.slice(0, 10)}
-                    userLocation={{ lat: latParam, lng: lngParam }}
-                    radiusKm={radiusParam}
-                    className="h-[280px]"
-                  />
-                )}
-
-                {/* Results Listing */}
                 <div
                   className={
-                    viewMode === 'grid'
-                      ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'
-                      : 'space-y-4'
+                    listingViewMode === 'grid'
+                      ? 'grid grid-cols-1 sm:grid-cols-2 gap-4'
+                      : 'space-y-3'
                   }
                 >
                   {businesses.map((biz) => (
-                    <BusinessCard
+                    <div
                       key={biz._id || biz.slug}
-                      business={biz}
-                      viewMode={viewMode}
-                    />
+                      onMouseEnter={() => setHoveredSpotId(biz._id || biz.slug)}
+                      onMouseLeave={() => setHoveredSpotId(null)}
+                      className="transition-transform duration-200"
+                    >
+                      <BusinessCard
+                        business={biz}
+                        viewMode={listingViewMode}
+                      />
+                    </div>
                   ))}
                 </div>
 
@@ -636,8 +528,7 @@ export const SearchPage: React.FC = () => {
                   <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
                     <div className="text-xs text-slate-500">
                       Page <span className="font-bold text-slate-900">{pagination.page}</span> of{' '}
-                      <span className="font-bold text-slate-900">{pagination.totalPages}</span> (
-                      {pagination.total} total spots)
+                      <span className="font-bold text-slate-900">{pagination.totalPages}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -655,7 +546,7 @@ export const SearchPage: React.FC = () => {
                         disabled={!pagination.hasNextPage}
                         onClick={() => updateFilter('page', pagination.page + 1)}
                       >
-                        Next Page
+                        Next
                       </Button>
                     </div>
                   </div>
@@ -663,10 +554,61 @@ export const SearchPage: React.FC = () => {
               </>
             )}
           </div>
+
+          {/* 3. Interactive Sticky Map Column (3.5-4 cols = ~30% on desktop, Full Screen on Mobile when toggled) */}
+          <div
+            className={`sticky top-24 ${
+              mobileView === 'list' ? 'hidden lg:block' : 'block fixed inset-0 z-40 lg:relative lg:inset-auto'
+            } lg:col-span-4`}
+          >
+            <div className="h-[calc(100vh-140px)] min-h-[480px] w-full">
+              <MapView
+                businesses={businesses}
+                selectedBusiness={selectedMapSpot}
+                hoveredBusinessId={hoveredSpotId}
+                userCoords={userCoords}
+                radiusKm={latParam ? radiusParam : undefined}
+                onSelectBusiness={(b) => setSelectedMapSpot(b)}
+                className="h-full w-full"
+                isFullScreen={mobileView === 'map'}
+              />
+            </div>
+          </div>
         </div>
       </Container>
 
-      {/* Mobile Filters Sliding Drawer / Bottom Sheet */}
+      {/* Floating Mobile [List] [Map] Toggle Pill */}
+      <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 lg:hidden shadow-2xl">
+        <div className="bg-slate-900/95 backdrop-blur-md p-1 rounded-full border border-slate-700 flex items-center gap-1 shadow-2xl">
+          <button
+            type="button"
+            onClick={() => setMobileView('list')}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+              mobileView === 'list'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <List className="h-3.5 w-3.5" />
+            <span>List ({businesses.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMobileView('map')}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+              mobileView === 'map'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <MapIcon className="h-3.5 w-3.5" />
+            <span>Map</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Filters Drawer Modal */}
       {mobileFilterOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
@@ -688,9 +630,24 @@ export const SearchPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Category */}
+            {/* Neighborhood */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                Locality / Area
+              </label>
+              <LocationSelector
+                selectedLocality={localityParam}
+                selectedRadiusKm={radiusParam}
+                onSelectLocality={(loc) => updateFilter('locality', loc)}
+                onSelectRadius={(rad) => updateFilter('radius', rad)}
+                onClear={() => updateFilter('locality', '')}
+                showRadius={Boolean(latParam)}
+              />
+            </div>
+
+            {/* Category */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                 Category
               </label>
               <select
@@ -707,9 +664,9 @@ export const SearchPage: React.FC = () => {
               </select>
             </div>
 
-            {/* Mobile Price */}
+            {/* Price */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
                 Price Tier
               </label>
               <div className="grid grid-cols-2 gap-2">

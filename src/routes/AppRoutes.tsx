@@ -3,11 +3,13 @@ import { Routes, Route } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { AuthLayout } from '../layouts/AuthLayout';
 import { HomePage } from '../pages/HomePage';
+import { ExplorePage } from '../pages/ExplorePage';
 import { CategoriesPage } from '../pages/CategoriesPage';
 import { CategoryDetailPage } from '../pages/CategoryDetailPage';
 import { LocationsPage } from '../pages/LocationsPage';
 import { LocationDetailPage } from '../pages/LocationDetailPage';
-import { BusinessesPage } from '../pages/BusinessesPage';
+import { LocationHubPage } from '../pages/LocationHubPage';
+import { SearchPage } from '../pages/SearchPage';
 import { BusinessDetailPage } from '../pages/BusinessDetailPage';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
@@ -27,8 +29,10 @@ export const AppRoutes: React.FC = () => {
       <Route element={<MainLayout />}>
         <Route path={ROUTES.HOME} element={<HomePage />} />
         
+        {/* Curated Explore Route */}
+        <Route path={ROUTES.EXPLORE} element={<ExplorePage />} />
+
         {/* Categories Routes */}
-        <Route path={ROUTES.EXPLORE} element={<CategoriesPage />} />
         <Route path={ROUTES.CATEGORIES} element={<CategoriesPage />} />
         <Route path={ROUTES.CATEGORY_DETAILS} element={<CategoryDetailPage />} />
         
@@ -36,9 +40,15 @@ export const AppRoutes: React.FC = () => {
         <Route path={ROUTES.LOCATIONS} element={<LocationsPage />} />
         <Route path={ROUTES.LOCATION_DETAILS} element={<LocationDetailPage />} />
 
-        {/* Businesses Discovery & Search Routes */}
-        <Route path={ROUTES.BUSINESSES} element={<BusinessesPage />} />
-        <Route path={ROUTES.SEARCH} element={<BusinessesPage />} />
+        {/* Database-Driven Location Dynamic Hubs */}
+        <Route path="/delhi" element={<LocationHubPage />} />
+        <Route path="/delhi/:categorySlug" element={<LocationHubPage />} />
+        <Route path="/city/:citySlug" element={<LocationHubPage />} />
+        <Route path="/city/:citySlug/:categorySlug" element={<LocationHubPage />} />
+
+        {/* Search & Discovery Routes */}
+        <Route path={ROUTES.BUSINESSES} element={<SearchPage />} />
+        <Route path={ROUTES.SEARCH} element={<SearchPage />} />
         <Route path={ROUTES.BUSINESS_DETAILS} element={<BusinessDetailPage />} />
         <Route path={ROUTES.SPOT_DETAILS} element={<BusinessDetailPage />} />
 
