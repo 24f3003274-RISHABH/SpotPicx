@@ -26,8 +26,8 @@ export const Footer: React.FC = () => {
               The definitive data-driven local discovery platform curating restaurants, cafes, stays, heritage sights, and essential services across Delhi NCR.
             </p>
             <div className="pt-1 flex items-center gap-2 text-xs text-slate-500">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="font-medium text-slate-700">SpotPicks API v1 Healthy</span>
+              <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+              <span className="font-medium text-slate-700">Verified Delhi NCR Community & Spots</span>
             </div>
           </div>
 

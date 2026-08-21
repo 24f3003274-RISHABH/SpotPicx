@@ -58,21 +58,17 @@ export const LocationDetailPage: React.FC = () => {
               {location?.description || `Explore verified businesses and top-rated spots in ${location?.name}, Delhi NCR.`}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
+            <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-slate-300">
               {location?.pincode && (
                 <div className="flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
-                  <span>PIN:</span>
+                  <span className="text-slate-400">PIN:</span>
                   <span className="text-white font-bold">{location.pincode}</span>
                 </div>
               )}
-              {location?.latitude && location?.longitude && (
-                <div className="flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
-                  <Navigation className="h-3 w-3 text-indigo-400" />
-                  <span>
-                    {location.latitude.toFixed(4)}° N, {location.longitude.toFixed(4)}° E
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center gap-1.5 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
+                <Navigation className="h-3 w-3 text-indigo-400" />
+                <span>Delhi NCR Neighborhood</span>
+              </div>
             </div>
           </div>
         </div>

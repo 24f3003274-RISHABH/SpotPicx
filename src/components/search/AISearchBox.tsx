@@ -103,13 +103,13 @@ export const AISearchBox: React.FC<AISearchBoxProps> = ({
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
-              <span>SpotPicks AI Intelligence Search</span>
+              <span>SpotPicks Smart Search</span>
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30">
-                Gemini 3.7
+                AI Powered
               </span>
             </h2>
             <p className="text-xs text-indigo-200/70">
-              Natural language understanding for Delhi-NCR spots, budgets, and vibes
+              Ask anything in plain words — locations, vibes, budgets & amenities
             </p>
           </div>
         </div>
@@ -195,15 +195,9 @@ export const AISearchBox: React.FC<AISearchBoxProps> = ({
                 <span className="text-sm font-bold text-white">Extracted Search Filters</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-indigo-300">
-                <span className="px-2 py-0.5 rounded-md bg-indigo-900/60 border border-indigo-700 text-[11px]">
-                  Engine: {providerUsed}
+                <span className="px-2.5 py-0.5 rounded-full bg-indigo-900/60 border border-indigo-700 text-[11px] font-semibold text-indigo-200">
+                  Smart Match
                 </span>
-                {fallbackUsed && (
-                  <span className="px-2 py-0.5 rounded-md bg-amber-900/60 text-amber-300 border border-amber-700 text-[11px]">
-                    Fallback Engine
-                  </span>
-                )}
-                <span className="text-[11px] text-slate-400">{executionTime}ms</span>
               </div>
             </div>
 

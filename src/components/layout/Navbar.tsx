@@ -50,37 +50,17 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-      {/* Top micro-bar: Health Status & City selection */}
+      {/* Top micro-bar: Tagline & City selection */}
       <div className="border-b border-slate-100 bg-slate-900 text-slate-300 text-xs py-1.5 px-4">
         <Container size="xl" className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-2 text-slate-300 font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              SpotPicks Core v1.0 • Delhi Discovery Engine
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              Discover the Best Food, Stays & Sights in Delhi NCR
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-300">
-            {/* Backend API Health Status indicator */}
-            <div className="flex items-center gap-1.5" title="Live Express backend status">
-              {isLoading ? (
-                <span className="flex items-center gap-1 text-slate-400">
-                  <Activity className="h-3 w-3 animate-spin" /> API connecting...
-                </span>
-              ) : isSuccess && healthData?.success ? (
-                <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  API Healthy (200 OK)
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-amber-400">
-                  <AlertTriangle className="h-3 w-3" /> API Preview Mode
-                </span>
-              )}
-            </div>
-
-            <span className="text-slate-700">|</span>
-
             <div className="relative">
               <button
                 type="button"

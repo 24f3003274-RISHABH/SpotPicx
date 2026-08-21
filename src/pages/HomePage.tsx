@@ -352,7 +352,7 @@ export const HomePage: React.FC = () => {
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-950 text-indigo-200 border border-indigo-500/40 hover:border-indigo-400 hover:text-white shadow-md text-xs font-bold transition-all cursor-pointer group"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
-                  <span>Use Natural Language AI Search (Gemini 3.7)</span>
+                  <span>Search with Natural Language AI</span>
                   <span className="px-1.5 py-0.5 rounded bg-indigo-500/30 text-[10px] text-indigo-300 font-extrabold uppercase">
                     New
                   </span>
