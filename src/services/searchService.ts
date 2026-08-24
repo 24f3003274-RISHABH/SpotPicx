@@ -4,6 +4,8 @@ import {
   SearchSuggestionsResponse,
   ParsedSearchQuery,
   AISearchApiResponse,
+  AskSpotPicksResponse,
+  AskSpotPicksData,
   TrendingData,
   UserPreferencesProfile,
   PersonalizedRecommendationsResponse,
@@ -38,6 +40,23 @@ export interface SearchQueryOptions {
  * server-side Gemini 3.7 AI extraction layer, analytics tracking, and personalization.
  */
 export const searchService = {
+  /**
+   * "Ask SpotPicks" conversational answering & discovery API
+   * Answers natural language questions using server-side Gemini 3.7 with database-first verified context & web grounding.
+   */
+  async askSpotPicks(
+    question: string,
+    options: { city?: string; lat?: number; lng?: number } = {}
+  ): Promise<AskSpotPicksData> {
+    const response = await apiClient.post<AskSpotPicksResponse>('/search/ask', {
+      question,
+      city: options.city || 'Delhi',
+      lat: options.lat,
+      lng: options.lng,
+    });
+    return (response as any).data;
+  },
+
   /**
    * Execute standard unified search (supports query parameters, geo-filtering, facets)
    */

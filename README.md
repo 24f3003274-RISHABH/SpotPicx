@@ -336,6 +336,20 @@ npm test
 
 ---
 
+## 🤖 Phase 14: Ask SpotPicks — Conversational AI Search & Grounding
+
+SpotPicks integrates Google's official `@google/genai` SDK to power **"Ask SpotPicks"**, a conversational discovery experience:
+
+### Key Capabilities:
+- **Natural Language Query Understanding**: Converts natural questions (e.g., *"Best cafe near JNU under 500?"*, *"Romantic dinner in Hauz Khas"*, *"Cheap laptop repair in Nehru Place"*) into structured filters (`category`, `locality`, `priceMax`, `amenities`, `tags`, `intent`).
+- **Database-First Strategy**: Real verified businesses in MongoDB are searched first. Their verified metadata (pricing tier, ratings, addresses, verified status) is passed as ground truth context to Gemini.
+- **Google Search Grounding**: When users ask questions requiring real-time context (events tonight, timings today, recent updates), Google Search grounding (`tools: [{ googleSearch: {} }]`) provides live context and web citations.
+- **Anti-Hallucination Guardrails**: Gemini is strictly constrained by system instructions to never fabricate prices, phone numbers, addresses, or hours. Unverified information is flagged transparently.
+- **Resilient Fallback Engine**: If Gemini is offline, unconfigured, or rate-limited, the system transparently falls back to our sub-millisecond rule-based regex engine and verified database curation.
+- **Cost Control & Caching**: Server-side in-memory TTL caching (15-minute window) reduces redundant API calls for common discovery prompts.
+
+---
+
 ## 📈 SEO & Search Engine Optimization
 
 SpotPicks is built search-first:

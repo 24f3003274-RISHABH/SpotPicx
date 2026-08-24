@@ -29,6 +29,7 @@ import { Business } from '../types';
 import { MapCoordinate } from '../services/map/types';
 import { mapService } from '../services/map';
 import { AISearchBox } from '../components/search/AISearchBox';
+import { AskSpotPicks } from '../components/ai/AskSpotPicks';
 import { usePersonalization } from '../hooks/usePersonalization';
 import { searchService } from '../services/searchService';
 import { StructuredSearchCriteria } from '../types';
@@ -188,10 +189,10 @@ export const SearchPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowAISearchModal(!showAISearchModal)}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-950 text-indigo-200 hover:text-white border border-indigo-500/40 hover:border-indigo-400 flex items-center gap-1.5 shadow-md cursor-pointer transition-all"
+                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-950 text-indigo-200 hover:text-white border border-indigo-500/40 hover:border-indigo-400 flex items-center gap-1.5 shadow-md cursor-pointer transition-all group"
               >
-                <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-                <span>AI Search (Gemini)</span>
+                <Sparkles className="h-3.5 w-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
+                <span>Ask SpotPicks (AI)</span>
               </button>
 
               <CurrentLocationButton
@@ -214,25 +215,9 @@ export const SearchPage: React.FC = () => {
           {/* AI Search Drawer / Modal */}
           {showAISearchModal && (
             <div className="pt-2 animate-in fade-in zoom-in-95 duration-200">
-              <AISearchBox
-                defaultPrompt={qParam}
+              <AskSpotPicks
+                initialQuestion={qParam}
                 onClose={() => setShowAISearchModal(false)}
-                onApplyCriteria={(criteria) => {
-                  setActiveAICriteria(criteria);
-                  setShowAISearchModal(false);
-                  const newParams = new URLSearchParams();
-                  if (criteria.category) newParams.set('category', criteria.category);
-                  if (criteria.locality) newParams.set('locality', criteria.locality);
-                  if (criteria.priceMax) newParams.set('priceMax', criteria.priceMax.toString());
-                  if (criteria.priceRange) newParams.set('priceRange', criteria.priceRange);
-                  if (criteria.amenities && criteria.amenities.length > 0) {
-                    newParams.set('amenities', criteria.amenities.join(','));
-                  }
-                  if (criteria.tags && criteria.tags.length > 0) {
-                    newParams.set('q', criteria.tags.join(' '));
-                  }
-                  setSearchParams(newParams);
-                }}
               />
             </div>
           )}

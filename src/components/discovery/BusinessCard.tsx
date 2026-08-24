@@ -58,34 +58,40 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
 
   // Determine open status based on current day and time
   const isCurrentlyOpen = (): { isOpen: boolean; label: string } => {
-    if (!business.openingHours || business.openingHours.length === 0) {
+    if (!business.openingHours) {
       return { isOpen: true, label: 'Open Now' };
     }
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const currentDay = days[new Date().getDay()];
-    const todaySchedule = business.openingHours.find(
-      (h) => h.day.toLowerCase() === currentDay
-    );
 
-    if (!todaySchedule || todaySchedule.isClosed) {
-      return { isOpen: false, label: 'Closed Today' };
+    if (Array.isArray(business.openingHours)) {
+      if (business.openingHours.length === 0) return { isOpen: true, label: 'Open Now' };
+      const todaySchedule = business.openingHours.find(
+        (h) => h.day && h.day.toLowerCase() === currentDay
+      );
+
+      if (!todaySchedule || todaySchedule.isClosed) {
+        return { isOpen: false, label: 'Closed Today' };
+      }
+
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      const parseTime = (timeStr: string) => {
+        const [h, m] = (timeStr || '').split(':').map(Number);
+        return (h || 0) * 60 + (m || 0);
+      };
+
+      const openMin = parseTime(todaySchedule.open);
+      const closeMin = parseTime(todaySchedule.close);
+
+      if (currentMinutes >= openMin && currentMinutes <= closeMin) {
+        return { isOpen: true, label: `Open until ${todaySchedule.close}` };
+      }
+      return { isOpen: false, label: `Closed • Opens ${todaySchedule.open}` };
     }
 
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    const parseTime = (timeStr: string) => {
-      const [h, m] = timeStr.split(':').map(Number);
-      return (h || 0) * 60 + (m || 0);
-    };
-
-    const openMin = parseTime(todaySchedule.open);
-    const closeMin = parseTime(todaySchedule.close);
-
-    if (currentMinutes >= openMin && currentMinutes <= closeMin) {
-      return { isOpen: true, label: `Open until ${todaySchedule.close}` };
-    }
-    return { isOpen: false, label: `Closed • Opens ${todaySchedule.open}` };
+    return { isOpen: true, label: 'Open Now' };
   };
 
   const openStatus = isCurrentlyOpen();

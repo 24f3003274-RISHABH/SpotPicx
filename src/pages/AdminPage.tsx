@@ -662,7 +662,7 @@ export const AdminPage: React.FC = () => {
                         {r.details || 'No extra notes provided.'}
                       </td>
                       <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
-                        {r.reporterEmail || (r.reportedBy ? (r.reportedBy as any).email || (r.reportedBy as any).name : 'Anonymous Explorer')}
+                        {r.reporter?.email || r.reporter?.name || r.reporterEmail || 'Anonymous Explorer'}
                       </td>
                       <td className="py-3 px-4">
                         <Badge

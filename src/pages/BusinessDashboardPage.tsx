@@ -164,7 +164,7 @@ export const BusinessDashboardPage: React.FC = () => {
               <p className="text-xs text-slate-500">Live spots indexed on SpotPicks Discovery</p>
             </div>
             <Link to="/businesses">
-              <Button size="xs" variant="outline">
+              <Button size="sm" variant="outline">
                 View Public Directory
               </Button>
             </Link>

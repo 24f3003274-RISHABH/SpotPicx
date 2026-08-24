@@ -6,6 +6,9 @@ const router = Router();
 // GET /api/v1/search - Main parameter & full-text search
 router.get('/', SearchController.search);
 
+// POST /api/v1/search/ask - Ask SpotPicks conversational Q&A discovery engine
+router.post('/ask', SearchController.askSpotPicks);
+
 // POST /api/v1/search/ai - Natural language conversational AI search with structured parsing
 router.post('/ai', SearchController.searchWithAI);
 

@@ -618,6 +618,31 @@ export interface AISearchApiResponse extends SearchApiResponse {
   };
 }
 
+export interface WebSourceCitation {
+  title: string;
+  url: string;
+  snippet?: string;
+}
+
+export interface AskSpotPicksData {
+  question: string;
+  answer: string;
+  criteria?: StructuredSearchCriteria;
+  recommendedBusinesses: Business[];
+  totalMatches: number;
+  sources: WebSourceCitation[];
+  groundedWithWeb: boolean;
+  fallbackUsed: boolean;
+  latencyMs: number;
+  disclaimer?: string;
+}
+
+export interface AskSpotPicksResponse {
+  success: boolean;
+  message?: string;
+  data: AskSpotPicksData;
+}
+
 export interface TrendingSearchItem {
   query: string;
   count: number;

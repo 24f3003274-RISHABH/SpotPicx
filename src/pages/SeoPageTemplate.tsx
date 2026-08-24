@@ -313,7 +313,7 @@ export const SeoPageTemplate: React.FC = () => {
                           <div className="flex items-center gap-2 text-xs text-slate-500 mt-1 flex-wrap">
                             <span className="font-medium text-slate-700">{biz.locality || 'Delhi'}</span>
                             <span>•</span>
-                            <span>{biz.category}</span>
+                            <span>{typeof biz.category === 'object' && biz.category !== null ? (biz.category as any).name : String(biz.category || 'Spot')}</span>
                             <span>•</span>
                             <span className="font-bold text-slate-900">
                               {biz.priceRange === 'BUDGET' ? '₹ (Budget)' : biz.priceRange === 'MODERATE' ? '₹₹ (Moderate)' : '₹₹₹₹ (Luxury)'}
@@ -340,7 +340,7 @@ export const SeoPageTemplate: React.FC = () => {
                         <img
                           src={
                             biz.images?.[0] ||
-                            biz.coverImage ||
+                            (biz as any).coverImage ||
                             'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600'
                           }
                           alt={biz.name}

@@ -38,6 +38,7 @@ import { ROUTES } from '../constants/routes';
 import { POPULAR_DELHI_LOCALITIES } from '../constants/locations';
 import { Business } from '../types';
 import { AISearchBox } from '../components/search/AISearchBox';
+import { AskSpotPicks } from '../components/ai/AskSpotPicks';
 import { TrendingSection } from '../components/discovery/TrendingSection';
 import { PersonalizedPicksSection } from '../components/discovery/PersonalizedPicksSection';
 
@@ -345,39 +346,25 @@ export const HomePage: React.FC = () => {
               />
 
               {/* AI Natural Language Search Launcher */}
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAISearch(!showAISearch)}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-950 text-indigo-200 border border-indigo-500/40 hover:border-indigo-400 hover:text-white shadow-md text-xs font-bold transition-all cursor-pointer group"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
-                  <span>Search with Natural Language AI</span>
+                  <span>Ask SpotPicks (Gemini AI)</span>
                   <span className="px-1.5 py-0.5 rounded bg-indigo-500/30 text-[10px] text-indigo-300 font-extrabold uppercase">
-                    New
+                    AI Search
                   </span>
                 </button>
               </div>
 
-              {/* Collapsible AI Search Box */}
+              {/* Collapsible Ask SpotPicks Box */}
               {showAISearch && (
                 <div className="pt-2 text-left animate-in fade-in zoom-in-95 duration-200">
-                  <AISearchBox
+                  <AskSpotPicks
                     onClose={() => setShowAISearch(false)}
-                    onApplyCriteria={(criteria) => {
-                      const params = new URLSearchParams();
-                      if (criteria.category) params.set('category', criteria.category);
-                      if (criteria.locality) params.set('locality', criteria.locality);
-                      if (criteria.priceMax) params.set('priceMax', criteria.priceMax.toString());
-                      if (criteria.priceRange) params.set('priceRange', criteria.priceRange);
-                      if (criteria.amenities && criteria.amenities.length > 0) {
-                        params.set('amenities', criteria.amenities.join(','));
-                      }
-                      if (criteria.tags && criteria.tags.length > 0) {
-                        params.set('q', criteria.tags.join(' '));
-                      }
-                      navigate(`/search?${params.toString()}`);
-                    }}
                   />
                 </div>
               )}

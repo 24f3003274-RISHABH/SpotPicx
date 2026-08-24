@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { SearchService, SearchParams } from '../services/search.service';
 import { aiSearchService } from '../services/search/ai-enhanced-search.service';
+import { GeminiService } from '../services/gemini.service';
 import { QueryParserService } from '../services/query-parser.service';
 import { TrendingService } from '../services/trending.service';
 import { PersonalizationService, UserPreferencesProfile } from '../services/personalization.service';
@@ -14,6 +15,42 @@ import { SeedService } from '../services/seed.service';
  * Controller handling Search, AI Natural Language Extraction, Search Analytics, Trending & Personalization
  */
 export class SearchController {
+  /**
+   * POST /api/v1/search/ask
+   * "Ask SpotPicks" conversational answering & discovery endpoint.
+   * Leverages server-side Gemini 3.7 with database-first verified context & optional Google Search grounding.
+   */
+  public static async askSpotPicks(req: Request, res: Response): Promise<void> {
+    try {
+      const { question, city = 'Delhi', lat, lng } = req.body;
+
+      if (!question || typeof question !== 'string' || !question.trim()) {
+        res.status(400).json({
+          success: false,
+          message: 'A question string is required for Ask SpotPicks',
+        });
+        return;
+      }
+
+      const result = await GeminiService.askSpotPicks(question.trim(), {
+        city: String(city),
+        lat: lat ? Number(lat) : undefined,
+        lng: lng ? Number(lng) : undefined,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully generated Ask SpotPicks response',
+        data: result,
+      });
+    } catch (err: any) {
+      console.error('Ask SpotPicks error:', err);
+      res.status(500).json({
+        success: false,
+        message: err.message || 'Error processing Ask SpotPicks question',
+      });
+    }
+  }
   /**
    * GET /api/v1/search
    * Unified search endpoint (handles parameter-based discovery and natural query parameters)
