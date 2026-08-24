@@ -55,6 +55,7 @@ import { AdminEventsTab } from '../pages/admin/AdminEventsTab';
 import { AdminOffersTab } from '../pages/admin/AdminOffersTab';
 import { AdminArticlesTab } from '../pages/admin/AdminArticlesTab';
 import { AdminSeoPagesTab } from '../pages/admin/AdminSeoPagesTab';
+import { AdminDataSourcesTab } from '../pages/admin/AdminDataSourcesTab';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -169,6 +170,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="offers" element={<AdminOffersTab />} />
           <Route path="articles" element={<AdminArticlesTab />} />
           <Route path="seo-pages" element={<AdminSeoPagesTab />} />
+          <Route path="sources" element={<AdminDataSourcesTab />} />
         </Route>
 
         {/* Generic SEO Page & Guide Slug Matcher */}

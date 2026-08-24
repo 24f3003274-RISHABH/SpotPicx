@@ -39,6 +39,13 @@ export interface IBusiness extends Document {
   claimed: boolean;
   owner?: mongoose.Types.ObjectId | null;
   status: BusinessStatus;
+  // Source Tracking & Freshness (Phase 15)
+  source: string;
+  sourceUrl: string;
+  sourceType: 'API' | 'SCRAPER' | 'RSS' | 'WEB_SEARCH' | 'MANUAL' | 'DIRECT';
+  lastUpdated: Date;
+  lastVerified: Date;
+  freshnessStatus: 'FRESH' | 'RECENT' | 'STALE' | 'EXPIRED';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -232,6 +239,40 @@ const BusinessSchema = new Schema<IBusiness>(
       type: String,
       enum: ['ACTIVE', 'PENDING', 'REJECTED', 'ARCHIVED'],
       default: 'ACTIVE',
+      index: true,
+    },
+    // Source Tracking & Freshness (Phase 15)
+    source: {
+      type: String,
+      default: 'DIRECT',
+      trim: true,
+      index: true,
+    },
+    sourceUrl: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    sourceType: {
+      type: String,
+      enum: ['API', 'SCRAPER', 'RSS', 'WEB_SEARCH', 'MANUAL', 'DIRECT'],
+      default: 'DIRECT',
+      index: true,
+    },
+    lastUpdated: {
+      type: Date,
+      default: Date.now,
+      index: true,
+    },
+    lastVerified: {
+      type: Date,
+      default: Date.now,
+      index: true,
+    },
+    freshnessStatus: {
+      type: String,
+      enum: ['FRESH', 'RECENT', 'STALE', 'EXPIRED'],
+      default: 'FRESH',
       index: true,
     },
   },

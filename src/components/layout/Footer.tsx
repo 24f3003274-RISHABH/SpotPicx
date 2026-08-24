@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
                 <div className="w-3 h-3 bg-white rounded-full"></div>
               </div>
               <span className="text-xl font-bold tracking-tight text-slate-900">
-                Spot<span className="text-indigo-600">Picks</span>
+                Spot<span className="text-indigo-600">Picx</span>
               </span>
             </Link>
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
@@ -176,7 +176,7 @@ export const Footer: React.FC = () => {
 
         <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            © {new Date().getFullYear()} <span className="font-bold text-slate-700">SpotPicks</span> — Discover. Explore. Pick the Best.
+            © {new Date().getFullYear()} <span className="font-bold text-slate-700">SpotPicx</span> — Discover. Explore. Pick the Best.
           </div>
           <div className="flex items-center gap-6">
             <span className="hover:text-indigo-600 cursor-pointer transition-colors">Privacy Policy</span>

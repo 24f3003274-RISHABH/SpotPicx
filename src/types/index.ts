@@ -119,8 +119,73 @@ export interface Business {
   distanceKm?: number;
   popularity?: number;
   rankingScore?: number;
+  source?: string;
+  sourceUrl?: string;
+  sourceType?: 'API' | 'SCRAPER' | 'RSS' | 'WEB_SEARCH' | 'MANUAL' | 'DIRECT';
+  lastUpdated?: string;
+  lastVerified?: string;
+  freshnessStatus?: 'FRESH' | 'RECENT' | 'STALE' | 'EXPIRED';
   createdAt: string;
   updatedAt: string;
+}
+
+export type FreshnessStatus = 'FRESH' | 'RECENT' | 'STALE' | 'EXPIRED';
+
+export interface FreshnessInfo {
+  status: FreshnessStatus;
+  label: string;
+  formattedTime: string;
+  isFresh: boolean;
+  color: string;
+}
+
+export type DataSourceType = 'API' | 'SCRAPER' | 'RSS' | 'WEB_SEARCH' | 'MANUAL';
+export type DataSourceStatus = 'ACTIVE' | 'PAUSED' | 'FAILED' | 'DISABLED';
+
+export interface RateLimitConfig {
+  requestDelayMs: number;
+  maxRequestsPerRun: number;
+  retryLimit: number;
+  backoffFactor: number;
+}
+
+export interface DataSourceItem {
+  _id: string;
+  name: string;
+  slug: string;
+  type: DataSourceType;
+  categorySlug?: string;
+  baseUrl: string;
+  sourceUrl: string;
+  status: DataSourceStatus;
+  lastRun?: string | null;
+  nextRun?: string | null;
+  lastSuccess?: string | null;
+  lastFailure?: string | null;
+  itemsProcessed: number;
+  itemsUpdated: number;
+  errorCount: number;
+  rateLimit: RateLimitConfig;
+  scheduleIntervalMinutes: number;
+  lastError?: string | null;
+  metadata?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DataSourcesStats {
+  totalSources: number;
+  activeSources: number;
+  totalProcessed: number;
+  totalUpdated: number;
+  totalErrors: number;
+  freshnessBreakdown: {
+    fresh: number;
+    recent: number;
+    stale: number;
+    expired: number;
+    total: number;
+  };
 }
 
 export interface PaginationMeta {

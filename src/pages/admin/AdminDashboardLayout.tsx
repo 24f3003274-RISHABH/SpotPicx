@@ -16,6 +16,7 @@ import {
   FileText,
   SearchCode,
   ExternalLink,
+  Database,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { ROUTES } from '../../constants/routes';
@@ -26,6 +27,7 @@ export const AdminDashboardLayout: React.FC = () => {
   const adminNav = [
     { label: 'Overview', path: ROUTES.ADMIN, icon: LayoutDashboard, exact: true },
     { label: 'Search Analytics', path: ROUTES.ADMIN_ANALYTICS, icon: BarChart3 },
+    { label: 'Data Ingestion & Feeds', path: ROUTES.ADMIN_DATA_SOURCES, icon: Database },
     { label: 'Users', path: ROUTES.ADMIN_USERS, icon: Users },
     { label: 'Businesses', path: ROUTES.ADMIN_BUSINESSES, icon: Store },
     { label: 'Ownership Claims', path: ROUTES.ADMIN_CLAIMS, icon: ShieldCheck },

@@ -32,6 +32,7 @@ import {
   Compass,
   Layers,
   Flag,
+  Database,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
@@ -515,6 +516,54 @@ export const BusinessDetailPage: React.FC = () => {
                 <Navigation className="h-4 w-4" />
                 <span>Get Directions ({activeMapProvider.name})</span>
               </a>
+
+              {/* Data Source & Freshness Attribution (Phase 15) */}
+              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-slate-700 flex items-center gap-1">
+                    <Database className="h-3 w-3 text-indigo-600" />
+                    Listing Source & Freshness
+                  </span>
+                  <span
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                      business.freshnessStatus === 'FRESH'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : business.freshnessStatus === 'RECENT'
+                        ? 'bg-sky-100 text-sky-800'
+                        : business.freshnessStatus === 'STALE'
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-slate-200 text-slate-700'
+                    }`}
+                  >
+                    {business.freshnessStatus || 'FRESH'}
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-500 flex items-center justify-between">
+                  <span>Source:</span>
+                  <span className="font-medium text-slate-800">
+                    {business.source || 'Delhi NCR Open Registry'}
+                  </span>
+                </div>
+                {business.lastVerified && (
+                  <div className="text-[10px] text-slate-400 flex items-center justify-between">
+                    <span>Last Verified:</span>
+                    <span>{new Date(business.lastVerified).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  </div>
+                )}
+                {business.sourceUrl && (
+                  <div className="pt-1 border-t border-slate-200/60 text-[10px]">
+                    <a
+                      href={business.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1 font-medium"
+                    >
+                      <span>Public Source Feed</span>
+                      <ExternalLink className="h-2.5 w-2.5" />
+                    </a>
+                  </div>
+                )}
+              </div>
 
               {/* Business Ownership Claim Callout */}
               <div className="pt-3 border-t border-slate-100 flex flex-col items-center text-center gap-1.5 bg-slate-50/80 p-3 rounded-2xl border border-dashed border-slate-200">

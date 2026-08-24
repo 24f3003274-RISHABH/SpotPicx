@@ -187,4 +187,60 @@ export const adminService = {
   async deleteSeoPage(id: string): Promise<void> {
     await apiClient.delete(`/admin/seo-pages/${id}`);
   },
+
+  // Data Sources & Ingestion (Phase 15)
+  async getDataSources(): Promise<any[]> {
+    const res = await apiClient.get<{ success: boolean; data: { sources: any[] } }>(
+      '/admin/sources'
+    );
+    return res.data.data.sources || [];
+  },
+
+  async getDataSourcesStats(): Promise<any> {
+    const res = await apiClient.get<{ success: boolean; data: any }>(
+      '/admin/sources/stats'
+    );
+    return res.data.data;
+  },
+
+  async runSourceIngestion(id: string): Promise<any> {
+    const res = await apiClient.post<{ success: boolean; data: { result: any } }>(
+      `/admin/sources/${id}/run`
+    );
+    return res.data.data.result;
+  },
+
+  async runAllSourcesIngestion(): Promise<any[]> {
+    const res = await apiClient.post<{ success: boolean; data: { results: any[] } }>(
+      '/admin/sources/run-all'
+    );
+    return res.data.data.results || [];
+  },
+
+  async createDataSource(data: any): Promise<any> {
+    const res = await apiClient.post<{ success: boolean; data: { source: any } }>(
+      '/admin/sources',
+      data
+    );
+    return res.data.data.source;
+  },
+
+  async updateDataSource(id: string, data: any): Promise<any> {
+    const res = await apiClient.put<{ success: boolean; data: { source: any } }>(
+      `/admin/sources/${id}`,
+      data
+    );
+    return res.data.data.source;
+  },
+
+  async deleteDataSource(id: string): Promise<void> {
+    await apiClient.delete(`/admin/sources/${id}`);
+  },
+
+  async recalculateFreshness(): Promise<any> {
+    const res = await apiClient.post<{ success: boolean; data: any }>(
+      '/admin/freshness/recalculate'
+    );
+    return res.data.data;
+  },
 };

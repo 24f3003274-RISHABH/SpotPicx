@@ -32,7 +32,15 @@ async function startServer() {
   });
 
   // Initialize MongoDB connection asynchronously (does not block web app if credentials pending)
-  dbConnection.connect().catch((err) => {
+  dbConnection.connect().then(async () => {
+    // Start Ingestion Scheduler Service (Phase 15)
+    try {
+      const { IngestionSchedulerService } = await import('./server/src/services/scheduler.service');
+      IngestionSchedulerService.start();
+    } catch (schedErr) {
+      console.warn('Ingestion scheduler startup notice:', schedErr);
+    }
+  }).catch((err) => {
     console.warn('MongoDB initialization check:', err.message);
   });
 

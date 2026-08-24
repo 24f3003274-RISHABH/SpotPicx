@@ -150,4 +150,105 @@ export class AdminController {
     await AdminService.deleteSeoPage(id);
     return sendSuccess(res, null, 'SEO page deleted');
   });
+
+  /**
+   * Data Ingestion & Sources Management (Phase 15)
+   */
+  public static getDataSources = asyncHandler(async (_req: Request, res: Response) => {
+    const { DataIngestionService } = await import('../services/ingestion.service');
+    const sources = await DataIngestionService.getAllSources();
+    return sendSuccess(res, { sources, total: sources.length }, 'Data sources retrieved');
+  });
+
+  public static getDataSourcesStats = asyncHandler(async (_req: Request, res: Response) => {
+    const { DataIngestionService } = await import('../services/ingestion.service');
+    const { FreshnessService } = await import('../services/freshness.service');
+    const sources = await DataIngestionService.getAllSources();
+    const freshness = await FreshnessService.getFreshnessStats();
+
+    const totalProcessed = sources.reduce((acc, s) => acc + (s.itemsProcessed || 0), 0);
+    const totalUpdated = sources.reduce((acc, s) => acc + (s.itemsUpdated || 0), 0);
+    const totalErrors = sources.reduce((acc, s) => acc + (s.errorCount || 0), 0);
+    const activeSources = sources.filter((s) => s.status === 'ACTIVE').length;
+
+    return sendSuccess(
+      res,
+      {
+        totalSources: sources.length,
+        activeSources,
+        totalProcessed,
+        totalUpdated,
+        totalErrors,
+        freshnessBreakdown: freshness,
+      },
+      'Data source and freshness stats retrieved'
+    );
+  });
+
+  public static runSourceIngestion = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { DataIngestionService } = await import('../services/ingestion.service');
+    const result = await DataIngestionService.runSourceIngestion(id);
+    return sendSuccess(res, { result }, `Ingestion completed for ${result.sourceName}`);
+  });
+
+  public static runAllSourcesIngestion = asyncHandler(async (_req: Request, res: Response) => {
+    const { DataIngestionService } = await import('../services/ingestion.service');
+    const results = await DataIngestionService.runAllActiveSources();
+    return sendSuccess(res, { results }, `Executed ingestion for ${results.length} active sources`);
+  });
+
+  public static createDataSource = asyncHandler(async (req: Request, res: Response) => {
+    const { DataSource } = await import('../models/DataSource');
+    const slug = (req.body.name || 'source')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const created = await DataSource.create({
+      ...req.body,
+      slug,
+      status: req.body.status || 'ACTIVE',
+      scheduleIntervalMinutes: req.body.scheduleIntervalMinutes || 360,
+      rateLimit: {
+        requestDelayMs: req.body.rateLimit?.requestDelayMs || 500,
+        maxRequestsPerRun: req.body.rateLimit?.maxRequestsPerRun || 25,
+        retryLimit: req.body.rateLimit?.retryLimit || 3,
+        backoffFactor: req.body.rateLimit?.backoffFactor || 2,
+      },
+      metadata: req.body.metadata || {
+        attribution: req.body.attribution || 'Public Permitted Feed',
+        robotsTxtCompliant: true,
+      },
+    });
+
+    return sendSuccess(res, { source: created }, 'Data source registered successfully', HTTP_STATUS.CREATED);
+  });
+
+  public static updateDataSource = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { DataSource } = await import('../models/DataSource');
+    const updated = await DataSource.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+    if (!updated) {
+      return sendError(res, 'Data source not found', HTTP_STATUS.NOT_FOUND);
+    }
+    return sendSuccess(res, { source: updated }, 'Data source updated');
+  });
+
+  public static deleteDataSource = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { DataSource } = await import('../models/DataSource');
+    await DataSource.findByIdAndDelete(id);
+    return sendSuccess(res, null, 'Data source deleted');
+  });
+
+  public static recalculateFreshness = asyncHandler(async (_req: Request, res: Response) => {
+    const { FreshnessService } = await import('../services/freshness.service');
+    const result = await FreshnessService.recalculateAllFreshness();
+    return sendSuccess(res, result, `Recalculated freshness for ${result.updatedCount} listings`);
+  });
 }

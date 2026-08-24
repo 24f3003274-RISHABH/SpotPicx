@@ -54,4 +54,14 @@ router.get('/seo-pages', AdminController.getSeoPages);
 router.post('/seo-pages', AdminController.createSeoPage);
 router.delete('/seo-pages/:id', AdminController.deleteSeoPage);
 
+// Data Ingestion & Sources Platform (Phase 15)
+router.get('/sources', AdminController.getDataSources);
+router.get('/sources/stats', AdminController.getDataSourcesStats);
+router.post('/sources', AdminController.createDataSource);
+router.post('/sources/run-all', AdminController.runAllSourcesIngestion);
+router.post('/sources/:id/run', AdminController.runSourceIngestion);
+router.put('/sources/:id', AdminController.updateDataSource);
+router.delete('/sources/:id', AdminController.deleteDataSource);
+router.post('/freshness/recalculate', AdminController.recalculateFreshness);
+
 export default router;

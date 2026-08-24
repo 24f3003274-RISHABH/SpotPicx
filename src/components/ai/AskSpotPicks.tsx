@@ -103,7 +103,7 @@ export const AskSpotPicks: React.FC<AskSpotPicksProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                  Ask SpotPicks
+                  Ask SpotPicx
                 </h2>
                 <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30">
                   Gemini AI Powered

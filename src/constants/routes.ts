@@ -50,6 +50,7 @@ export const ROUTES = {
   ADMIN_OFFERS: '/admin/offers',
   ADMIN_ARTICLES: '/admin/articles',
   ADMIN_SEO_PAGES: '/admin/seo-pages',
+  ADMIN_DATA_SOURCES: '/admin/sources',
 
   NOT_FOUND: '*',
 } as const;

@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
             <div className="w-3 h-3 bg-white rounded-full"></div>
           </div>
           <span className="text-xl font-bold tracking-tight text-slate-900">
-            Spot<span className="text-indigo-600">Picks</span>
+            Spot<span className="text-indigo-600">Picx</span>
           </span>
         </Link>
 
