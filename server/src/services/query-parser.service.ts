@@ -143,9 +143,9 @@ export class QueryParserService {
       keywords: [
         'restaurant', 'restaurants', 'cafe', 'cafes', 'coffee', 'bakery', 'bakeries',
         'food', 'dining', 'momos', 'pizza', 'burger', 'rooftop cafe', 'breakfast',
-        'street food', 'chaat', 'dessert', 'diner', 'dhaba', 'biryani', 'ramen', 'tibetan food'
+        'street food', 'chaat', 'dessert', 'diner', 'dhaba', 'biryani', 'ramen', 'tibetan food', 'laphing', 'thukpa'
       ],
-      canonicalSlug: 'food-and-cafes',
+      canonicalSlug: 'food-dining',
       defaultTags: ['food', 'dining'],
     },
     {
@@ -153,7 +153,7 @@ export class QueryParserService {
         'pg', 'pgs', 'hostel', 'hostels', 'hotel', 'hotels', 'student stay', 'stay',
         'co-living', 'coliving', 'room', 'paying guest', 'residency', 'accommodation'
       ],
-      canonicalSlug: 'hotels-and-pgs',
+      canonicalSlug: 'stays-living',
       defaultTags: ['stay', 'accommodation'],
     },
     {
@@ -162,7 +162,7 @@ export class QueryParserService {
         'electronics service', 'veterinary', 'pet clinic', 'cleaning', 'plumbing',
         'mechanic', 'car service', 'home repair', 'service'
       ],
-      canonicalSlug: 'repair-and-services',
+      canonicalSlug: 'services-repairs',
       defaultTags: ['repair', 'services'],
     },
     {
@@ -170,7 +170,7 @@ export class QueryParserService {
         'shopping', 'market', 'markets', 'mall', 'malls', 'clothes', 'fashion',
         'bookstore', 'book store', 'thrifting', 'thrift', 'electronics market', 'boutique', 'jewellery'
       ],
-      canonicalSlug: 'shopping-and-retail',
+      canonicalSlug: 'shopping-markets',
       defaultTags: ['shopping', 'retail'],
     },
     {
@@ -178,7 +178,7 @@ export class QueryParserService {
         'monument', 'monuments', 'historical', 'heritage', 'museum', 'museums',
         'park', 'parks', 'garden', 'tomb', 'fort', 'sightseeing', 'temple', 'gallery', 'art gallery'
       ],
-      canonicalSlug: 'places-and-heritage',
+      canonicalSlug: 'places-visit',
       defaultTags: ['sightseeing', 'heritage'],
     },
     {
@@ -186,7 +186,7 @@ export class QueryParserService {
         'bar', 'bars', 'pub', 'pubs', 'club', 'clubs', 'nightlife', 'lounge',
         'cocktail', 'live music', 'gig', 'date place', 'romantic'
       ],
-      canonicalSlug: 'nightlife-and-clubs',
+      canonicalSlug: 'nightlife-bars',
       defaultTags: ['nightlife', 'party'],
     },
     {
@@ -194,7 +194,7 @@ export class QueryParserService {
         'gym', 'gyms', 'fitness', 'crossfit', 'workout', 'salon', 'spa', 'massage',
         'haircut', 'barbershop', 'yoga', 'pilates', 'wellness'
       ],
-      canonicalSlug: 'fitness-and-wellness',
+      canonicalSlug: 'gyms-fitness',
       defaultTags: ['fitness', 'wellness'],
     },
     {
@@ -202,7 +202,7 @@ export class QueryParserService {
         'coaching', 'upsc coaching', 'iit coaching', 'classes', 'institute', 'course',
         'library', 'study room', 'tuition', 'music school', 'coding bootcamp'
       ],
-      canonicalSlug: 'education-and-coaching',
+      canonicalSlug: 'education-coaching',
       defaultTags: ['education', 'learning'],
     },
   ];

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AdminController } from '../controllers/admin.controller';
+import { AnalyticsController } from '../controllers/analytics.controller';
 import { ClaimController } from '../controllers/claim.controller';
 import { OfferController } from '../controllers/offer.controller';
 import { ReportController } from '../controllers/report.controller';
@@ -12,8 +13,10 @@ const router = Router();
 // Every admin API must strictly verify authenticate() and authorize("ADMIN", "SUPER_ADMIN")
 router.use(authenticate, authorize(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN));
 
-// Overview Statistics
+// Overview & Analytics Intelligence Platform
 router.get('/stats', AdminController.getStats);
+router.get('/analytics', AnalyticsController.getAdminAnalytics);
+router.get('/analytics/export', AnalyticsController.exportAdminAnalytics);
 
 // Business Management
 router.get('/businesses', AdminController.getBusinesses);

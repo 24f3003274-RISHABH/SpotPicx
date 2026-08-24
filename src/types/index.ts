@@ -78,6 +78,69 @@ export interface LocationItem {
   businessCount?: number;
 }
 
+export interface PlaceAccessibility {
+  wheelchairAccessible: boolean;
+  elevator?: boolean;
+  groundFloor?: boolean;
+  notes?: string;
+}
+
+export interface PlaceParking {
+  available: boolean;
+  type?: 'VALET' | 'STREET' | 'DEDICATED_LOT' | 'MALL_PARKING' | 'NONE' | string;
+  valet?: boolean;
+  notes?: string;
+}
+
+export interface PlaceTransport {
+  metroNearby?: string;
+  metroLine?: string;
+  walkingDistance?: string;
+  busStop?: string;
+  autoStand?: string;
+}
+
+export interface PlaceAISummary {
+  whyVisit?: string;
+  bestFor?: string | string[];
+  whatToExpect?: string;
+  generatedAt?: string;
+}
+
+export interface PlaceSourceRef {
+  name: string;
+  url?: string;
+  verified: boolean;
+  license?: string;
+  note?: string;
+}
+
+export interface PlaceIntelligence {
+  highlights?: string[];
+  bestFor?: string[];
+  popularItems?: string[];
+  priceLevel?: string;
+  ambience?: string[];
+  amenities?: string[];
+  goodFor?: string[];
+  nearbyAttractions?: Array<{ name: string; distance: string; type?: string }>;
+  recommendedDuration?: string;
+  bestTimeToVisit?: string;
+  accessibility?: PlaceAccessibility;
+  parking?: PlaceParking;
+  transport?: PlaceTransport;
+  metroNearby?: string;
+  aiSummary?: PlaceAISummary;
+  sources?: PlaceSourceRef[];
+}
+
+export interface GalleryItem {
+  url: string;
+  caption?: string;
+  isHero?: boolean;
+  sourceAttribution?: string;
+}
+
 export interface Business {
   _id: string;
   id?: string;
@@ -103,6 +166,10 @@ export interface Business {
   phone?: string;
   email?: string;
   website?: string;
+  // Image Pipeline (Phase 16)
+  coverImage?: string;
+  thumbnail?: string;
+  gallery?: (GalleryItem | string)[];
   images: string[];
   logo?: string;
   priceRange: PriceRange;
@@ -119,6 +186,9 @@ export interface Business {
   distanceKm?: number;
   popularity?: number;
   rankingScore?: number;
+  // Place Intelligence (Phase 16)
+  placeIntelligence?: PlaceIntelligence;
+  // Source Tracking & Freshness (Phase 15)
   source?: string;
   sourceUrl?: string;
   sourceType?: 'API' | 'SCRAPER' | 'RSS' | 'WEB_SEARCH' | 'MANUAL' | 'DIRECT';
@@ -127,6 +197,18 @@ export interface Business {
   freshnessStatus?: 'FRESH' | 'RECENT' | 'STALE' | 'EXPIRED';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface AskAboutPlaceResponse {
+  question: string;
+  answer: string;
+  businessName: string;
+  highlights: string[];
+  sources: PlaceSourceRef[];
+  confidence: 'HIGH' | 'MEDIUM';
+  groundedWithWeb: boolean;
+  fallbackUsed: boolean;
+  latencyMs: number;
 }
 
 export type FreshnessStatus = 'FRESH' | 'RECENT' | 'STALE' | 'EXPIRED';

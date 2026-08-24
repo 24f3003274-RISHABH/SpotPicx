@@ -12,6 +12,8 @@ import {
   ExternalLink,
   Navigation,
   Heart,
+  Train,
+  Flame,
 } from 'lucide-react';
 import { Business } from '../../types';
 import { Badge } from '../ui/Badge';
@@ -35,9 +37,10 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
   const isSaved = isSpotSaved(spotId);
 
   const primaryImage =
-    business.images && business.images.length > 0
-      ? business.images[0]
-      : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80';
+    business.coverImage ||
+    (business.images && business.images.length > 0 ? business.images[0] : null) ||
+    business.thumbnail ||
+    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80';
 
   const categoryName =
     typeof business.category === 'object' && business.category !== null
@@ -45,6 +48,13 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
       : business.categoryDetails?.name || 'Local Spot';
 
   const priceInfo = priceRangeMap[business.priceRange] || priceRangeMap.MODERATE;
+
+  const metroStation =
+    typeof business.placeIntelligence?.metroNearby === 'string'
+      ? business.placeIntelligence.metroNearby
+      : typeof business.placeIntelligence?.transport?.metroNearby === 'string'
+      ? business.placeIntelligence.transport.metroNearby
+      : null;
 
   const formatDistance = (km?: number) => {
     if (typeof km !== 'number') return null;
@@ -144,7 +154,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
         <div className="p-5 flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1.5">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600">
                   {categoryName}
                 </span>
@@ -157,6 +167,15 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
                   />
                   <span>{openStatus.label}</span>
                 </div>
+                {metroStation && (
+                  <>
+                    <span className="text-slate-300">•</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] text-slate-500">
+                      <Train className="h-3 w-3 text-indigo-500" />
+                      <span>{metroStation}</span>
+                    </span>
+                  </>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
@@ -183,8 +202,17 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
             </Link>
 
             <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-              {business.shortDescription || business.description}
+              {business.placeIntelligence?.aiSummary?.whyVisit || business.shortDescription || business.description}
             </p>
+
+            {/* Popular Items / Highlights Pill */}
+            {business.placeIntelligence?.popularItems && business.placeIntelligence.popularItems.length > 0 && (
+              <div className="mt-2.5 flex items-center gap-1.5 text-xs text-slate-600">
+                <Flame className="h-3.5 w-3.5 text-rose-500 shrink-0" />
+                <span className="font-semibold text-slate-700">Must Try:</span>
+                <span className="text-slate-600 truncate">{business.placeIntelligence.popularItems.slice(0, 2).join(', ')}</span>
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-500">
               <div className="flex items-center gap-1">
@@ -328,12 +356,20 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
           </Link>
 
           <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-            {business.shortDescription || business.description}
+            {business.placeIntelligence?.aiSummary?.whyVisit || business.shortDescription || business.description}
           </p>
+
+          {/* Metro & Highlights row */}
+          {metroStation && (
+            <div className="mt-2 flex items-center gap-1 text-[11px] text-slate-500">
+              <Train className="h-3 w-3 text-indigo-500 shrink-0" />
+              <span className="truncate">{metroStation} Metro</span>
+            </div>
+          )}
 
           {/* Tags */}
           {business.tags && business.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="flex flex-wrap gap-1 mt-2.5">
               {business.tags.slice(0, 2).map((t, idx) => (
                 <span
                   key={idx}
@@ -368,3 +404,4 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode =
     </div>
   );
 };
+

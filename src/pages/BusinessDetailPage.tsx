@@ -33,6 +33,15 @@ import {
   Layers,
   Flag,
   Database,
+  Train,
+  Car,
+  Accessibility,
+  Hourglass,
+  Sun,
+  Flame,
+  Image as ImageIcon,
+  RefreshCw,
+  Award,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
@@ -46,6 +55,8 @@ import { SaveToCollectionModal } from '../components/collections/SaveToCollectio
 import { ReportModal } from '../components/common/ReportModal';
 import { ShareButton } from '../components/common/ShareButton';
 import { ClaimBusinessModal } from '../components/business/ClaimBusinessModal';
+import { AskAboutPlaceBox } from '../components/ai/AskAboutPlaceBox';
+import { discoveryService } from '../services/discoveryService';
 import { businessOwnerService } from '../services/businessOwnerService';
 import { useBusiness, useBusinesses } from '../hooks/useDiscovery';
 import { useSavedStore } from '../store/useSavedStore';
@@ -85,9 +96,25 @@ export const BusinessDetailPage: React.FC = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [nearbyCategoryFilter, setNearbyCategoryFilter] = useState<'all' | 'cafes' | 'restaurants' | 'heritage'>('all');
+  const [isRefreshingSummary, setIsRefreshingSummary] = useState(false);
+  const [aiSummaryOverride, setAiSummaryOverride] = useState<any>(null);
 
   const { data: business, isLoading, error } = useBusiness(slug);
   const { recordView } = usePersonalization();
+
+  // Refresh AI Summary handler
+  const handleRefreshSummary = async () => {
+    if (!business) return;
+    setIsRefreshingSummary(true);
+    try {
+      const freshSummary = await discoveryService.generatePlaceSummary(business._id || business.slug);
+      setAiSummaryOverride(freshSummary);
+    } catch (err) {
+      console.warn('Failed to refresh AI summary:', err);
+    } finally {
+      setIsRefreshingSummary(false);
+    }
+  };
 
   // Track user personalization profile
   React.useEffect(() => {
@@ -393,6 +420,179 @@ export const BusinessDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Info Column (2 cols) */}
           <div className="lg:col-span-2 space-y-8">
+            {/* AI Summary / Place Overview */}
+            {(() => {
+              const intel = business.placeIntelligence;
+              const summary = aiSummaryOverride || intel?.aiSummary || {
+                whyVisit: business.shortDescription || `A premier spot in ${business.locality} renowned for authentic quality and vibrant community buzz.`,
+                whatToExpect: `Expect top-notch service, welcoming atmosphere, and curated offerings in the heart of ${business.locality}, Delhi.`,
+                bestFor: intel?.bestFor || ['Friends & Hangouts', 'Food Discovery', 'Local Exploration'],
+              };
+
+              return (
+                <div className="bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 space-y-5 shadow-xl border border-indigo-500/30 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+                  
+                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-indigo-500/25">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                        <Sparkles className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                          <span>SpotPicx AI Place Intelligence</span>
+                          <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold tracking-wider uppercase border border-emerald-500/30">
+                            Verified Insights
+                          </span>
+                        </h2>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleRefreshSummary}
+                      disabled={isRefreshingSummary}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-indigo-200 text-xs font-semibold backdrop-blur-xs border border-white/10 transition-colors cursor-pointer disabled:opacity-50"
+                      title="Regenerate concise AI overview"
+                    >
+                      <RefreshCw className={`h-3 w-3 ${isRefreshingSummary ? 'animate-spin' : ''}`} />
+                      <span>{isRefreshingSummary ? 'Updating...' : 'Refresh AI Summary'}</span>
+                    </button>
+                  </div>
+
+                  <div className="relative z-10 space-y-4 text-xs sm:text-sm">
+                    {/* Why Visit */}
+                    <div>
+                      <span className="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block mb-1">
+                        Why Visit This Spot
+                      </span>
+                      <p className="text-indigo-50/95 leading-relaxed font-medium">
+                        {summary.whyVisit}
+                      </p>
+                    </div>
+
+                    {/* What to Expect */}
+                    {summary.whatToExpect && (
+                      <div>
+                        <span className="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block mb-1">
+                          What to Expect
+                        </span>
+                        <p className="text-indigo-100/85 leading-relaxed">
+                          {summary.whatToExpect}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Best For Chips */}
+                    {summary.bestFor && (
+                      <div className="pt-2">
+                        <span className="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block mb-1.5">
+                          Best Suited For
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(Array.isArray(summary.bestFor) ? summary.bestFor : [summary.bestFor]).map((item: string, idx: number) => (
+                            <span
+                              key={idx}
+                              className="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-400/25 text-xs font-medium"
+                            >
+                              ★ {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Place Intelligence Key Facts & Attributes */}
+            {(() => {
+              const intel = business.placeIntelligence;
+              if (!intel) return null;
+
+              return (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {intel.recommendedDuration && (
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                        <Hourglass className="h-3.5 w-3.5 text-indigo-600" />
+                        <span>Duration</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-bold text-slate-900">
+                        {intel.recommendedDuration}
+                      </div>
+                    </div>
+                  )}
+
+                  {intel.bestTimeToVisit && (
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                        <Sun className="h-3.5 w-3.5 text-amber-500" />
+                        <span>Best Time</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-bold text-slate-900">
+                        {intel.bestTimeToVisit}
+                      </div>
+                    </div>
+                  )}
+
+                  {intel.priceLevel && (
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                        <Tag className="h-3.5 w-3.5 text-emerald-600" />
+                        <span>Price Level</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-bold text-slate-900">
+                        {intel.priceLevel}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                      <ShieldCheck className="h-3.5 w-3.5 text-indigo-600" />
+                      <span>Freshness</span>
+                    </div>
+                    <div className="text-xs sm:text-sm font-bold text-emerald-700">
+                      {business.freshnessStatus || 'FRESH'}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Popular Items / What People Order */}
+            {business.placeIntelligence?.popularItems && business.placeIntelligence.popularItems.length > 0 && (
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <Flame className="h-5 w-5 text-rose-500" />
+                    <span>Popular & Signature Items</span>
+                  </h2>
+                  <span className="text-xs text-slate-400 font-medium">Community Favorites</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {business.placeIntelligence.popularItems.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-2xl bg-slate-50 hover:bg-indigo-50/60 border border-slate-200 hover:border-indigo-200 transition-colors flex items-center gap-2.5"
+                    >
+                      <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">
+                        {idx + 1}
+                      </div>
+                      <span className="text-xs sm:text-sm font-semibold text-slate-800">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Interactive AI Concierge Box */}
+            <AskAboutPlaceBox business={business} />
+
             {/* About / Description */}
             <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4 shadow-xs">
               <h2 className="text-xl font-bold text-slate-900">About {business.name}</h2>
@@ -400,24 +600,176 @@ export const BusinessDetailPage: React.FC = () => {
                 {business.description || business.shortDescription}
               </p>
 
-              {business.tags && business.tags.length > 0 && (
-                <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-2">
-                  {business.tags.map((tag, idx) => (
-                    <span
+              {/* Highlights & Ambience tags */}
+              <div className="pt-4 border-t border-slate-100 space-y-3">
+                {business.placeIntelligence?.highlights && business.placeIntelligence.highlights.length > 0 && (
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block mb-2">Highlights:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {business.placeIntelligence.highlights.map((hl, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-medium"
+                        >
+                          ✓ {hl}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {business.placeIntelligence?.ambience && business.placeIntelligence.ambience.length > 0 && (
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block mb-2">Ambience & Vibe:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {business.placeIntelligence.ambience.map((amb, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-1 rounded-xl bg-violet-50 text-violet-700 border border-violet-200 text-xs font-medium"
+                        >
+                          {amb}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {business.tags && business.tags.length > 0 && (
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block mb-2">Tags:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {business.tags.map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 rounded-xl bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 text-xs font-medium transition-colors"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Accessibility, Parking & Transit Section */}
+            {(() => {
+              const intel = business.placeIntelligence;
+              const metroRaw = intel?.metroNearby || intel?.transport?.metroNearby;
+              const metroStation = typeof metroRaw === 'string' ? metroRaw : (metroRaw as any)?.station || null;
+              const metroLine = intel?.transport?.metroLine || (metroRaw as any)?.line || null;
+              const walkingDist = intel?.transport?.walkingDistance || (metroRaw as any)?.walkingDistance || null;
+              const parking = intel?.parking;
+              const accessibility = intel?.accessibility;
+
+              if (!metroStation && !parking && !accessibility) return null;
+
+              return (
+                <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <Train className="h-5 w-5 text-indigo-600" />
+                    <span>Transit, Accessibility & Parking</span>
+                  </h2>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {/* Metro */}
+                    {metroStation && (
+                      <div className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-900">
+                          <Train className="h-4 w-4 text-indigo-600" />
+                          <span>Delhi Metro</span>
+                        </div>
+                        <div className="text-xs font-bold text-slate-800">
+                          {metroStation}
+                        </div>
+                        <div className="text-[11px] text-slate-500">
+                          {metroLine && <span className="font-semibold text-indigo-700">{metroLine} Line • </span>}
+                          {walkingDist || 'Direct walking distance'}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Parking */}
+                    {parking && (
+                      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                          <Car className="h-4 w-4 text-slate-700" />
+                          <span>Parking</span>
+                        </div>
+                        <div className="text-xs font-bold text-slate-800">
+                          {parking.available ? (parking.valet ? 'Valet & Parking Available' : 'Parking Available') : 'Street / Paid Nearby'}
+                        </div>
+                        {parking.notes && (
+                          <div className="text-[11px] text-slate-500 leading-snug">
+                            {parking.notes}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Accessibility */}
+                    {accessibility && (
+                      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                          <Accessibility className="h-4 w-4 text-emerald-600" />
+                          <span>Accessibility</span>
+                        </div>
+                        <div className="text-xs font-bold text-slate-800">
+                          {accessibility.wheelchairAccessible || (accessibility as any).wheelchair ? 'Wheelchair Accessible' : 'Standard Entry'}
+                        </div>
+                        {accessibility.notes && (
+                          <div className="text-[11px] text-slate-500 leading-snug">
+                            {accessibility.notes}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Curated Photo Gallery Section */}
+            {images.length > 1 && (
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <ImageIcon className="h-5 w-5 text-indigo-600" />
+                    <span>Visual Gallery ({images.length} Photos)</span>
+                  </h2>
+                  <span className="text-[11px] text-slate-400">Approved Licensed Media</span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {images.map((imgUrl, idx) => (
+                    <div
                       key={idx}
-                      className="px-3 py-1 rounded-xl bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 text-xs font-medium transition-colors"
+                      onClick={() => {
+                        setActiveImageIdx(idx);
+                        setLightboxOpen(true);
+                      }}
+                      className="group relative h-36 rounded-2xl overflow-hidden cursor-pointer bg-slate-100 border border-slate-200"
                     >
-                      #{tag}
-                    </span>
+                      <img
+                        src={imgUrl}
+                        alt={`${business.name} photo ${idx + 1}`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
+                        <Maximize2 className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </div>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Amenities */}
             {business.amenities && business.amenities.length > 0 && (
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4 shadow-xs">
-                <h2 className="text-lg font-bold text-slate-900">Amenities & Highlights</h2>
+                <h2 className="text-lg font-bold text-slate-900">Amenities & Services</h2>
                 <div className="flex flex-wrap gap-2">
                   {business.amenities.map((amenity, idx) => (
                     <span

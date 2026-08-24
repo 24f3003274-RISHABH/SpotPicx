@@ -11,6 +11,12 @@ const router = Router();
 // GET /api/v1/businesses
 router.get('/', BusinessController.getBusinesses);
 
+// POST /api/v1/businesses/:id/ask-place - Ask AI specific questions about this venue
+router.post('/:id/ask-place', BusinessController.askAboutPlace);
+
+// POST /api/v1/businesses/:id/generate-summary - Generate or refresh concise AI place summary
+router.post('/:id/generate-summary', BusinessController.generateSummary);
+
 // GET /api/v1/businesses/:slug
 router.get('/:slug', BusinessController.getBusinessBySlug);
 

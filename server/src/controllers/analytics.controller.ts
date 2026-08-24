@@ -23,4 +23,31 @@ export class AnalyticsController {
     const result = await AnalyticsService.trackAction(id, action || 'view');
     return sendSuccess(res, result, 'Action tracked');
   });
+  /**
+   * GET /api/v1/admin/analytics
+   */
+  public static getAdminAnalytics = asyncHandler(async (req: Request, res: Response) => {
+    const { range, startDate, endDate } = req.query;
+    const data = await AnalyticsService.getAdminAnalytics({
+      range: range as string,
+      startDate: startDate as string,
+      endDate: endDate as string,
+    });
+    return sendSuccess(res, data, 'Admin analytics intelligence loaded');
+  });
+
+  /**
+   * GET /api/v1/admin/analytics/export
+   */
+  public static exportAdminAnalytics = asyncHandler(async (req: Request, res: Response) => {
+    const { type, range } = req.query;
+    const csvContent = await AnalyticsService.exportAdminAnalyticsCSV(
+      (type as any) || 'overview',
+      (range as string) || '30d'
+    );
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="spotpicks-analytics-${type || 'overview'}-${range || '30d'}.csv"`);
+    return res.status(200).send(csvContent);
+  });
 }

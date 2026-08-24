@@ -1,8 +1,99 @@
 import { Request, Response } from 'express';
 import { BusinessService } from '../services/business.service';
+import { GeminiService } from '../services/gemini.service';
 import { createBusinessSchema, updateBusinessSchema } from '../validators/business.validator';
 
 export class BusinessController {
+  /**
+   * POST /api/v1/businesses/:id/ask-place or /api/v1/businesses/:slug/ask-place
+   * Answers place-specific questions ("Ask about this place") with verified context & Gemini
+   */
+  public static async askAboutPlace(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { question } = req.body;
+
+      if (!question || typeof question !== 'string' || !question.trim()) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: 'QUESTION_REQUIRED',
+            message: 'A valid question string is required',
+          },
+        });
+        return;
+      }
+
+      const business = await BusinessService.getBusinessBySlug(id);
+      if (!business) {
+        res.status(404).json({
+          success: false,
+          error: {
+            code: 'BUSINESS_NOT_FOUND',
+            message: `Venue '${id}' not found`,
+          },
+        });
+        return;
+      }
+
+      const result = await GeminiService.askAboutPlace(business, question.trim());
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully generated answer for venue',
+        data: result,
+      });
+    } catch (error: any) {
+      console.error('Ask about place error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'ASK_PLACE_ERROR',
+          message: error.message || 'Failed to process question about place',
+        },
+      });
+    }
+  }
+
+  /**
+   * POST /api/v1/businesses/:id/generate-summary or /api/v1/businesses/:slug/generate-summary
+   * Generates or refreshes concise AI summary ("Why visit?", "Best for", "What to expect")
+   */
+  public static async generateSummary(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const business = await BusinessService.getBusinessBySlug(id);
+
+      if (!business) {
+        res.status(404).json({
+          success: false,
+          error: {
+            code: 'BUSINESS_NOT_FOUND',
+            message: `Venue '${id}' not found`,
+          },
+        });
+        return;
+      }
+
+      const summary = await GeminiService.generatePlaceSummary(business);
+
+      res.status(200).json({
+        success: true,
+        message: 'Generated verified place summary',
+        data: summary,
+      });
+    } catch (error: any) {
+      console.error('Generate summary error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'GENERATE_SUMMARY_ERROR',
+          message: error.message || 'Failed to generate place summary',
+        },
+      });
+    }
+  }
+
   public static async getBusinesses(req: Request, res: Response): Promise<void> {
     try {
       const { page, limit, category, locality, city, priceRange, verified, rating, tags, q, sort } =

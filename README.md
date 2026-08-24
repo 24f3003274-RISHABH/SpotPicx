@@ -350,6 +350,37 @@ SpotPicks integrates Google's official `@google/genai` SDK to power **"Ask SpotP
 
 ---
 
+## 🔄 Phase 15: Controlled Data Ingestion & Freshness Engine
+
+SpotPicks implements a robust, compliant data ingestion architecture:
+- **DataSource Management**: Supports `API`, `RSS`, `WEB_SEARCH`, and `MANUAL` pipelines with automatic rate limiting, interval scheduling, run statistics, and exponential backoff.
+- **Normalization Pipeline**: Ingests diverse schemas from open government feeds, transport data, and licensed directories into normalized `Business` documents with 2dsphere geocoding and category taxonomy mapping.
+- **Data Freshness Tracker**: Automatically labels listings as `FRESH` (< 30 days), `RECENT` (< 90 days), or `STALE` (> 90 days), flagging stale spots for automated re-verification.
+- **Compliance & Attribution Policy**: Strictly respects `robots.txt`, Terms of Service, rate limits, and copyright. Never bypasses CAPTCHAs, paywalls, or anti-bot protections. Every listing preserves full `source` and `sourceUrl` transparency.
+
+---
+
+## 🎨 Phase 16: Rich Place Intelligence & Visual Discovery
+
+### 1. Visual Discovery & Image Pipeline
+- **Four-Tier Media Architecture**: Every business supports `coverImage` (hero banners), `thumbnail` (search & map views), `gallery` (multi-photo mosaics with captions & credits), and `logo`.
+- **Approved Image Sources Policy**: Strictly employs owned photography, licensed media pools, verified user-submitted reviews, and permitted public provider images. Disallows ungrounded scraping of copyrighted assets.
+- **Visual Search Results**: Search and category cards feature high-resolution cover photos, open/closed indicators, rating pills, verified badges, Delhi Metro station pills, and signature food/highlights tags.
+
+### 2. Rich Place Intelligence Structure
+- **Highlights & Best For**: Curated bullet points on standout features and target demographics (e.g. *Couples*, *Solo Working*, *Heritage Lovers*).
+- **Popular & Signature Items**: Community favorites and top-ordered dishes/services highlighted with ranking indices.
+- **Transit & Metro Intelligence**: Direct station names, line colors, and walking distance derived from Delhi Metro transit mappings.
+- **Accessibility & Parking**: Clear indicators for wheelchair ramps, elevator access, valet services, and street parking tips.
+- **Best Time & Duration**: Optimal visit hours and recommended stay lengths for planning itineraries.
+
+### 3. Grounded AI Place Concierge ("Ask About This Place")
+- **Interactive Question Box**: Real-time Gemini 3.7 Q&A embedded on every place page (e.g., *"Is this quiet for working?"*, *"What should I order?"*, *"How to reach via metro?"*).
+- **Zero-Hallucination Grounding**: The model is strictly supplied with verified JSON venue attributes. It synthesizes concise answers, takeaway badges, and source attributions without inventing non-existent facilities or pricing.
+- **Dynamic AI Summary**: Generates structured *Why Visit*, *What to Expect*, and *Best Suited For* overviews with on-demand user refresh.
+
+---
+
 ## 📈 SEO & Search Engine Optimization
 
 SpotPicks is built search-first:

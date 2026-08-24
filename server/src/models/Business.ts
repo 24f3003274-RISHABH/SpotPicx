@@ -3,6 +3,69 @@ import mongoose, { Document, Schema, Model } from 'mongoose';
 export type PriceRange = 'BUDGET' | 'MODERATE' | 'PREMIUM' | 'LUXURY';
 export type BusinessStatus = 'ACTIVE' | 'PENDING' | 'REJECTED' | 'ARCHIVED';
 
+export interface PlaceAccessibility {
+  wheelchairAccessible: boolean;
+  elevator?: boolean;
+  groundFloor?: boolean;
+  notes?: string;
+}
+
+export interface PlaceParking {
+  available: boolean;
+  type?: 'VALET' | 'STREET' | 'DEDICATED_LOT' | 'MALL_PARKING' | 'NONE';
+  valet?: boolean;
+  notes?: string;
+}
+
+export interface PlaceTransport {
+  metroNearby?: string;
+  metroLine?: string;
+  walkingDistance?: string;
+  busStop?: string;
+  autoStand?: string;
+}
+
+export interface PlaceAISummary {
+  whyVisit?: string;
+  bestFor?: string;
+  whatToExpect?: string;
+  generatedAt?: Date;
+}
+
+export interface PlaceSourceRef {
+  name: string;
+  url?: string;
+  verified: boolean;
+  license?: string;
+  note?: string;
+}
+
+export interface PlaceIntelligence {
+  highlights?: string[];
+  bestFor?: string[];
+  popularItems?: string[];
+  priceLevel?: string; // e.g. "₹₹" or "₹600 - ₹1,200 for two"
+  ambience?: string[];
+  amenities?: string[];
+  goodFor?: string[];
+  nearbyAttractions?: Array<{ name: string; distance: string; type?: string }>;
+  recommendedDuration?: string;
+  bestTimeToVisit?: string;
+  accessibility?: PlaceAccessibility;
+  parking?: PlaceParking;
+  transport?: PlaceTransport;
+  metroNearby?: string;
+  aiSummary?: PlaceAISummary;
+  sources?: PlaceSourceRef[];
+}
+
+export interface IBusinessGalleryItem {
+  url: string;
+  caption?: string;
+  isHero?: boolean;
+  sourceAttribution?: string;
+}
+
 export interface IBusiness extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
@@ -26,6 +89,10 @@ export interface IBusiness extends Document {
   phone: string;
   email: string;
   website: string;
+  // Image Pipeline (Phase 16)
+  coverImage: string;
+  thumbnail: string;
+  gallery: IBusinessGalleryItem[] | string[];
   images: string[];
   logo: string;
   priceRange: PriceRange;
@@ -39,6 +106,8 @@ export interface IBusiness extends Document {
   claimed: boolean;
   owner?: mongoose.Types.ObjectId | null;
   status: BusinessStatus;
+  // Place Intelligence (Phase 16)
+  placeIntelligence?: PlaceIntelligence;
   // Source Tracking & Freshness (Phase 15)
   source: string;
   sourceUrl: string;
@@ -161,6 +230,24 @@ const BusinessSchema = new Schema<IBusiness>(
       default: '',
       trim: true,
     },
+    coverImage: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    thumbnail: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    gallery: [
+      {
+        url: { type: String, required: true },
+        caption: { type: String, default: '' },
+        isHero: { type: Boolean, default: false },
+        sourceAttribution: { type: String, default: '' },
+      },
+    ],
     images: [
       {
         type: String,
@@ -274,6 +361,60 @@ const BusinessSchema = new Schema<IBusiness>(
       enum: ['FRESH', 'RECENT', 'STALE', 'EXPIRED'],
       default: 'FRESH',
       index: true,
+    },
+    // Place Intelligence (Phase 16)
+    placeIntelligence: {
+      highlights: [{ type: String, trim: true }],
+      bestFor: [{ type: String, trim: true }],
+      popularItems: [{ type: String, trim: true }],
+      priceLevel: { type: String, default: '' },
+      ambience: [{ type: String, trim: true }],
+      amenities: [{ type: String, trim: true }],
+      goodFor: [{ type: String, trim: true }],
+      nearbyAttractions: [
+        {
+          name: { type: String, required: true },
+          distance: { type: String, required: true },
+          type: { type: String, default: 'Landmark' },
+        },
+      ],
+      recommendedDuration: { type: String, default: '' },
+      bestTimeToVisit: { type: String, default: '' },
+      accessibility: {
+        wheelchairAccessible: { type: Boolean, default: false },
+        elevator: { type: Boolean, default: false },
+        groundFloor: { type: Boolean, default: false },
+        notes: { type: String, default: '' },
+      },
+      parking: {
+        available: { type: Boolean, default: true },
+        type: { type: String, default: 'STREET' },
+        valet: { type: Boolean, default: false },
+        notes: { type: String, default: '' },
+      },
+      transport: {
+        metroNearby: { type: String, default: '' },
+        metroLine: { type: String, default: '' },
+        walkingDistance: { type: String, default: '' },
+        busStop: { type: String, default: '' },
+        autoStand: { type: String, default: '' },
+      },
+      metroNearby: { type: String, default: '' },
+      aiSummary: {
+        whyVisit: { type: String, default: '' },
+        bestFor: { type: String, default: '' },
+        whatToExpect: { type: String, default: '' },
+        generatedAt: { type: Date },
+      },
+      sources: [
+        {
+          name: { type: String, required: true },
+          url: { type: String, default: '' },
+          verified: { type: Boolean, default: true },
+          license: { type: String, default: '' },
+          note: { type: String, default: '' },
+        },
+      ],
     },
   },
   {

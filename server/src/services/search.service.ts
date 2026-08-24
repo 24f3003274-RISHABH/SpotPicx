@@ -281,11 +281,26 @@ export class SearchService {
     let categoryIds: mongoose.Types.ObjectId[] = [];
     const catSlug = params.category || parsedQuery.category;
     if (catSlug) {
-      const categoryDoc = await Category.findOne({ slug: catSlug });
-      if (categoryDoc) {
-        categoryIds.push(categoryDoc._id);
-        const subCats = await Category.find({ parent: categoryDoc._id }).select('_id');
-        categoryIds.push(...subCats.map((sc) => sc._id));
+      const aliasMap: Record<string, string[]> = {
+        'food-and-cafes': ['food-dining', 'cafes-bakeries', 'street-food', 'restaurants', 'nightlife-bars'],
+        'food-dining': ['food-dining', 'cafes-bakeries', 'street-food', 'restaurants', 'nightlife-bars'],
+        'cafes-bakeries': ['cafes-bakeries', 'food-dining'],
+        'street-food': ['street-food', 'food-dining'],
+        'stays-living': ['stays-living', 'pgs-hostels', 'hotels'],
+        'hotels-and-pgs': ['stays-living', 'pgs-hostels', 'hotels'],
+        'services-repairs': ['services-repairs', 'laptop-mobile-repair', 'salons-spas', 'gyms-fitness'],
+        'repair-and-services': ['services-repairs', 'laptop-mobile-repair', 'salons-spas', 'gyms-fitness'],
+        'shopping-markets': ['shopping-markets', 'electronics-gadgets', 'apparel-ethnic', 'books-stationery'],
+        'shopping-and-retail': ['shopping-markets', 'electronics-gadgets', 'apparel-ethnic', 'books-stationery'],
+        'places-visit': ['places-visit', 'historical-monuments', 'parks-gardens'],
+        'places-and-heritage': ['places-visit', 'historical-monuments', 'parks-gardens'],
+      };
+      const slugsToFind = aliasMap[catSlug] || [catSlug];
+      const categoryDocs = await Category.find({ slug: { $in: slugsToFind } });
+      for (const cd of categoryDocs) {
+        categoryIds.push(cd._id as mongoose.Types.ObjectId);
+        const subCats = await Category.find({ parent: cd._id }).select('_id');
+        categoryIds.push(...subCats.map((sc) => sc._id as mongoose.Types.ObjectId));
       }
     }
 
@@ -415,25 +430,54 @@ export class SearchService {
     let items = Array.from(SeedService.inMemoryBusinesses.values());
 
     // 1. Filter by Category
-    const categorySlug = params.category || parsedQuery.category;
-    if (categorySlug && categorySlug !== 'All') {
-      const matchCat = SeedService.inMemoryCategories.get(categorySlug);
+    const rawCatSlug = params.category || parsedQuery.category;
+    if (rawCatSlug && rawCatSlug !== 'All') {
+      const aliasMap: Record<string, string[]> = {
+        'food-and-cafes': ['food-dining', 'cafes-bakeries', 'street-food', 'restaurants', 'nightlife-bars'],
+        'food-dining': ['food-dining', 'cafes-bakeries', 'street-food', 'restaurants', 'nightlife-bars'],
+        'cafes-bakeries': ['cafes-bakeries', 'food-dining'],
+        'street-food': ['street-food', 'food-dining'],
+        'restaurants': ['restaurants', 'food-dining'],
+        'stays-living': ['stays-living', 'pgs-hostels', 'hotels'],
+        'hotels-and-pgs': ['stays-living', 'pgs-hostels', 'hotels'],
+        'pgs-hostels': ['pgs-hostels', 'stays-living'],
+        'hotels': ['hotels', 'stays-living'],
+        'shopping-markets': ['shopping-markets', 'electronics-gadgets', 'apparel-ethnic', 'books-stationery'],
+        'shopping-and-retail': ['shopping-markets', 'electronics-gadgets', 'apparel-ethnic', 'books-stationery'],
+        'electronics-gadgets': ['electronics-gadgets', 'shopping-markets'],
+        'places-visit': ['places-visit', 'historical-monuments', 'parks-gardens'],
+        'places-and-heritage': ['places-visit', 'historical-monuments', 'parks-gardens'],
+        'historical-monuments': ['historical-monuments', 'places-visit'],
+        'services-repairs': ['services-repairs', 'laptop-mobile-repair', 'salons-spas', 'gyms-fitness'],
+        'repair-and-services': ['services-repairs', 'laptop-mobile-repair', 'salons-spas', 'gyms-fitness'],
+        'laptop-mobile-repair': ['laptop-mobile-repair', 'services-repairs'],
+        'education-coaching': ['education-coaching', 'coaching-institutes'],
+        'education-and-coaching': ['education-coaching', 'coaching-institutes'],
+        'nightlife-bars': ['nightlife-bars', 'food-dining'],
+        'nightlife-and-clubs': ['nightlife-bars', 'food-dining'],
+      };
+
+      const targetSlugs = aliasMap[rawCatSlug] || [rawCatSlug];
+      const matchCat = SeedService.inMemoryCategories.get(rawCatSlug);
       const subCatSlugs = Array.from(SeedService.inMemoryCategories.values())
         .filter((c) => c.parent === matchCat?._id || c.parent === matchCat?.slug)
         .map((c) => c.slug);
-      const allowedCategories = new Set([categorySlug, ...subCatSlugs]);
+      const allowedCategories = new Set([...targetSlugs, ...subCatSlugs]);
 
       items = items.filter((b) => {
-        const cat = typeof b.category === 'object' ? (b.category as any)?.slug : b.category;
-        return allowedCategories.has(cat);
+        const catSlug = b.categoryDetails?.slug || b.categorySlug || (typeof b.category === 'object' ? b.category?.slug : null);
+        const allSlugs = Array.isArray(b.categorySlugs) ? b.categorySlugs : [];
+        if (catSlug && allowedCategories.has(catSlug)) return true;
+        if (allSlugs.some((s: string) => allowedCategories.has(s))) return true;
+        return false;
       });
     }
 
     // 2. Filter by Locality
-    const locality = params.locality || (!params.category ? parsedQuery.locality : undefined);
+    const locality = params.locality || parsedQuery.locality;
     if (locality && locality !== 'All') {
       const locRegex = new RegExp(locality, 'i');
-      items = items.filter((b) => locRegex.test(b.locality) || locRegex.test(b.address));
+      items = items.filter((b) => locRegex.test(b.locality) || locRegex.test(b.address) || locRegex.test(b.name) || locRegex.test(b.description));
     }
 
     // 3. Filter by City
@@ -461,11 +505,10 @@ export class SearchService {
       : params.tags
       ? params.tags.split(',').map((t) => t.trim()).filter(Boolean)
       : [];
-    const combinedTags = Array.from(new Set([...tagsParam, ...parsedQuery.tags]));
-    if (combinedTags.length > 0) {
+    if (tagsParam.length > 0) {
       items = items.filter((b) => {
         const itemTags = (b.tags || []).map((t: string) => t.toLowerCase());
-        return combinedTags.some((tag) => itemTags.some((it) => it.includes(tag.toLowerCase())));
+        return tagsParam.some((tag) => itemTags.some((it) => it.includes(tag.toLowerCase())));
       });
     }
 
@@ -475,28 +518,46 @@ export class SearchService {
       : params.amenities
       ? params.amenities.split(',').map((a) => a.trim()).filter(Boolean)
       : [];
-    const combinedAmenities = Array.from(new Set([...amenitiesParam, ...parsedQuery.amenities]));
-    if (combinedAmenities.length > 0) {
+    if (amenitiesParam.length > 0) {
       items = items.filter((b) => {
         const itemAmenities = (b.amenities || []).map((a: string) => a.toLowerCase());
-        return combinedAmenities.some((am) => itemAmenities.some((ia) => ia.includes(am.toLowerCase())));
+        return amenitiesParam.some((am) => itemAmenities.some((ia) => ia.includes(am.toLowerCase())));
       });
     }
 
-    // 8. Keyword / Free-Text Filter
-    const keyword = parsedQuery.cleanedQuery || params.q?.trim();
-    if (keyword && keyword.length > 0) {
-      const kw = keyword.toLowerCase();
-      items = items.filter((b) => {
-        return (
-          b.name?.toLowerCase().includes(kw) ||
-          b.description?.toLowerCase().includes(kw) ||
-          b.shortDescription?.toLowerCase().includes(kw) ||
-          b.locality?.toLowerCase().includes(kw) ||
-          b.address?.toLowerCase().includes(kw) ||
-          (b.tags || []).some((t: string) => t.toLowerCase().includes(kw))
-        );
-      });
+    // 8. Keyword / Free-Text Filter (Robust multi-term matching)
+    const rawKeyword = params.q?.trim();
+    if (rawKeyword && rawKeyword.length > 0 && !params.category && !params.locality) {
+      // If no explicit structured filters are supplied, search across terms
+      const stopWords = new Set(['in', 'near', 'the', 'and', 'for', 'best', 'top', 'good', 'find', 'show', 'delhi', 'ncr', 'places', 'with', 'under']);
+      const searchTerms = rawKeyword
+        .toLowerCase()
+        .replace(/[^\w\s]/g, ' ')
+        .split(/\s+/)
+        .filter((w) => w.length >= 3 && !stopWords.has(w));
+
+      if (searchTerms.length > 0) {
+        items = items.filter((b) => {
+          const searchableText = [
+            b.name,
+            b.description,
+            b.shortDescription,
+            b.locality,
+            b.address,
+            ...(b.tags || []),
+            ...(b.amenities || []),
+            ...(b.features || []),
+            b.categoryDetails?.name,
+            b.categoryDetails?.slug,
+            ...(b.placeIntelligence?.popularItems || []),
+          ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+          return searchTerms.some((term) => searchableText.includes(term));
+        });
+      }
     }
 
     // Map results and compute distance if coordinates are given

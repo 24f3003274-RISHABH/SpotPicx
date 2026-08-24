@@ -71,6 +71,16 @@ export const discoveryService = {
     return res.data;
   },
 
+  async askAboutPlace(idOrSlug: string, question: string) {
+    const res = await apiClient.post(`/businesses/${idOrSlug}/ask-place`, { question });
+    return res.data.data;
+  },
+
+  async generatePlaceSummary(idOrSlug: string) {
+    const res = await apiClient.post(`/businesses/${idOrSlug}/generate-summary`);
+    return res.data.data;
+  },
+
   async createBusiness(data: Partial<Business>) {
     const res = await apiClient.post('/businesses', data);
     return res.data;

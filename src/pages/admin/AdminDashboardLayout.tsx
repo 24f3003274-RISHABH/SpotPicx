@@ -26,7 +26,7 @@ export const AdminDashboardLayout: React.FC = () => {
 
   const adminNav = [
     { label: 'Overview', path: ROUTES.ADMIN, icon: LayoutDashboard, exact: true },
-    { label: 'Search Analytics', path: ROUTES.ADMIN_ANALYTICS, icon: BarChart3 },
+    { label: 'Analytics & Command Center', path: ROUTES.ADMIN_ANALYTICS, icon: BarChart3 },
     { label: 'Data Ingestion & Feeds', path: ROUTES.ADMIN_DATA_SOURCES, icon: Database },
     { label: 'Users', path: ROUTES.ADMIN_USERS, icon: Users },
     { label: 'Businesses', path: ROUTES.ADMIN_BUSINESSES, icon: Store },

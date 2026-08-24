@@ -110,6 +110,29 @@ export const AdminOverviewTab: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 1. Quick Stats Grid */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col md:flex-row md:items-center justify-between gap-6 border border-slate-800 shadow-md">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+            <span className="text-[11px] font-black uppercase tracking-wider text-rose-300">New Intelligence Platform</span>
+          </div>
+          <h3 className="text-lg font-black text-white flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-rose-400" />
+            Admin Analytics & Discovery Command Center
+          </h3>
+          <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
+            Monitor real-time visitors, discovery trends, zero-result searches, place ROI, device hardware distributions, and Gemini AI telemetry.
+          </p>
+        </div>
+        <Link
+          to={ROUTES.ADMIN_ANALYTICS}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-xs transition-all self-start md:self-auto"
+        >
+          <span>Open Command Center</span>
+          <ArrowUpRight className="h-4 w-4" />
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {statCards.map((card, idx) => {
           const Icon = card.icon;
