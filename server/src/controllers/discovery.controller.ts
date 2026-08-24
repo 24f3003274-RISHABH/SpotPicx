@@ -72,4 +72,14 @@ export class DiscoveryController {
 
     return sendSuccess(res, result, 'Special intent discovery results retrieved');
   });
+
+  /**
+   * GET /api/v1/discovery/live-feed
+   * Homepage Live dynamic aggregation
+   */
+  public static getHomepageLiveFeed = asyncHandler(async (req: Request, res: Response) => {
+    const result = await DiscoveryService.getHomepageLiveFeed();
+    return sendSuccess(res, result, 'Homepage live stream feed retrieved');
+  });
 }
+

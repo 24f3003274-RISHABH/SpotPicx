@@ -2,6 +2,14 @@ import mongoose, { Document, Schema, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { USER_ROLES, UserRole } from '../constants/roles';
 
+export interface INotificationPreferences {
+  offers: boolean;
+  events: boolean;
+  savedPlaceUpdates: boolean;
+  businessUpdates: boolean;
+  weeklyDigest: boolean;
+}
+
 export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
@@ -15,6 +23,7 @@ export interface IUser extends Document {
   isActive: boolean;
   refreshTokenHash?: string;
   savedSpots: mongoose.Types.ObjectId[];
+  notificationPreferences?: INotificationPreferences;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -93,6 +102,13 @@ const UserSchema = new Schema<IUser>(
         ref: 'Spot',
       },
     ],
+    notificationPreferences: {
+      offers: { type: Boolean, default: true },
+      events: { type: Boolean, default: true },
+      savedPlaceUpdates: { type: Boolean, default: true },
+      businessUpdates: { type: Boolean, default: true },
+      weeklyDigest: { type: Boolean, default: false },
+    },
   },
   {
     timestamps: true,

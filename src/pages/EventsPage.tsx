@@ -31,17 +31,18 @@ const EVENT_CATEGORIES: { label: string; value: EventCategoryType | 'all'; icon:
   { label: 'Concerts & Live', value: 'Concert', icon: Music },
   { label: 'Stand-up Comedy', value: 'Comedy', icon: Smile },
   { label: 'Theatre & Plays', value: 'Theatre', icon: Film },
-  { label: 'Food Festivals', value: 'Food Festival', icon: Coffee },
-  { label: 'Hackathons & AI', value: 'Hackathon', icon: Cpu },
+  { label: 'Exhibitions & Art', value: 'Cultural', icon: Palette },
   { label: 'Workshops', value: 'Workshop', icon: Palette },
-  { label: 'Startup Mixers', value: 'Startup', icon: Lightbulb },
-  { label: 'Cultural & Melas', value: 'Cultural', icon: Sparkles },
-  { label: 'Tech Summits', value: 'Tech', icon: Cpu },
+  { label: 'Hackathons & AI', value: 'Hackathon', icon: Cpu },
+  { label: 'Startup Events', value: 'Startup', icon: Lightbulb },
+  { label: 'Tech Events', value: 'Tech', icon: Cpu },
+  { label: 'Food Festivals', value: 'Food Festival', icon: Coffee },
 ];
 
-const TIMEFRAMES: { label: string; value: 'all' | 'today' | 'tomorrow' | 'weekend' | 'month' }[] = [
+const TIMEFRAMES: { label: string; value: 'all' | 'today' | 'tonight' | 'tomorrow' | 'weekend' | 'month' }[] = [
   { label: 'All Dates', value: 'all' },
   { label: 'Today', value: 'today' },
+  { label: 'Tonight', value: 'tonight' },
   { label: 'Tomorrow', value: 'tomorrow' },
   { label: 'This Weekend', value: 'weekend' },
   { label: 'This Month', value: 'month' },
@@ -61,7 +62,7 @@ const LOCALITIES = [
 
 export const EventsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedTimeframe, setSelectedTimeframe] = useState<'all' | 'today' | 'tomorrow' | 'weekend' | 'month'>('all');
+  const [selectedTimeframe, setSelectedTimeframe] = useState<'all' | 'today' | 'tonight' | 'tomorrow' | 'weekend' | 'month'>('all');
   const [selectedPrice, setSelectedPrice] = useState<'all' | 'free' | 'paid'>('all');
   const [selectedLocality, setSelectedLocality] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');

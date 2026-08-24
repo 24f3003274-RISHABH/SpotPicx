@@ -1,6 +1,16 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-export type OfferStatus = 'ACTIVE' | 'EXPIRED' | 'DRAFT';
+export type OfferStatus = 'ACTIVE' | 'EXPIRED' | 'DRAFT' | 'PENDING';
+
+export type OfferCategoryType =
+  | 'Restaurant'
+  | 'Cafe'
+  | 'Shopping'
+  | 'Student'
+  | 'Movie'
+  | 'Events'
+  | 'Services'
+  | 'Other';
 
 export interface IOffer extends Document {
   _id: mongoose.Types.ObjectId;
@@ -9,6 +19,7 @@ export interface IOffer extends Document {
   description: string;
   discount: string;
   couponCode: string;
+  category: OfferCategoryType | string;
   validFrom: Date;
   validUntil: Date;
   terms: string[];
@@ -54,6 +65,12 @@ const OfferSchema = new Schema<IOffer>(
       trim: true,
       uppercase: true,
     },
+    category: {
+      type: String,
+      enum: ['Restaurant', 'Cafe', 'Shopping', 'Student', 'Movie', 'Events', 'Services', 'Other'],
+      default: 'Restaurant',
+      index: true,
+    },
     validFrom: {
       type: Date,
       default: Date.now,
@@ -71,7 +88,7 @@ const OfferSchema = new Schema<IOffer>(
     ],
     status: {
       type: String,
-      enum: ['ACTIVE', 'EXPIRED', 'DRAFT'],
+      enum: ['ACTIVE', 'EXPIRED', 'DRAFT', 'PENDING'],
       default: 'ACTIVE',
       index: true,
     },

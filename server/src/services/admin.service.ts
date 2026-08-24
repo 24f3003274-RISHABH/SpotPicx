@@ -305,33 +305,80 @@ export class AdminService {
   }
 
   /**
-   * Events CRUD
+   * Events CRUD (delegated to EventService)
    */
   public static async getEvents() {
-    if (dbConnection.getStatus().isConnected) {
-      return Event.find().sort({ date: 1 }).lean();
-    }
-    return inMemoryEvents;
+    const { EventService } = await import('./event.service');
+    const result = await EventService.getEvents({ status: 'ALL', limit: 100 });
+    return result.events;
   }
 
   public static async createEvent(data: any) {
-    const slug = data.slug || data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.floor(Math.random() * 1000);
-    if (dbConnection.getStatus().isConnected) {
-      return (await Event.create({ ...data, slug })).toObject();
-    }
-    const newEvt = { _id: `evt_${Date.now()}`, ...data, slug };
-    inMemoryEvents.push(newEvt);
-    return newEvt;
+    const { EventService } = await import('./event.service');
+    return EventService.createEvent(data);
+  }
+
+  public static async updateEvent(id: string, data: any) {
+    const { EventService } = await import('./event.service');
+    return EventService.updateEvent(id, data);
+  }
+
+  public static async approveEvent(id: string) {
+    const { EventService } = await import('./event.service');
+    return EventService.approveEvent(id);
+  }
+
+  public static async toggleFeatureEvent(id: string) {
+    const { EventService } = await import('./event.service');
+    return EventService.toggleFeatured(id);
+  }
+
+  public static async expireEvent(id: string) {
+    const { EventService } = await import('./event.service');
+    return EventService.expireEvent(id);
   }
 
   public static async deleteEvent(id: string) {
-    if (dbConnection.getStatus().isConnected) {
-      await Event.findByIdAndDelete(id);
-      return true;
-    }
-    const idx = inMemoryEvents.findIndex((e) => e._id === id);
-    if (idx !== -1) inMemoryEvents.splice(idx, 1);
-    return true;
+    const { EventService } = await import('./event.service');
+    return EventService.deleteEvent(id);
+  }
+
+  /**
+   * Offers CRUD (delegated to OfferService)
+   */
+  public static async getOffers() {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.getAllOffers();
+  }
+
+  public static async createOffer(userId: string, data: any) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.createOffer(userId, data);
+  }
+
+  public static async updateOffer(id: string, data: any) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.updateOffer(id, data);
+  }
+
+  public static async approveOffer(id: string) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.approveOffer(id);
+  }
+
+  public static async toggleFeatureOffer(id: string) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.toggleFeatured(id);
+  }
+
+  public static async expireOffer(id: string) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.expireOffer(id);
+  }
+
+  public static async deleteOffer(id: string) {
+    const { OfferService } = await import('./offer.service');
+    return OfferService.deleteOffer(id);
   }
 
   /**

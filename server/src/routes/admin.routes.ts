@@ -41,11 +41,20 @@ router.patch('/reports/:id/status', ReportController.updateReportStatus);
 // City Events Management
 router.get('/events', AdminController.getEvents);
 router.post('/events', AdminController.createEvent);
+router.put('/events/:id', AdminController.updateEvent);
+router.patch('/events/:id/approve', AdminController.approveEvent);
+router.patch('/events/:id/feature', AdminController.toggleFeatureEvent);
+router.patch('/events/:id/expire', AdminController.expireEvent);
 router.delete('/events/:id', AdminController.deleteEvent);
 
-// Platform Offers
-router.get('/offers', OfferController.getAllAdminOffers);
-router.delete('/offers/:id', OfferController.deleteOffer);
+// Platform Offers Management
+router.get('/offers', AdminController.getOffers);
+router.post('/offers', AdminController.createOffer);
+router.put('/offers/:id', AdminController.updateOffer);
+router.patch('/offers/:id/approve', AdminController.approveOffer);
+router.patch('/offers/:id/feature', AdminController.toggleFeatureOffer);
+router.patch('/offers/:id/expire', AdminController.expireOffer);
+router.delete('/offers/:id', AdminController.deleteOffer);
 
 // Articles & Guides Management
 router.get('/articles', AdminController.getArticles);

@@ -41,6 +41,7 @@ import { AISearchBox } from '../components/search/AISearchBox';
 import { AskSpotPicks } from '../components/ai/AskSpotPicks';
 import { TrendingSection } from '../components/discovery/TrendingSection';
 import { PersonalizedPicksSection } from '../components/discovery/PersonalizedPicksSection';
+import { LiveDiscoveryFeed } from '../components/discovery/LiveDiscoveryFeed';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -526,8 +527,9 @@ export const HomePage: React.FC = () => {
         </Container>
       </section>
 
-      {/* 2.5 PHASE 11: PERSONALIZED PICKS & TRENDING INTELLIGENCE */}
+      {/* 2.5 PHASE 11 & PHASE 18: LIVE DISCOVERY & TRENDING INTELLIGENCE */}
       <Container size="xl" className="space-y-12">
+        <LiveDiscoveryFeed />
         <PersonalizedPicksSection />
         <TrendingSection onSearchSelect={(query) => navigate(`/search?q=${encodeURIComponent(query)}`)} />
       </Container>

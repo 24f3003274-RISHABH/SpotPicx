@@ -1,6 +1,10 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 export type NotificationType =
+  | 'NEW_OFFER'
+  | 'SAVED_PLACE_UPDATE'
+  | 'EVENT_ALERT'
+  | 'BUSINESS_UPDATE'
   | 'REVIEW_RESPONSE'
   | 'REVIEW_LIKED'
   | 'COLLECTION_SAVED'
@@ -32,7 +36,17 @@ const NotificationSchema = new Schema<INotification>(
     },
     type: {
       type: String,
-      enum: ['REVIEW_RESPONSE', 'REVIEW_LIKED', 'COLLECTION_SAVED', 'BUSINESS_VERIFIED', 'SYSTEM_ALERT'],
+      enum: [
+        'NEW_OFFER',
+        'SAVED_PLACE_UPDATE',
+        'EVENT_ALERT',
+        'BUSINESS_UPDATE',
+        'REVIEW_RESPONSE',
+        'REVIEW_LIKED',
+        'COLLECTION_SAVED',
+        'BUSINESS_VERIFIED',
+        'SYSTEM_ALERT',
+      ],
       required: true,
       index: true,
     },

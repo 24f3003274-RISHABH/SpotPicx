@@ -12,6 +12,8 @@ export type EventCategoryType =
   | 'Food Festival'
   | 'Cultural';
 
+export type EventStatus = 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED' | 'EXPIRED' | 'PENDING';
+
 export interface IEvent extends Document {
   _id: mongoose.Types.ObjectId;
   title: string;
@@ -33,7 +35,7 @@ export interface IEvent extends Document {
   organizer: string;
   tags: string[];
   featured: boolean;
-  status: 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
+  status: EventStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -83,7 +85,7 @@ const EventSchema = new Schema<IEvent>(
     featured: { type: Boolean, default: false, index: true },
     status: {
       type: String,
-      enum: ['UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED'],
+      enum: ['UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED', 'EXPIRED', 'PENDING'],
       default: 'UPCOMING',
       index: true,
     },

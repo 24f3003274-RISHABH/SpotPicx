@@ -95,7 +95,7 @@ export class AdminController {
   });
 
   /**
-   * Events Management
+   * Events Management (Admin)
    */
   public static getEvents = asyncHandler(async (_req: Request, res: Response) => {
     const events = await AdminService.getEvents();
@@ -107,10 +107,78 @@ export class AdminController {
     return sendSuccess(res, { event }, 'Event created', HTTP_STATUS.CREATED);
   });
 
+  public static updateEvent = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const event = await AdminService.updateEvent(id, req.body);
+    return sendSuccess(res, { event }, 'Event updated');
+  });
+
+  public static approveEvent = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const event = await AdminService.approveEvent(id);
+    return sendSuccess(res, { event }, 'Event approved and published');
+  });
+
+  public static toggleFeatureEvent = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const event = await AdminService.toggleFeatureEvent(id);
+    return sendSuccess(res, { event }, 'Event feature status toggled');
+  });
+
+  public static expireEvent = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const event = await AdminService.expireEvent(id);
+    return sendSuccess(res, { event }, 'Event marked as expired');
+  });
+
   public static deleteEvent = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     await AdminService.deleteEvent(id);
     return sendSuccess(res, null, 'Event deleted');
+  });
+
+  /**
+   * Offers Management (Admin)
+   */
+  public static getOffers = asyncHandler(async (_req: Request, res: Response) => {
+    const offers = await AdminService.getOffers();
+    return sendSuccess(res, { offers, total: offers.length }, 'Offers retrieved');
+  });
+
+  public static createOffer = asyncHandler(async (req: Request, res: Response) => {
+    const user = (req as any).user;
+    const offer = await AdminService.createOffer(user?.id || user?._id || 'admin', req.body);
+    return sendSuccess(res, { offer }, 'Offer created', HTTP_STATUS.CREATED);
+  });
+
+  public static updateOffer = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const offer = await AdminService.updateOffer(id, req.body);
+    return sendSuccess(res, { offer }, 'Offer updated');
+  });
+
+  public static approveOffer = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const offer = await AdminService.approveOffer(id);
+    return sendSuccess(res, { offer }, 'Offer approved and published');
+  });
+
+  public static toggleFeatureOffer = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const offer = await AdminService.toggleFeatureOffer(id);
+    return sendSuccess(res, { offer }, 'Offer featured status toggled');
+  });
+
+  public static expireOffer = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const offer = await AdminService.expireOffer(id);
+    return sendSuccess(res, { offer }, 'Offer marked as expired');
+  });
+
+  public static deleteOffer = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await AdminService.deleteOffer(id);
+    return sendSuccess(res, null, 'Offer deleted');
   });
 
   /**
