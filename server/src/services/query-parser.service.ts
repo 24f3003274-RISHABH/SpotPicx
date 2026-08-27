@@ -1,3 +1,5 @@
+import { SeedService } from './seed.service';
+
 export type SearchIntent =
   | 'BEST'
   | 'TOP'
@@ -23,6 +25,7 @@ export interface ParsedSearchQuery {
   category?: string;
   locality?: string;
   city?: string;
+  state?: string;
   priceRange?: 'BUDGET' | 'MODERATE' | 'PREMIUM' | 'LUXURY';
   priceMax?: number;
   priceMin?: number;
@@ -39,6 +42,7 @@ interface LocalityMapping {
   keywords: string[];
   canonicalName: string;
   city: string;
+  state?: string;
   coordinates?: [number, number]; // [lng, lat]
 }
 
@@ -49,91 +53,98 @@ interface CategoryMapping {
 }
 
 export class QueryParserService {
-  // Known Delhi / NCR Localities with canonical names & landmark associations
-  private static localityCatalog: LocalityMapping[] = [
+  // Landmark & Alias synonyms mapping for Indian cities & localities
+  private static landmarkSynonyms: LocalityMapping[] = [
     {
-      keywords: ['hauz khas', 'hkv', 'hauz khas village'],
-      canonicalName: 'Hauz Khas',
-      city: 'Delhi',
-      coordinates: [77.2065, 28.5494],
+      keywords: ['iit bombay', 'iit b', 'powai lake', 'hiranandani powai'],
+      canonicalName: 'Powai',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      coordinates: [72.905, 19.1334],
     },
     {
-      keywords: ['majnu ka tilla', 'mkt', 'tibetan colony', 'aruna nagar'],
-      canonicalName: 'Majnu Ka Tilla',
-      city: 'Delhi',
-      coordinates: [77.2274, 28.7008],
+      keywords: ['bandra west', 'bandstand', 'carter road', 'pali hill'],
+      canonicalName: 'Bandra',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      coordinates: [72.83, 19.0596],
     },
     {
-      keywords: ['connaught place', 'cp', 'rajiv chowk', 'inner circle', 'outer circle'],
-      canonicalName: 'Connaught Place',
-      city: 'Delhi',
-      coordinates: [77.2197, 28.6304],
+      keywords: ['marine drive', 'nariman point', 'churchgate', 'fort mumbai', 'colaba'],
+      canonicalName: 'South Mumbai',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      coordinates: [72.8258, 18.9322],
     },
     {
-      keywords: ['nehru place', 'np', 'electronics market nehru place'],
-      canonicalName: 'Nehru Place',
-      city: 'Delhi',
-      coordinates: [77.2536, 28.5489],
-    },
-    {
-      keywords: ['chandni chowk', 'old delhi', 'purani dilli', 'dariba kalan', 'chawri bazar'],
-      canonicalName: 'Chandni Chowk',
-      city: 'Delhi',
-      coordinates: [77.2309, 28.6562],
-    },
-    {
-      keywords: ['jnu', 'jawaharlal nehru university', 'vasant kunj', 'vasant vihar'],
+      keywords: ['jnu', 'jawaharlal nehru university', 'vasant kunj', 'vasant vihar', 'ambience mall vasant kunj'],
       canonicalName: 'Vasant Kunj',
       city: 'Delhi',
+      state: 'Delhi',
       coordinates: [77.1578, 28.5244],
     },
     {
-      keywords: ['greater kailash', 'gk', 'gk1', 'gk2', 'gk 1', 'gk 2', 'm block gk'],
-      canonicalName: 'Greater Kailash',
+      keywords: ['iit delhi', 'hkv', 'hauz khas village', 'deer park', 'green park'],
+      canonicalName: 'Hauz Khas',
       city: 'Delhi',
-      coordinates: [77.2425, 28.5482],
+      state: 'Delhi',
+      coordinates: [77.2065, 28.5494],
     },
     {
-      keywords: ['saket', 'select citywalk', 'saket district centre'],
-      canonicalName: 'Saket',
+      keywords: ['cp', 'rajiv chowk', 'inner circle', 'outer circle', 'connaught place', 'janpath'],
+      canonicalName: 'Connaught Place',
       city: 'Delhi',
-      coordinates: [77.2144, 28.5245],
+      state: 'Delhi',
+      coordinates: [77.2197, 28.6304],
     },
     {
-      keywords: ['dwarka', 'dwarka sector 12', 'dwarka sector 6', 'dwarka sector 21'],
-      canonicalName: 'Dwarka',
-      city: 'Delhi',
-      coordinates: [77.0460, 28.5921],
-    },
-    {
-      keywords: ['karol bagh', 'gaffar market', 'ajmal khan road'],
-      canonicalName: 'Karol Bagh',
-      city: 'Delhi',
-      coordinates: [77.1906, 28.6517],
-    },
-    {
-      keywords: ['gtb nagar', 'hudson lane', 'north campus', 'delhi university', 'kamla nagar', 'du north'],
+      keywords: ['du north', 'north campus', 'hudson lane', 'kamla nagar', 'delhi university', 'gtb nagar'],
       canonicalName: 'GTB Nagar',
       city: 'Delhi',
+      state: 'Delhi',
       coordinates: [77.2069, 28.6983],
     },
     {
-      keywords: ['sarojini nagar', 'sn market', 'sarojini'],
-      canonicalName: 'Sarojini Nagar',
+      keywords: ['mkt', 'tibetan colony', 'aruna nagar', 'majnu ka tilla'],
+      canonicalName: 'Majnu Ka Tilla',
       city: 'Delhi',
-      coordinates: [77.1986, 28.5772],
+      state: 'Delhi',
+      coordinates: [77.2274, 28.7008],
     },
     {
-      keywords: ['aerocity', 'igi airport', 'worldmark'],
-      canonicalName: 'Aerocity',
-      city: 'Delhi',
-      coordinates: [77.1215, 28.5492],
+      keywords: ['koramangala 5th block', 'koramangala 4th block', 'sony world signal'],
+      canonicalName: 'Koramangala',
+      city: 'Bangalore',
+      state: 'Karnataka',
+      coordinates: [77.6245, 12.9352],
     },
     {
-      keywords: ['khan market', 'sujan singh park', 'prithviraj road'],
-      canonicalName: 'Khan Market',
-      city: 'Delhi',
-      coordinates: [77.2270, 28.6003],
+      keywords: ['indiranagar 100ft road', '12th main indiranagar'],
+      canonicalName: 'Indiranagar',
+      city: 'Bangalore',
+      state: 'Karnataka',
+      coordinates: [77.6412, 12.9716],
+    },
+    {
+      keywords: ['iit madras', 'guindy', 'besant nagar', 'marina beach'],
+      canonicalName: 'Guindy',
+      city: 'Chennai',
+      state: 'Tamil Nadu',
+      coordinates: [80.2337, 13.0067],
+    },
+    {
+      keywords: ['hitec city', 'cyberabad', 'gachibowli', 'madhapur'],
+      canonicalName: 'Hitec City',
+      city: 'Hyderabad',
+      state: 'Telangana',
+      coordinates: [78.3826, 17.4474],
+    },
+    {
+      keywords: ['park street', 'flurys', 'victoria memorial', 'salt lake kolkata'],
+      canonicalName: 'Park Street',
+      city: 'Kolkata',
+      state: 'West Bengal',
+      coordinates: [88.3524, 22.5511],
     },
   ];
 
@@ -143,7 +154,7 @@ export class QueryParserService {
       keywords: [
         'restaurant', 'restaurants', 'cafe', 'cafes', 'coffee', 'bakery', 'bakeries',
         'food', 'dining', 'momos', 'pizza', 'burger', 'rooftop cafe', 'breakfast',
-        'street food', 'chaat', 'dessert', 'diner', 'dhaba', 'biryani', 'ramen', 'tibetan food', 'laphing', 'thukpa'
+        'street food', 'chaat', 'dessert', 'diner', 'dhaba', 'biryani', 'ramen', 'tibetan food', 'laphing', 'thukpa', 'vada pav', 'misal pav', 'filter coffee', 'dosa'
       ],
       canonicalSlug: 'food-dining',
       defaultTags: ['food', 'dining'],
@@ -151,7 +162,7 @@ export class QueryParserService {
     {
       keywords: [
         'pg', 'pgs', 'hostel', 'hostels', 'hotel', 'hotels', 'student stay', 'stay',
-        'co-living', 'coliving', 'room', 'paying guest', 'residency', 'accommodation'
+        'co-living', 'coliving', 'room', 'paying guest', 'residency', 'accommodation', 'boys pg', 'girls pg'
       ],
       canonicalSlug: 'stays-living',
       defaultTags: ['stay', 'accommodation'],
@@ -176,7 +187,8 @@ export class QueryParserService {
     {
       keywords: [
         'monument', 'monuments', 'historical', 'heritage', 'museum', 'museums',
-        'park', 'parks', 'garden', 'tomb', 'fort', 'sightseeing', 'temple', 'gallery', 'art gallery'
+        'park', 'parks', 'garden', 'tomb', 'fort', 'sightseeing', 'temple', 'gallery', 'art gallery',
+        'places to visit', 'place to visit', 'tourist spots', 'attractions'
       ],
       canonicalSlug: 'places-visit',
       defaultTags: ['sightseeing', 'heritage'],
@@ -207,22 +219,6 @@ export class QueryParserService {
     },
   ];
 
-  // Specific Tag Keywords
-  private static tagCatalog: Record<string, string[]> = {
-    momos: ['momos', 'dim sums', 'dumplings', 'tibetan'],
-    cafe: ['cafe', 'coffee', 'brew', 'espresso'],
-    wifi: ['wifi', 'wi-fi', 'high speed internet', 'work from cafe'],
-    quiet: ['quiet', 'peaceful', 'study friendly', 'silent', 'cozy'],
-    rooftop: ['rooftop', 'open air', 'terrace', 'sky view'],
-    romantic: ['date', 'romantic', 'couple friendly', 'candlelight'],
-    student: ['student', 'student friendly', 'pocket friendly', 'cheap', 'budget'],
-    laptop: ['laptop repair', 'computer repair', 'macbook repair', 'hardware'],
-    outdoor: ['outdoor seating', 'courtyard', 'garden seating', 'al fresco'],
-    ac: ['ac', 'air conditioned'],
-    pet: ['pet friendly', 'pets allowed', 'dog friendly'],
-    alcohol: ['bar', 'beer', 'cocktails', 'wine', 'liquor'],
-  };
-
   /**
    * Deterministically parses a free-form search query string
    */
@@ -245,7 +241,8 @@ export class QueryParserService {
     let intent: SearchIntent = 'STANDARD';
     let category: string | undefined;
     let locality: string | undefined;
-    let city: string | undefined = 'Delhi';
+    let city: string | undefined;
+    let state: string | undefined;
     let priceRange: 'BUDGET' | 'MODERATE' | 'PREMIUM' | 'LUXURY' | undefined;
     let priceMax: number | undefined;
     let priceMin: number | undefined;
@@ -255,6 +252,10 @@ export class QueryParserService {
     let nearLocationTarget: string | undefined;
     const extractedTags: Set<string> = new Set();
     const extractedAmenities: Set<string> = new Set();
+
+    // Ensure in-memory database of locations is initialized
+    SeedService.initializeInMemoryStore();
+    const dbLocations = Array.from(SeedService.inMemoryLocations.values());
 
     // 1. Detect Near Me / Near Location
     if (/\b(near me|nearby|around me|close to me|in my area)\b/.test(working)) {
@@ -269,7 +270,7 @@ export class QueryParserService {
       }
     }
 
-    // 2. Detect Price bounds (e.g. "under 200", "below 500", "under 1000 rupees", "cheap", "luxury")
+    // 2. Detect Price bounds
     const underPriceMatch = working.match(/\b(under|below|less than|within)\s*(?:rs\.?|inr|₹)?\s*(\d+)/);
     if (underPriceMatch && underPriceMatch[2]) {
       priceMax = parseInt(underPriceMatch[2], 10);
@@ -312,7 +313,7 @@ export class QueryParserService {
       extractedTags.add('romantic');
       extractedTags.add('date');
       working = working.replace(/\b(date|couple|romantic|girlfriend|boyfriend|anniversary)\b/g, '').trim();
-    } else if (/\b(student|students|college|du|campus)\b/.test(working)) {
+    } else if (/\b(student|students|college|du|campus|iit)\b/.test(working)) {
       if (intent === 'STANDARD') intent = 'FOR_STUDENTS';
       extractedTags.add('student friendly');
       working = working.replace(/\b(student|students|college|du|campus)\b/g, '').trim();
@@ -363,13 +364,14 @@ export class QueryParserService {
       working = working.replace(/\b(pet friendly|pets allowed|dog friendly)\b/g, '').trim();
     }
 
-    // 7. Match Locality Catalog
-    for (const loc of this.localityCatalog) {
-      for (const kw of loc.keywords) {
+    // 7. Check Landmark & Campus Synonyms First (e.g. "PG near IIT Bombay", "best cafes near JNU")
+    for (const syn of this.landmarkSynonyms) {
+      for (const kw of syn.keywords) {
         const regex = new RegExp(`\\b${kw}\\b`, 'i');
         if (regex.test(working) || (nearLocationTarget && new RegExp(`\\b${kw}\\b`, 'i').test(nearLocationTarget))) {
-          locality = loc.canonicalName;
-          city = loc.city;
+          locality = syn.canonicalName;
+          city = syn.city;
+          state = syn.state;
           working = working.replace(regex, '').trim();
           break;
         }
@@ -377,13 +379,65 @@ export class QueryParserService {
       if (locality) break;
     }
 
-    // Check if "delhi" or "new delhi" or "ncr" remains
-    if (/\b(delhi|new delhi|ncr)\b/i.test(working)) {
-      city = 'Delhi';
-      working = working.replace(/\b(in\s+)?(delhi|new delhi|ncr)\b/gi, '').trim();
+    // 8. Match Dynamic Locality Database (Localities & Neighborhoods)
+    if (!locality) {
+      const localities = dbLocations.filter((l) => l.type === 'LOCALITY' || l.type === 'NEIGHBORHOOD');
+      for (const loc of localities) {
+        const nameRegex = new RegExp(`\\b${loc.name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'i');
+        const slugClean = loc.slug.replace(/-/g, ' ');
+        const slugRegex = new RegExp(`\\b${slugClean}\\b`, 'i');
+
+        if (nameRegex.test(working) || slugRegex.test(working) || (nearLocationTarget && (nameRegex.test(nearLocationTarget) || slugRegex.test(nearLocationTarget)))) {
+          locality = loc.name;
+          city = loc.city;
+          state = loc.state;
+          working = working.replace(nameRegex, '').replace(slugRegex, '').trim();
+          break;
+        }
+      }
     }
 
-    // 8. Match Category Catalog
+    // 9. Match Dynamic City Database (e.g. Mumbai, Bangalore, Kolkata, Hyderabad, Chennai, Pune, etc.)
+    if (!city) {
+      const cities = dbLocations.filter((l) => l.type === 'CITY');
+      for (const c of cities) {
+        const cityRegex = new RegExp(`\\b${c.name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'i');
+        const citySlugRegex = new RegExp(`\\b${c.slug.replace(/-/g, ' ')}\\b`, 'i');
+
+        if (cityRegex.test(working) || citySlugRegex.test(working)) {
+          city = c.name;
+          state = c.state;
+          working = working.replace(new RegExp(`\\b(in|at|near|of)\\s+${c.name}\\b`, 'gi'), '').replace(cityRegex, '').trim();
+          break;
+        }
+      }
+    }
+
+    // 10. Match Dynamic State Database (e.g. Maharashtra, Karnataka, Delhi, Tamil Nadu, etc.)
+    if (!state) {
+      const states = dbLocations.filter((l) => l.type === 'STATE');
+      for (const s of states) {
+        const stateRegex = new RegExp(`\\b${s.name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'i');
+        if (stateRegex.test(working)) {
+          state = s.name;
+          working = working.replace(new RegExp(`\\b(in|at|of)\\s+${s.name}\\b`, 'gi'), '').replace(stateRegex, '').trim();
+          break;
+        }
+      }
+    }
+
+    // Default city fallback if locality is in Delhi or no city was identified
+    if (!city && !state) {
+      if (/\b(delhi|new delhi|ncr)\b/i.test(working)) {
+        city = 'Delhi';
+        state = 'Delhi';
+        working = working.replace(/\b(in\s+)?(delhi|new delhi|ncr)\b/gi, '').trim();
+      } else {
+        city = 'Delhi'; // Production focus default
+      }
+    }
+
+    // 11. Match Category Catalog
     for (const cat of this.categoryCatalog) {
       for (const kw of cat.keywords) {
         const regex = new RegExp(`\\b${kw}\\b`, 'i');
@@ -392,8 +446,8 @@ export class QueryParserService {
           if (cat.defaultTags) {
             cat.defaultTags.forEach((t) => extractedTags.add(t));
           }
-          // Also add specific item tag if keyword is specific (e.g. momos, bakery, laptop repair)
-          if (['momos', 'bakery', 'coffee', 'pizza', 'burger', 'laptop repair', 'bookstore', 'gym'].includes(kw)) {
+          // Also add specific item tag if keyword is specific
+          if (['momos', 'bakery', 'coffee', 'pizza', 'burger', 'laptop repair', 'bookstore', 'gym', 'vada pav', 'misal pav', 'biryani', 'street food', 'dosa'].includes(kw)) {
             extractedTags.add(kw);
           }
           break;
@@ -411,7 +465,7 @@ export class QueryParserService {
     // Calculate parser confidence
     let confidence = 0.5;
     if (category) confidence += 0.2;
-    if (locality) confidence += 0.2;
+    if (locality || city) confidence += 0.2;
     if (intent !== 'STANDARD') confidence += 0.1;
 
     return {
@@ -421,6 +475,7 @@ export class QueryParserService {
       category,
       locality,
       city,
+      state,
       priceRange,
       priceMax,
       priceMin,
@@ -434,3 +489,4 @@ export class QueryParserService {
     };
   }
 }
+

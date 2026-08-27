@@ -52,6 +52,8 @@ export const SeoPageTemplate: React.FC = () => {
           if (result) {
             setPageData(result.page);
             setJsonLd(result.jsonLd);
+            // Track organic search landing page visit
+            seoService.trackLandingPage(slug, new URLSearchParams(window.location.search).get('q') || undefined);
           } else {
             setPageData(null);
           }
@@ -405,7 +407,10 @@ export const SeoPageTemplate: React.FC = () => {
                           href={directionsUrl}
                           target="_blank"
                           rel="noreferrer"
-                          onClick={() => businessOwnerService.trackInteraction(biz._id, 'direction_click')}
+                          onClick={() => {
+                            businessOwnerService.trackInteraction(biz._id, 'direction_click');
+                            if (slug) seoService.trackConversion(slug, 'direction', biz._id);
+                          }}
                           className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow-sm"
                         >
                           <Navigation className="h-3.5 w-3.5" />
@@ -415,7 +420,10 @@ export const SeoPageTemplate: React.FC = () => {
                         {biz.phone && (
                           <a
                             href={`tel:${biz.phone}`}
-                            onClick={() => businessOwnerService.trackInteraction(biz._id, 'phone_click')}
+                            onClick={() => {
+                              businessOwnerService.trackInteraction(biz._id, 'phone_click');
+                              if (slug) seoService.trackConversion(slug, 'call', biz._id);
+                            }}
                             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold transition"
                           >
                             <Phone className="h-3.5 w-3.5 text-slate-500" />
@@ -428,7 +436,10 @@ export const SeoPageTemplate: React.FC = () => {
                             href={biz.website}
                             target="_blank"
                             rel="noreferrer"
-                            onClick={() => businessOwnerService.trackInteraction(biz._id, 'website_click')}
+                            onClick={() => {
+                              businessOwnerService.trackInteraction(biz._id, 'website_click');
+                              if (slug) seoService.trackConversion(slug, 'website', biz._id);
+                            }}
                             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold transition"
                           >
                             <ExternalLink className="h-3.5 w-3.5 text-slate-500" />

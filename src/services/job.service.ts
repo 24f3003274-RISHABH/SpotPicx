@@ -19,17 +19,17 @@ export const jobService = {
     page: number;
     limit: number;
   }> {
-    const res = await apiClient.get('/jobs', { params });
-    return res.data.data;
+    const res: any = await apiClient.get('/jobs', { params });
+    return res?.data || res || { jobs: [], total: 0, page: 1, limit: 20 };
   },
 
   async getJobBySlug(slug: string): Promise<JobItem> {
-    const res = await apiClient.get(`/jobs/${slug}`);
-    return res.data.data.job;
+    const res: any = await apiClient.get(`/jobs/${slug}`);
+    return res?.data?.job || res?.data || res?.job || res;
   },
 
   async createJob(data: Partial<JobItem>): Promise<JobItem> {
-    const res = await apiClient.post('/jobs', data);
-    return res.data.data.job;
+    const res: any = await apiClient.post('/jobs', data);
+    return res?.data?.job || res?.data || res?.job || res;
   },
 };

@@ -202,7 +202,12 @@ export const BusinessListingEditor: React.FC = () => {
         setTimeout(() => navigate(ROUTES.BUSINESS_LISTINGS), 1200);
       }
     } catch (err: any) {
-      setError(err?.response?.data?.message || err.message || 'Failed to save listing');
+      const msg =
+        err?.response?.data?.error?.message ||
+        err?.response?.data?.message ||
+        err?.message ||
+        'Failed to save listing';
+      setError(msg);
     } finally {
       setIsSaving(false);
     }

@@ -24,52 +24,38 @@ export const offerService = {
     query?: string;
     tag?: string;
   } = {}): Promise<OfferItem[]> {
-    const res = await apiClient.get<{ success: boolean; data: { offers: OfferItem[]; total: number } }>(
-      '/offers',
-      { params: filters }
-    );
-    return res.data.data.offers || [];
+    const res: any = await apiClient.get('/offers', { params: filters });
+    return res?.data?.offers || res?.data || res?.offers || (Array.isArray(res) ? res : []);
   },
 
   // Public - by business
   async getOffersByBusiness(businessIdOrSlug: string): Promise<OfferItem[]> {
-    const res = await apiClient.get<{ success: boolean; data: { offers: OfferItem[] } }>(
-      `/offers/business/${businessIdOrSlug}`
-    );
-    return res.data.data.offers || [];
+    const res: any = await apiClient.get(`/offers/business/${businessIdOrSlug}`);
+    return res?.data?.offers || res?.data || res?.offers || (Array.isArray(res) ? res : []);
   },
 
   // Owner offers
   async getOwnerOffers(): Promise<OfferItem[]> {
-    const res = await apiClient.get<{ success: boolean; data: { offers: OfferItem[] } }>(
-      '/offers/my-offers'
-    );
-    return res.data.data.offers || [];
+    const res: any = await apiClient.get('/offers/my-offers');
+    return res?.data?.offers || res?.data || res?.offers || (Array.isArray(res) ? res : []);
   },
 
   // Admin all offers
   async getAllAdminOffers(): Promise<OfferItem[]> {
-    const res = await apiClient.get<{ success: boolean; data: { offers: OfferItem[]; total: number } }>(
-      '/offers'
-    );
-    return res.data.data.offers || [];
+    const res: any = await apiClient.get('/offers');
+    return res?.data?.offers || res?.data || res?.offers || (Array.isArray(res) ? res : []);
   },
 
   // Create offer
   async createOffer(payload: CreateOfferPayload): Promise<OfferItem> {
-    const res = await apiClient.post<{ success: boolean; data: { offer: OfferItem }; message: string }>(
-      '/offers',
-      payload
-    );
-    return res.data.data.offer;
+    const res: any = await apiClient.post('/offers', payload);
+    return res?.data?.offer || res?.data || res?.offer || res;
   },
 
   // Toggle status
   async toggleOffer(offerId: string): Promise<OfferItem> {
-    const res = await apiClient.patch<{ success: boolean; data: { offer: OfferItem }; message: string }>(
-      `/offers/${offerId}/toggle`
-    );
-    return res.data.data.offer;
+    const res: any = await apiClient.patch(`/offers/${offerId}/toggle`);
+    return res?.data?.offer || res?.data || res?.offer || res;
   },
 
   // Delete offer

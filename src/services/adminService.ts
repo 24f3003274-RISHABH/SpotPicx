@@ -202,19 +202,16 @@ export const adminService = {
     startDate?: string;
     endDate?: string;
   }): Promise<ComprehensiveAdminAnalyticsData> {
-    const res = await apiClient.get<{ success: boolean; data: ComprehensiveAdminAnalyticsData }>(
-      '/admin/analytics',
-      { params }
-    );
-    return res.data.data;
+    const res: any = await apiClient.get('/admin/analytics', { params });
+    return res?.data || res;
   },
 
   async downloadAnalyticsCSV(type: 'overview' | 'searches' | 'businesses' | 'traffic' | 'ai', range = '30d'): Promise<void> {
-    const res = await apiClient.get(`/admin/analytics/export`, {
+    const res: any = await apiClient.get(`/admin/analytics/export`, {
       params: { type, range },
       responseType: 'blob',
     });
-    const blob = new Blob([res.data], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([res?.data || res], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -227,8 +224,8 @@ export const adminService = {
 
   // Stats
   async getDashboardStats(): Promise<AdminDashboardData> {
-    const res = await apiClient.get<{ success: boolean; data: AdminDashboardData }>('/admin/stats');
-    return res.data.data;
+    const res: any = await apiClient.get('/admin/stats');
+    return res?.data || res;
   },
 
   // Businesses Moderation
@@ -239,26 +236,18 @@ export const adminService = {
     page?: number;
     limit?: number;
   }): Promise<{ data: Business[]; total: number; page: number; totalPages: number }> {
-    const res = await apiClient.get<{
-      success: boolean;
-      data: { data: Business[]; total: number; page: number; totalPages: number };
-    }>('/admin/businesses', { params });
-    return res.data.data;
+    const res: any = await apiClient.get('/admin/businesses', { params });
+    return res?.data || res || { data: [], total: 0, page: 1, totalPages: 1 };
   },
 
   async updateBusinessStatus(id: string, status: string): Promise<Business> {
-    const res = await apiClient.patch<{ success: boolean; data: { business: Business } }>(
-      `/admin/businesses/${id}/status`,
-      { status }
-    );
-    return res.data.data.business;
+    const res: any = await apiClient.patch(`/admin/businesses/${id}/status`, { status });
+    return res?.data?.business || res?.data || res?.business || res;
   },
 
   async toggleBusinessVerified(id: string): Promise<Business> {
-    const res = await apiClient.patch<{ success: boolean; data: { business: Business } }>(
-      `/admin/businesses/${id}/verify`
-    );
-    return res.data.data.business;
+    const res: any = await apiClient.patch(`/admin/businesses/${id}/verify`);
+    return res?.data?.business || res?.data || res?.business || res;
   },
 
   async deleteBusiness(id: string): Promise<void> {
@@ -267,19 +256,13 @@ export const adminService = {
 
   // Review Moderation
   async getReviews(status?: string) {
-    const res = await apiClient.get<{ success: boolean; data: { reviews: any[]; total: number } }>(
-      '/admin/reviews',
-      { params: { status } }
-    );
-    return res.data.data.reviews || [];
+    const res: any = await apiClient.get('/admin/reviews', { params: { status } });
+    return res?.data?.reviews || res?.data || res?.reviews || (Array.isArray(res) ? res : []);
   },
 
   async updateReviewStatus(id: string, status: string) {
-    const res = await apiClient.patch<{ success: boolean; data: { review: any } }>(
-      `/admin/reviews/${id}/status`,
-      { status }
-    );
-    return res.data.data.review;
+    const res: any = await apiClient.patch(`/admin/reviews/${id}/status`, { status });
+    return res?.data?.review || res?.data || res?.review || res;
   },
 
   async deleteReview(id: string) {
@@ -288,18 +271,13 @@ export const adminService = {
 
   // Events
   async getEvents(): Promise<AdminEvent[]> {
-    const res = await apiClient.get<{ success: boolean; data: { events: AdminEvent[] } }>(
-      '/admin/events'
-    );
-    return res.data.data.events || [];
+    const res: any = await apiClient.get('/admin/events');
+    return res?.data?.events || res?.data || res?.events || (Array.isArray(res) ? res : []);
   },
 
   async createEvent(data: Partial<AdminEvent>): Promise<AdminEvent> {
-    const res = await apiClient.post<{ success: boolean; data: { event: AdminEvent } }>(
-      '/admin/events',
-      data
-    );
-    return res.data.data.event;
+    const res: any = await apiClient.post('/admin/events', data);
+    return res?.data?.event || res?.data || res?.event || res;
   },
 
   async deleteEvent(id: string): Promise<void> {
@@ -308,18 +286,13 @@ export const adminService = {
 
   // Articles
   async getArticles(): Promise<AdminArticle[]> {
-    const res = await apiClient.get<{ success: boolean; data: { articles: AdminArticle[] } }>(
-      '/admin/articles'
-    );
-    return res.data.data.articles || [];
+    const res: any = await apiClient.get('/admin/articles');
+    return res?.data?.articles || res?.data || res?.articles || (Array.isArray(res) ? res : []);
   },
 
   async createArticle(data: Partial<AdminArticle>): Promise<AdminArticle> {
-    const res = await apiClient.post<{ success: boolean; data: { article: AdminArticle } }>(
-      '/admin/articles',
-      data
-    );
-    return res.data.data.article;
+    const res: any = await apiClient.post('/admin/articles', data);
+    return res?.data?.article || res?.data || res?.article || res;
   },
 
   async deleteArticle(id: string): Promise<void> {
@@ -328,18 +301,13 @@ export const adminService = {
 
   // SEO Pages
   async getSeoPages(): Promise<AdminSeoPage[]> {
-    const res = await apiClient.get<{ success: boolean; data: { seoPages: AdminSeoPage[] } }>(
-      '/admin/seo-pages'
-    );
-    return res.data.data.seoPages || [];
+    const res: any = await apiClient.get('/admin/seo-pages');
+    return res?.data?.seoPages || res?.data || res?.seoPages || (Array.isArray(res) ? res : []);
   },
 
   async createSeoPage(data: Partial<AdminSeoPage>): Promise<AdminSeoPage> {
-    const res = await apiClient.post<{ success: boolean; data: { page: AdminSeoPage } }>(
-      '/admin/seo-pages',
-      data
-    );
-    return res.data.data.page;
+    const res: any = await apiClient.post('/admin/seo-pages', data);
+    return res?.data?.page || res?.data || res?.page || res;
   },
 
   async deleteSeoPage(id: string): Promise<void> {
@@ -348,47 +316,33 @@ export const adminService = {
 
   // Data Sources & Ingestion (Phase 15)
   async getDataSources(): Promise<any[]> {
-    const res = await apiClient.get<{ success: boolean; data: { sources: any[] } }>(
-      '/admin/sources'
-    );
-    return res.data.data.sources || [];
+    const res: any = await apiClient.get('/admin/sources');
+    return res?.data?.sources || res?.data || res?.sources || (Array.isArray(res) ? res : []);
   },
 
   async getDataSourcesStats(): Promise<any> {
-    const res = await apiClient.get<{ success: boolean; data: any }>(
-      '/admin/sources/stats'
-    );
-    return res.data.data;
+    const res: any = await apiClient.get('/admin/sources/stats');
+    return res?.data || res;
   },
 
   async runSourceIngestion(id: string): Promise<any> {
-    const res = await apiClient.post<{ success: boolean; data: { result: any } }>(
-      `/admin/sources/${id}/run`
-    );
-    return res.data.data.result;
+    const res: any = await apiClient.post(`/admin/sources/${id}/run`);
+    return res?.data?.result || res?.data || res;
   },
 
   async runAllSourcesIngestion(): Promise<any[]> {
-    const res = await apiClient.post<{ success: boolean; data: { results: any[] } }>(
-      '/admin/sources/run-all'
-    );
-    return res.data.data.results || [];
+    const res: any = await apiClient.post('/admin/sources/run-all');
+    return res?.data?.results || res?.data || res || [];
   },
 
   async createDataSource(data: any): Promise<any> {
-    const res = await apiClient.post<{ success: boolean; data: { source: any } }>(
-      '/admin/sources',
-      data
-    );
-    return res.data.data.source;
+    const res: any = await apiClient.post('/admin/sources', data);
+    return res?.data?.source || res?.data || res?.source || res;
   },
 
   async updateDataSource(id: string, data: any): Promise<any> {
-    const res = await apiClient.put<{ success: boolean; data: { source: any } }>(
-      `/admin/sources/${id}`,
-      data
-    );
-    return res.data.data.source;
+    const res: any = await apiClient.put(`/admin/sources/${id}`, data);
+    return res?.data?.source || res?.data || res?.source || res;
   },
 
   async deleteDataSource(id: string): Promise<void> {
@@ -396,9 +350,23 @@ export const adminService = {
   },
 
   async recalculateFreshness(): Promise<any> {
-    const res = await apiClient.post<{ success: boolean; data: any }>(
-      '/admin/freshness/recalculate'
-    );
-    return res.data.data;
+    const res: any = await apiClient.post('/admin/freshness/recalculate');
+    return res?.data || res;
+  },
+
+  // Production System Logs & Diagnostic Telemetry (Phase 22)
+  async getSystemLogs(params?: {
+    category?: string;
+    level?: string;
+    limit?: number;
+    search?: string;
+  }): Promise<any[]> {
+    const res: any = await apiClient.get('/admin/logs', { params });
+    return res?.data?.logs || res?.data || res?.logs || (Array.isArray(res) ? res : []);
+  },
+
+  async getLogStats(): Promise<any> {
+    const res: any = await apiClient.get('/admin/logs/stats');
+    return res?.data || res;
   },
 };

@@ -28,6 +28,9 @@ import { JobsPage } from '../pages/JobsPage';
 import { SpecialDiscoveryPage } from '../pages/SpecialDiscoveryPage';
 import { SeoPageTemplate } from '../pages/SeoPageTemplate';
 import { PricingPage } from '../pages/PricingPage';
+import { IndiaExpansionPage } from '../pages/IndiaExpansionPage';
+import { StateOverviewPage } from '../pages/StateOverviewPage';
+import { CityDiscoveryPage } from '../pages/CityDiscoveryPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -78,6 +81,11 @@ export const AppRoutes: React.FC = () => {
         {/* Locations Routes */}
         <Route path={ROUTES.LOCATIONS} element={<LocationsPage />} />
         <Route path={ROUTES.LOCATION_DETAILS} element={<LocationDetailPage />} />
+
+        {/* Phase 21: India-Wide Scalability Dynamic Routes */}
+        <Route path="/india" element={<IndiaExpansionPage />} />
+        <Route path="/india/:stateSlug" element={<StateOverviewPage />} />
+        <Route path="/india/:stateSlug/:citySlug" element={<CityDiscoveryPage />} />
 
         {/* Database-Driven Location Dynamic Hubs */}
         <Route path="/delhi" element={<LocationHubPage />} />

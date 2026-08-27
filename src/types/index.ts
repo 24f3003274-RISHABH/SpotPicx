@@ -59,23 +59,53 @@ export interface Category {
   searchPhrases?: string[];
 }
 
+export type LocationType =
+  | 'COUNTRY'
+  | 'STATE'
+  | 'DISTRICT'
+  | 'CITY'
+  | 'LOCALITY'
+  | 'NEIGHBORHOOD';
+
+export type LocationStatus = 'ACTIVE' | 'COMING_SOON' | 'BETA' | 'INACTIVE';
+
 export interface LocationItem {
   _id: string;
   id?: string;
   name: string;
   slug: string;
-  type: 'COUNTRY' | 'STATE' | 'CITY' | 'LOCALITY';
+  type: LocationType;
+  status?: LocationStatus;
   parent?: string | { _id: string; name: string; slug: string } | null;
   country: string;
+  countrySlug?: string;
   state: string;
+  stateSlug?: string;
+  district?: string;
+  districtSlug?: string;
   city: string;
+  citySlug?: string;
+  locality?: string;
+  neighborhood?: string;
+  shortCode?: string;
   latitude: number;
   longitude: number;
   pincode: string;
   isActive: boolean;
+  readinessScore?: number;
+  waitlistCount?: number;
   description?: string;
   image?: string;
+  bannerImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   businessCount?: number;
+  highlights?: string[];
+  popularCategories?: string[];
+  nearbyLocalities?: Array<{ name: string; slug: string; distance: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
+  relatedGuides?: Array<{ title: string; slug: string }>;
+  metroConnectivity?: string;
 }
 
 export interface PlaceAccessibility {
@@ -570,6 +600,7 @@ export interface SEOPage {
   relatedCategories?: string[];
   relatedLocations?: string[];
   published: boolean;
+  isIndexed?: boolean;
   canonicalUrl?: string;
   keywords?: string[];
   top10?: (Business & { rankingScore?: number; rank?: number })[];

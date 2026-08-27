@@ -44,8 +44,8 @@ export const discoveryService = {
     return res.data;
   },
 
-  // Core Locations
-  async getLocations(params?: { type?: string; city?: string }) {
+  // Core Locations & India Expansion
+  async getLocations(params?: { type?: string; city?: string; state?: string; status?: string }) {
     const res = await apiClient.get('/locations', { params });
     return res.data;
   },
@@ -57,6 +57,31 @@ export const discoveryService = {
 
   async getLocationBusinesses(slug: string, params?: { page?: number; limit?: number }) {
     const res = await apiClient.get(`/locations/${slug}/businesses`, { params });
+    return res.data;
+  },
+
+  async getIndiaOverview() {
+    const res = await apiClient.get('/locations/india');
+    return res.data;
+  },
+
+  async getStateBySlug(stateSlug: string) {
+    const res = await apiClient.get(`/locations/india/${stateSlug}`);
+    return res.data;
+  },
+
+  async getCityBySlug(stateSlug: string, citySlug: string) {
+    const res = await apiClient.get(`/locations/india/${stateSlug}/${citySlug}`);
+    return res.data;
+  },
+
+  async updateLocationStatus(idOrSlug: string, status: 'ACTIVE' | 'COMING_SOON' | 'BETA' | 'INACTIVE') {
+    const res = await apiClient.patch(`/locations/${idOrSlug}/status`, { status });
+    return res.data;
+  },
+
+  async joinCityWaitlist(data: { citySlug: string; email: string; name?: string; role?: string }) {
+    const res = await apiClient.post('/locations/waitlist', data);
     return res.data;
   },
 

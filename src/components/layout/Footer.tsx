@@ -136,6 +136,11 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-500">
               <li>
+                <Link to="/india" className="hover:text-indigo-600 transition-colors font-semibold text-indigo-600">
+                  India Directory (14+ States)
+                </Link>
+              </li>
+              <li>
                 <Link to="/events" className="hover:text-indigo-600 transition-colors">
                   Live Events & Fests
                 </Link>

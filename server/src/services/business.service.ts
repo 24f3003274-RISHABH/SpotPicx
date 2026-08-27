@@ -11,6 +11,8 @@ export interface BusinessQueryParams {
   category?: string;
   locality?: string;
   city?: string;
+  state?: string;
+  country?: string;
   priceRange?: string;
   verified?: boolean | string;
   rating?: number | string;
@@ -28,6 +30,11 @@ export class BusinessService {
     if (dbConnection.getStatus().isConnected) {
       try {
         const filter: Record<string, any> = { status: 'ACTIVE' };
+
+        // State filter
+        if (params.state) {
+          filter.state = new RegExp(`^${params.state}$`, 'i');
+        }
 
         // City filter
         if (params.city) {
@@ -125,6 +132,11 @@ export class BusinessService {
     let all = Array.from(SeedService.inMemoryBusinesses.values()).filter(
       (b) => b.status === 'ACTIVE'
     );
+
+    // State filter
+    if (params.state) {
+      all = all.filter((b) => (b.state || '').toLowerCase() === params.state?.toLowerCase());
+    }
 
     // City filter
     if (params.city) {

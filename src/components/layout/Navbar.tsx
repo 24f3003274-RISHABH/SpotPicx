@@ -208,6 +208,17 @@ export const Navbar: React.FC = () => {
             Vibes
           </Link>
           <Link
+            to="/india"
+            className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/india')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            <Compass className="h-3.5 w-3.5 text-indigo-500" />
+            <span>India</span>
+          </Link>
+          <Link
             to="/best-restaurants-in-delhi"
             className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
               location.pathname.startsWith('/best-')

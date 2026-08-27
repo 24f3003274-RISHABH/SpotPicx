@@ -10,6 +10,7 @@ export interface SeedSeoPageData {
   intro: string;
   category: string;
   location: string;
+  locality?: string;
   intent: string;
   filters?: {
     priceRange?: string[];
@@ -487,6 +488,199 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     published: true,
     canonicalUrl: 'https://spotpicks.delhi/best-rooftop-bars-in-delhi',
     keywords: ['best rooftop bars delhi', 'skyline lounge delhi', 'rooftop restaurants cp', 'nightlife delhi'],
+  },
+  {
+    title: '10 Best PGs near JNU, Munirka & Ber Sarai for Students (2026)',
+    slug: 'best-pg-near-jnu',
+    metaTitle: '10 Best PGs near JNU: Student Hostels in Munirka, Ber Sarai & Vasant Kunj',
+    metaDescription: 'Find verified, budget-friendly PGs and student flats near JNU (Jawaharlal Nehru University). High-speed Wi-Fi, 3-time meals, AC rooms & 24/7 security.',
+    h1: '10 Best PGs near JNU (Munirka, Ber Sarai & Vasant Kunj)',
+    intro: 'Studying at Jawaharlal Nehru University (JNU) or preparing for research entrances? Finding affordable, safe, and student-focused accommodation nearby is crucial. We evaluated over 40 PGs and co-living hostels across Munirka, Ber Sarai, Katwaria Sarai, and Vasant Kunj based on hygiene, food quality, Wi-Fi reliability, and campus proximity.',
+    category: 'Living',
+    location: 'Munirka',
+    locality: 'Munirka',
+    intent: 'STUDENT_FRIENDLY',
+    rankingMethod: 'custom',
+    filters: {
+      tags: ['pg', 'jnu', 'student', 'hostel', 'co-living', 'wifi'],
+      minRating: 4.2,
+    },
+    contentSections: [
+      {
+        title: 'Choosing Student Accommodation Near JNU Campus',
+        body: 'The neighborhoods around JNU offer distinct advantages depending on your daily transit preference and budget:',
+        bulletPoints: [
+          'Ber Sarai & Katwaria Sarai: Walking distance to JNU North & West gates, with bustling student libraries and photocopy hubs.',
+          'Munirka Village: High density of affordable shared rooms with direct e-rickshaw connectivity to JNU and Munirka Metro (Magenta Line).',
+          'Vasant Kunj (Pocket B & C): Quieter, residential gated societies with premium single-occupancy AC rooms and attached balconies.',
+        ],
+      },
+      {
+        title: 'Key PG Inclusions & Pricing in 2026',
+        body: 'Standard PGs near JNU charge between ₹7,500–₹12,000/month for double sharing and ₹14,000–₹19,000/month for private rooms, typically covering North/South Indian meals, 100 Mbps Wi-Fi, power backup, and CCTV security.',
+      },
+    ],
+    faq: [
+      {
+        question: 'Which area is closest to JNU main gate for student PGs?',
+        answer: 'Ber Sarai and Munirka are the closest localities, located within a 5 to 10-minute walk or short e-rickshaw ride from the JNU campus gates.',
+      },
+      {
+        question: 'Do PGs near JNU provide meals and laundry?',
+        answer: 'Yes, almost all verified PGs near JNU include breakfast, lunch, and dinner along with weekly laundry and high-speed Wi-Fi in the monthly rent.',
+      },
+    ],
+    relatedPages: [
+      'best-cafes-near-jnu',
+      'best-pg-in-delhi',
+      'best-co-working-cafes-in-delhi',
+      'best-places-to-visit-in-delhi',
+    ],
+    relatedCategories: ['Living', 'PGs & Hostels', 'Student Hubs', 'Budget Stays'],
+    relatedLocations: ['Munirka', 'Vasant Kunj', 'Hauz Khas', 'Saket'],
+    published: true,
+    canonicalUrl: 'https://spotpicks.delhi/best-pg-near-jnu',
+    keywords: ['best pg near jnu', 'jnu student pg munirka', 'pg in ber sarai delhi', 'hostels near jnu campus'],
+  },
+  {
+    title: '10 Best Cafes near JNU & South Delhi for Students & Late Nights',
+    slug: 'best-cafes-near-jnu',
+    metaTitle: '10 Best Cafes near JNU: Budget Coffee, Study Spots & Late-Night Bites',
+    metaDescription: 'Discover budget-friendly cafes, study lounges, and late-night food spots near JNU, Munirka, Vasant Kunj, and Hauz Khas for students and scholars.',
+    h1: '10 Best Cafes near JNU (Study Vibes, Cheap Coffee & Late Bites)',
+    intro: 'Whether you need a quiet corner for thesis writing with fast Wi-Fi or a lively late-night chai and Maggi spot after seminar hours, the student belt around JNU and South Delhi has exceptional cafes tailored for student budgets and deep conversations.',
+    category: 'Cafes',
+    location: 'Munirka',
+    locality: 'Munirka',
+    intent: 'STUDENT_FRIENDLY',
+    rankingMethod: 'popularity',
+    filters: {
+      tags: ['cafe', 'coffee', 'student', 'wifi', 'budget'],
+      minRating: 4.2,
+    },
+    contentSections: [
+      {
+        title: 'The JNU Student Cafe Culture',
+        body: 'Unlike commercial high-street coffee chains, cafes around JNU and Munirka prioritize affordable pour-overs, generous portions, power outlets at every desk, and late-night operations extending past midnight.',
+      },
+    ],
+    faq: [
+      {
+        question: 'Are there study-friendly cafes near JNU with power plugs and Wi-Fi?',
+        answer: 'Yes! Several cafes in Vasant Kunj, Munirka, and nearby Saket feature dedicated workstations with high-speed fiber internet and power outlets.',
+      },
+      {
+        question: 'What are the best budget midnight food spots near JNU?',
+        answer: '24/7 Food Court at JNU campus, Munirka market dhabas, and late-night cafes in Katwaria Sarai serve hot paranthas and coffee till 3:00 AM.',
+      },
+    ],
+    relatedPages: [
+      'best-pg-near-jnu',
+      'best-cafes-in-delhi',
+      'best-co-working-cafes-in-delhi',
+      'best-street-food-in-delhi',
+    ],
+    relatedCategories: ['Cafes', 'Student Hubs', 'Coffee', 'Late Night'],
+    relatedLocations: ['Munirka', 'Vasant Kunj', 'Hauz Khas', 'Saket'],
+    published: true,
+    canonicalUrl: 'https://spotpicks.delhi/best-cafes-near-jnu',
+    keywords: ['cafes near jnu', 'student cafes jnu delhi', 'study cafes munirka', 'budget cafes south delhi'],
+  },
+  {
+    title: '10 Best Street Food in Delhi: Chaat, Chole Bhature & Kebabs (2026)',
+    slug: 'best-street-food-in-delhi',
+    metaTitle: '10 Best Street Food in Delhi: Chandni Chowk, Lajpat Nagar & Karol Bagh',
+    metaDescription: 'Taste Delhi’s iconic street food: Sita Ram Diwan Chand Chole Bhature, Natraj Dahi Bhalla, spicy momos, and crispy butter paranthas across Old & South Delhi.',
+    h1: '10 Best Street Food in Delhi (Legendary Food Trail)',
+    intro: 'Delhi is the undisputed street food capital of India. From piping-hot crispy Chole Bhature in Paharganj and velvety Dahi Bhallas in Chandni Chowk to spicy Ram Laddus in Lajpat Nagar and steaming momos in Amar Colony, here is our definitive curated guide to Delhi’s top 10 street food treasures.',
+    category: 'Street Food',
+    location: 'Delhi',
+    intent: 'BEST',
+    rankingMethod: 'popularity',
+    filters: {
+      tags: ['street food', 'chaat', 'chole bhature', 'delhi street food', 'authentic'],
+    },
+    contentSections: [
+      {
+        title: 'Iconic Delhi Street Food Specialties by Locality',
+        body: 'Every Delhi neighborhood has mastered its signature street dish across generations of culinary heritage:',
+        bulletPoints: [
+          'Paharganj & Karol Bagh: Fluffy paneer-stuffed Bhaturas with spicy tangy chole and pickled amla.',
+          'Chandni Chowk: Historic Paranthe Wali Gali, pure ghee jalebis, and chilled rabri falooda.',
+          'Lajpat Nagar & Amar Colony: Crispy Ram Laddus with shredded radish and mint-coriander chutney, plus tandoori momos.',
+          'Connaught Place: World-famous Rajma Chawal and crispy buttery kachoris.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Which is the single most famous street food dish in Delhi?',
+        answer: 'Chole Bhature (exemplified by Sita Ram Diwan Chand) and Old Delhi Dahi Bhalla are universally celebrated as the crown jewels of Delhi street food.',
+      },
+      {
+        question: 'Is street food in Delhi safe and hygienic for travelers?',
+        answer: 'Our top 10 spots feature high customer turnover, ensuring freshly prepared, piping-hot dishes. Reputable legacy shops also use filtered RO water.',
+      },
+    ],
+    relatedPages: [
+      'best-momos-in-delhi',
+      'best-restaurants-in-delhi',
+      'best-markets-in-delhi',
+      'best-places-to-visit-in-delhi',
+    ],
+    relatedCategories: ['Street Food', 'Mughlai', 'Chaat', 'Fast Food'],
+    relatedLocations: ['Chandni Chowk', 'Lajpat Nagar', 'Karol Bagh', 'Connaught Place'],
+    published: true,
+    canonicalUrl: 'https://spotpicks.delhi/best-street-food-in-delhi',
+    keywords: ['best street food in delhi', 'delhi street food guide', 'chole bhature delhi', 'chandni chowk street food'],
+  },
+  {
+    title: '10 Best Places to Visit in Delhi for Sightseeing, Heritage & Fun',
+    slug: 'best-places-to-visit-in-delhi',
+    metaTitle: '10 Best Places to Visit in Delhi: Iconic Monuments, Culture & Parks (2026)',
+    metaDescription: 'Discover Delhi’s top 10 attractions: Red Fort, Qutub Minar, Humayun’s Tomb, Sunder Nursery, India Gate & National Gallery of Modern Art.',
+    h1: '10 Best Places to Visit in Delhi (Definitive Sightseeing Guide)',
+    intro: 'Spanning thousands of years of living history, Delhi seamlessly bridges ancient empires and a vibrant modern metropolis. From the UNESCO World Heritage grandeur of Qutub Minar and Humayun’s Tomb to the lush landscaped biodiversity of Sunder Nursery and the bustling cultural bazaars of Dilli Haat, here are the top 10 places you must visit in Delhi.',
+    category: 'Places to Visit',
+    location: 'Delhi',
+    intent: 'BEST',
+    rankingMethod: 'popularity',
+    filters: {
+      tags: ['monument', 'heritage', 'places to visit', 'sightseeing', 'delhi tourism'],
+    },
+    contentSections: [
+      {
+        title: 'Top Sightseeing Circuits in the Capital',
+        body: 'Plan your Delhi discovery by geographic heritage clusters:',
+        bulletPoints: [
+          'South Delhi Heritage Trail: Qutub Minar complex, Mehrauli Archaeological Park, and Hauz Khas Fort reservoir.',
+          'Mughal Grandeur: Humayun’s Tomb, Sunder Nursery botanical gardens, and the majestic Red Fort in Old Delhi.',
+          'Colonial & Civic Heart: India Gate, Kartavya Path, Rashtrapati Bhavan, and the National Museum.',
+          'Cultural & Spiritual Marvels: Lotus Temple (Bahai House of Worship) and Akshardham Temple.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'What is the best time of year to visit Delhi attractions?',
+        answer: 'October through March offers pleasant, cool weather ideal for outdoor monument walks and heritage garden picnics.',
+      },
+      {
+        question: 'Are Delhi monuments well-connected by the Delhi Metro?',
+        answer: 'Yes! The Delhi Metro network connects virtually all major tourist sites, with dedicated stations at Qutub Minar, Chandni Chowk (Red Fort), Central Secretariat (India Gate), and JLN Stadium (Humayun’s Tomb).',
+      },
+    ],
+    relatedPages: [
+      'best-parks-in-delhi',
+      'best-markets-in-delhi',
+      'best-restaurants-in-delhi',
+      'best-date-places-in-delhi',
+    ],
+    relatedCategories: ['Places to Visit', 'Historical Monuments', 'Parks', 'Heritage'],
+    relatedLocations: ['Connaught Place', 'Mehrauli', 'Old Delhi', 'Nizamuddin'],
+    published: true,
+    canonicalUrl: 'https://spotpicks.delhi/best-places-to-visit-in-delhi',
+    keywords: ['best places to visit in delhi', 'delhi sightseeing', 'qutub minar', 'red fort delhi', 'delhi tourist places'],
   },
 ];
 

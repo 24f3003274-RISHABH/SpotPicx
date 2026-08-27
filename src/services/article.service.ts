@@ -7,8 +7,8 @@ export const articleService = {
    */
   async getAllArticles(params: { category?: string; tag?: string; location?: string; search?: string } = {}): Promise<Article[]> {
     try {
-      const response = await apiClient.get<{ success: boolean; data: Article[] }>('/articles', { params });
-      return response.data.data || [];
+      const response: any = await apiClient.get('/articles', { params });
+      return response?.data?.articles || response?.data || (Array.isArray(response) ? response : []);
     } catch (e) {
       console.warn('Failed to fetch articles from API:', e);
       return [];
@@ -20,10 +20,11 @@ export const articleService = {
    */
   async getArticleBySlug(slug: string): Promise<{ article: Article; jsonLd?: any } | null> {
     try {
-      const response = await apiClient.get<{ success: boolean; data: { article: Article; jsonLd?: any } }>(
-        `/articles/${slug}`
-      );
-      return response.data.data;
+      const response: any = await apiClient.get(`/articles/${slug}`);
+      if (response?.data?.article) return response.data;
+      if (response?.article) return response;
+      if (response?.data) return { article: response.data };
+      return null;
     } catch (e) {
       console.warn(`Failed to fetch article /${slug}:`, e);
       return null;

@@ -426,8 +426,11 @@ const BusinessSchema = new Schema<IBusiness>(
 // 2dsphere index for geolocation searches
 BusinessSchema.index({ location: '2dsphere' });
 
-// Compound and field filters
+// Compound and field filters for India-wide data isolation
+BusinessSchema.index({ country: 1, state: 1, city: 1, status: 1 });
+BusinessSchema.index({ state: 1, city: 1, locality: 1, status: 1 });
 BusinessSchema.index({ city: 1, locality: 1, status: 1 });
+BusinessSchema.index({ city: 1, category: 1, rating: -1, status: 1 });
 BusinessSchema.index({ category: 1, rating: -1 });
 BusinessSchema.index({ categories: 1 });
 BusinessSchema.index({ priceRange: 1, rating: -1 });

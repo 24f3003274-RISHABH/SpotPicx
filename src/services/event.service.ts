@@ -20,18 +20,18 @@ export const eventService = {
     page: number;
     limit: number;
   }> {
-    const res = await apiClient.get('/events', { params });
-    return res.data.data;
+    const res: any = await apiClient.get('/events', { params });
+    return res?.data || res || { events: [], total: 0, page: 1, limit: 20 };
   },
 
   async getEventBySlug(slug: string): Promise<EventItem> {
-    const res = await apiClient.get(`/events/${slug}`);
-    return res.data.data.event;
+    const res: any = await apiClient.get(`/events/${slug}`);
+    return res?.data?.event || res?.data || res?.event || res;
   },
 
   async createEvent(data: Partial<EventItem>): Promise<EventItem> {
-    const res = await apiClient.post('/events', data);
-    return res.data.data.event;
+    const res: any = await apiClient.post('/events', data);
+    return res?.data?.event || res?.data || res?.event || res;
   },
 
   async deleteEvent(id: string): Promise<void> {

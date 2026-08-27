@@ -319,4 +319,25 @@ export class AdminController {
     const result = await FreshnessService.recalculateAllFreshness();
     return sendSuccess(res, result, `Recalculated freshness for ${result.updatedCount} listings`);
   });
+
+  /**
+   * System Logs & Diagnostic Telemetry (Phase 22 - Production Admin)
+   */
+  public static getSystemLogs = asyncHandler(async (req: Request, res: Response) => {
+    const { LoggerService } = await import('../services/logger.service');
+    const { category, level, limit, search } = req.query;
+    const logs = await LoggerService.queryLogs({
+      category: category as any,
+      level: level as any,
+      limit: limit ? Number(limit) : 50,
+      search: search as string,
+    });
+    return sendSuccess(res, { logs, total: logs.length }, 'System telemetry logs loaded');
+  });
+
+  public static getLogStats = asyncHandler(async (_req: Request, res: Response) => {
+    const { LoggerService } = await import('../services/logger.service');
+    const stats = await LoggerService.getLogStats();
+    return sendSuccess(res, stats, 'System log stats loaded');
+  });
 }

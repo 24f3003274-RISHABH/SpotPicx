@@ -28,6 +28,11 @@ export const ROUTES = {
   SPECIAL_DISCOVERY: '/discover',
   PRICING: '/pricing',
 
+  // Phase 21: India-wide Scalability Routes
+  INDIA: '/india',
+  INDIA_STATE: '/india/:stateSlug',
+  INDIA_CITY: '/india/:stateSlug/:citySlug',
+
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',

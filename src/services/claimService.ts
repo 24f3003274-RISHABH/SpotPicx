@@ -36,44 +36,31 @@ export interface BusinessClaim {
 export const claimService = {
   // User submits claim
   async submitClaim(businessId: string, data: { documents: string[]; message: string }) {
-    const res = await apiClient.post<{ success: boolean; data: { claim: BusinessClaim }; message: string }>(
-      `/businesses/${businessId}/claim`,
-      data
-    );
-    return res.data.data.claim;
+    const res: any = await apiClient.post(`/businesses/${businessId}/claim`, data);
+    return res?.data?.claim || res?.data || res?.claim || res;
   },
 
   // Current user's claims
   async getMyClaims(): Promise<BusinessClaim[]> {
-    const res = await apiClient.get<{ success: boolean; data: { claims: BusinessClaim[] } }>(
-      '/business-owner/claims'
-    );
-    return res.data.data.claims || [];
+    const res: any = await apiClient.get('/business-owner/claims');
+    return res?.data?.claims || res?.data || res?.claims || (Array.isArray(res) ? res : []);
   },
 
   // Admin gets all claims
   async getAllClaims(status?: string): Promise<BusinessClaim[]> {
-    const res = await apiClient.get<{ success: boolean; data: { claims: BusinessClaim[]; total: number } }>(
-      '/admin/claims',
-      { params: { status } }
-    );
-    return res.data.data.claims || [];
+    const res: any = await apiClient.get('/admin/claims', { params: { status } });
+    return res?.data?.claims || res?.data || res?.claims || (Array.isArray(res) ? res : []);
   },
 
   // Admin approves claim
   async approveClaim(claimId: string) {
-    const res = await apiClient.patch<{ success: boolean; data: { claim: BusinessClaim }; message: string }>(
-      `/admin/claims/${claimId}/approve`
-    );
-    return res.data.data.claim;
+    const res: any = await apiClient.patch(`/admin/claims/${claimId}/approve`);
+    return res?.data?.claim || res?.data || res?.claim || res;
   },
 
   // Admin rejects claim
   async rejectClaim(claimId: string, reason?: string) {
-    const res = await apiClient.patch<{ success: boolean; data: { claim: BusinessClaim }; message: string }>(
-      `/admin/claims/${claimId}/reject`,
-      { reason }
-    );
-    return res.data.data.claim;
+    const res: any = await apiClient.patch(`/admin/claims/${claimId}/reject`, { reason });
+    return res?.data?.claim || res?.data || res?.claim || res;
   },
 };

@@ -76,4 +76,8 @@ router.put('/sources/:id', AdminController.updateDataSource);
 router.delete('/sources/:id', AdminController.deleteDataSource);
 router.post('/freshness/recalculate', AdminController.recalculateFreshness);
 
+// Production System Logging & Diagnostic Telemetry (Phase 22)
+router.get('/logs', AdminController.getSystemLogs);
+router.get('/logs/stats', AdminController.getLogStats);
+
 export default router;

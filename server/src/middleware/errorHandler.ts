@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { HTTP_STATUS } from '../constants/statusCodes';
 import { sendError } from '../utils/response';
+import { LoggerService } from '../services/logger.service';
 
 export interface AppError extends Error {
   statusCode?: number;
@@ -15,6 +16,14 @@ export const errorHandler = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
+  // Log all server errors to server-side telemetry
+  LoggerService.error('REQUEST', err.message || 'Internal Server Error', {
+    path: req.originalUrl,
+    method: req.method,
+    statusCode: err.statusCode || 500,
+    details: { stack: err.stack, name: err.name },
+  });
+
   // Handle Zod validation errors
   if (err instanceof ZodError || err.name === 'ZodError') {
     const formattedErrors = err.errors ? err.errors.map((e: any) => ({

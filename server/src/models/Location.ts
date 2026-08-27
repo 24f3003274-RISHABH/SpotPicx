@@ -1,22 +1,44 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-export type LocationType = 'COUNTRY' | 'STATE' | 'CITY' | 'LOCALITY';
+export type LocationType =
+  | 'COUNTRY'
+  | 'STATE'
+  | 'DISTRICT'
+  | 'CITY'
+  | 'LOCALITY'
+  | 'NEIGHBORHOOD';
+
+export type LocationStatus = 'ACTIVE' | 'COMING_SOON' | 'BETA' | 'INACTIVE';
 
 export interface ILocation extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   slug: string;
   type: LocationType;
+  status: LocationStatus;
   parent?: mongoose.Types.ObjectId | null;
   country: string;
+  countrySlug?: string;
   state: string;
+  stateSlug?: string;
+  district?: string;
+  districtSlug?: string;
   city: string;
+  citySlug?: string;
+  locality?: string;
+  neighborhood?: string;
+  shortCode?: string; // e.g. 'DL', 'MH', 'KA'
   latitude: number;
   longitude: number;
   pincode: string;
   isActive: boolean;
+  readinessScore?: number; // 0 - 100%
+  waitlistCount?: number;
   description?: string;
   image?: string;
+  bannerImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -41,8 +63,14 @@ const LocationSchema = new Schema<ILocation>(
     },
     type: {
       type: String,
-      enum: ['COUNTRY', 'STATE', 'CITY', 'LOCALITY'],
+      enum: ['COUNTRY', 'STATE', 'DISTRICT', 'CITY', 'LOCALITY', 'NEIGHBORHOOD'],
       required: true,
+      index: true,
+    },
+    status: {
+      type: String,
+      enum: ['ACTIVE', 'COMING_SOON', 'BETA', 'INACTIVE'],
+      default: 'ACTIVE',
       index: true,
     },
     parent: {
@@ -57,10 +85,30 @@ const LocationSchema = new Schema<ILocation>(
       default: 'India',
       index: true,
     },
+    countrySlug: {
+      type: String,
+      default: 'india',
+      index: true,
+    },
     state: {
       type: String,
       required: true,
       default: 'Delhi',
+      index: true,
+    },
+    stateSlug: {
+      type: String,
+      default: 'delhi',
+      index: true,
+    },
+    district: {
+      type: String,
+      default: '',
+      index: true,
+    },
+    districtSlug: {
+      type: String,
+      default: '',
       index: true,
     },
     city: {
@@ -68,6 +116,23 @@ const LocationSchema = new Schema<ILocation>(
       required: true,
       default: 'Delhi',
       index: true,
+    },
+    citySlug: {
+      type: String,
+      default: 'delhi',
+      index: true,
+    },
+    locality: {
+      type: String,
+      default: '',
+    },
+    neighborhood: {
+      type: String,
+      default: '',
+    },
+    shortCode: {
+      type: String,
+      default: '',
     },
     latitude: {
       type: Number,
@@ -87,11 +152,31 @@ const LocationSchema = new Schema<ILocation>(
       default: true,
       index: true,
     },
+    readinessScore: {
+      type: Number,
+      default: 100,
+    },
+    waitlistCount: {
+      type: Number,
+      default: 0,
+    },
     description: {
       type: String,
       default: '',
     },
     image: {
+      type: String,
+      default: '',
+    },
+    bannerImage: {
+      type: String,
+      default: '',
+    },
+    metaTitle: {
+      type: String,
+      default: '',
+    },
+    metaDescription: {
       type: String,
       default: '',
     },
@@ -101,9 +186,15 @@ const LocationSchema = new Schema<ILocation>(
   }
 );
 
-LocationSchema.index({ city: 1, type: 1 });
+// Compound indexes for geographic hierarchy and high-throughput data isolation
+LocationSchema.index({ country: 1, state: 1, city: 1, type: 1, status: 1 });
+LocationSchema.index({ stateSlug: 1, citySlug: 1, status: 1 });
+LocationSchema.index({ state: 1, city: 1, type: 1 });
+LocationSchema.index({ type: 1, status: 1 });
 LocationSchema.index({ parent: 1, type: 1 });
+LocationSchema.index({ slug: 1, type: 1 });
 
 export const Location =
   (mongoose.models.Location as ILocationModel) ||
   mongoose.model<ILocation, ILocationModel>('Location', LocationSchema);
+
