@@ -3,7 +3,7 @@ import { EventItem } from '../types';
 
 export interface EventFilterParams {
   category?: string;
-  timeframe?: 'today' | 'tomorrow' | 'weekend' | 'month' | 'all';
+  timeframe?: 'today' | 'tonight' | 'tomorrow' | 'weekend' | 'month' | 'all';
   price?: 'free' | 'paid' | 'all';
   locality?: string;
   query?: string;

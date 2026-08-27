@@ -66,6 +66,32 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 };
 
 /**
+ * Optional Authentication: Attaches req.user if a valid token exists, but does not block unauthenticated users
+ */
+export const optionalAuthenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      if (token) {
+        try {
+          const payload = verifyAccessToken(token);
+          const user = await AuthService.getUserById(payload.id);
+          if (user && user.isActive) {
+            req.user = user;
+          }
+        } catch {
+          // Ignore token verification errors for optional auth
+        }
+      }
+    }
+    next();
+  } catch {
+    next();
+  }
+};
+
+/**
  * Authorization Middleware: Checks if user's role satisfies the required roles
  */
 export const authorize = (...allowedRoles: UserRole[]) => {

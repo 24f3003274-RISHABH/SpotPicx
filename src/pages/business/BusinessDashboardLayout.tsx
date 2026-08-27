@@ -11,6 +11,8 @@ import {
   ChevronRight,
   ExternalLink,
   Sparkles,
+  Users,
+  CreditCard,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { useAuth } from '../../hooks/useAuth';
@@ -31,6 +33,16 @@ export const BusinessDashboardLayout: React.FC = () => {
       label: 'My Listings',
       path: ROUTES.BUSINESS_LISTINGS,
       icon: Store,
+    },
+    {
+      label: 'Customer Leads & CRM',
+      path: ROUTES.BUSINESS_LEADS,
+      icon: Users,
+    },
+    {
+      label: 'Plans & Subscription',
+      path: ROUTES.BUSINESS_SUBSCRIPTION,
+      icon: CreditCard,
     },
     {
       label: 'Customer Reviews',

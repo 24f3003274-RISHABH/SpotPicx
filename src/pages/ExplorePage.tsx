@@ -27,6 +27,7 @@ import { Badge } from '../components/ui/Badge';
 import { BusinessCard } from '../components/discovery/BusinessCard';
 import { BusinessCardSkeleton } from '../components/ui/Skeletons';
 import { EmptyState } from '../components/ui/EmptyState';
+import { AdBanner } from '../components/ads/AdBanner';
 import { useBusinesses, useCategories, useLocations } from '../hooks/useDiscovery';
 import { POPULAR_DELHI_LOCALITIES } from '../constants/locations';
 import { Business } from '../types';
@@ -207,6 +208,9 @@ export const ExplorePage: React.FC = () => {
             {filteredSpots.length} spots
           </span>
         </div>
+
+        {/* Sponsored Category Banner (Phase 19 Non-Intrusive Monetization) */}
+        <AdBanner placement="HOME_FEED" />
 
         {/* Spots Grid */}
         {isLoading ? (

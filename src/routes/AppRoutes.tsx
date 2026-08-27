@@ -27,6 +27,7 @@ import { HousingPage } from '../pages/HousingPage';
 import { JobsPage } from '../pages/JobsPage';
 import { SpecialDiscoveryPage } from '../pages/SpecialDiscoveryPage';
 import { SeoPageTemplate } from '../pages/SeoPageTemplate';
+import { PricingPage } from '../pages/PricingPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -36,6 +37,8 @@ import { BusinessDashboardLayout } from '../pages/business/BusinessDashboardLayo
 import { BusinessOverviewTab } from '../pages/business/BusinessOverviewTab';
 import { BusinessListingsTab } from '../pages/business/BusinessListingsTab';
 import { BusinessListingEditor } from '../pages/business/BusinessListingEditor';
+import { BusinessLeadsTab } from '../pages/business/BusinessLeadsTab';
+import { BusinessSubscriptionTab } from '../pages/business/BusinessSubscriptionTab';
 import { BusinessReviewsTab } from '../pages/business/BusinessReviewsTab';
 import { BusinessOffersTab } from '../pages/business/BusinessOffersTab';
 import { BusinessAnalyticsTab } from '../pages/business/BusinessAnalyticsTab';
@@ -43,6 +46,7 @@ import { BusinessAnalyticsTab } from '../pages/business/BusinessAnalyticsTab';
 // Admin Dashboard Components
 import { AdminDashboardLayout } from '../pages/admin/AdminDashboardLayout';
 import { AdminOverviewTab } from '../pages/admin/AdminOverviewTab';
+import { AdminRevenueTab } from '../pages/admin/AdminRevenueTab';
 import { AdminAnalyticsTab } from '../pages/admin/AdminAnalyticsTab';
 import { AdminUsersTab } from '../pages/admin/AdminUsersTab';
 import { AdminBusinessesTab } from '../pages/admin/AdminBusinessesTab';
@@ -106,6 +110,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/best-:slug" element={<SeoPageTemplate />} />
         <Route path="/top-:slug" element={<SeoPageTemplate />} />
         <Route path="/guide/:slug" element={<SeoPageTemplate />} />
+        <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
         {/* Collections */}
         <Route path={ROUTES.COLLECTIONS} element={<CollectionsPage />} />
@@ -143,6 +148,8 @@ export const AppRoutes: React.FC = () => {
           <Route path="businesses" element={<BusinessListingsTab />} />
           <Route path="businesses/new" element={<BusinessListingEditor />} />
           <Route path="businesses/:id/edit" element={<BusinessListingEditor />} />
+          <Route path="leads" element={<BusinessLeadsTab businessId="spot-1" />} />
+          <Route path="subscription" element={<BusinessSubscriptionTab businessId="spot-1" />} />
           <Route path="reviews" element={<BusinessReviewsTab />} />
           <Route path="offers" element={<BusinessOffersTab />} />
           <Route path="analytics" element={<BusinessAnalyticsTab />} />
@@ -158,6 +165,7 @@ export const AppRoutes: React.FC = () => {
           }
         >
           <Route index element={<AdminOverviewTab />} />
+          <Route path="revenue" element={<AdminRevenueTab />} />
           <Route path="analytics" element={<AdminAnalyticsTab />} />
           <Route path="users" element={<AdminUsersTab />} />
           <Route path="businesses" element={<AdminBusinessesTab />} />

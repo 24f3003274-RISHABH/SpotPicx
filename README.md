@@ -381,6 +381,45 @@ SpotPicks implements a robust, compliant data ingestion architecture:
 
 ---
 
+## 💎 Phase 19: Monetization Foundation & Merchant Infrastructure
+
+SpotPicks implements a sustainable, transparent, and non-intrusive monetization infrastructure designed to empower local merchants while strictly protecting organic discovery integrity:
+
+### 1. Business Promotion Types
+- **Featured Business**: Premium home feed and category highlight cards marked with clear `Sponsored` badges.
+- **Sponsored Listing**: Native cards in discovery feeds clearly labeled to prevent misleading users.
+- **Promoted Category**: Curated sponsor highlights on dedicated category taxonomy pages.
+- **Promoted Event**: Featured listings on local events and cultural calendar hubs.
+- **Sponsored Collection**: Themed community lists supported by verified local partners.
+
+### 2. Configurable Business Plans
+Pricing and plan features are fully dynamic and decoupled from code via server configuration (`BUSINESS_PLANS`):
+- **FREE**: 1 active business listing, standard search placement, basic analytics, direct customer reviews.
+- **BASIC** (₹1,499/mo): Up to 3 listings, verified merchant badge, phone & website lead capture, 1 monthly sponsored boost.
+- **PREMIUM** (₹3,999/mo): Up to 10 listings, priority search placement, direct enquiry & reservation lead routing, competitor traffic insights, 5 sponsored boosts.
+- **ENTERPRISE** (₹9,999/mo): Unlimited listings, dedicated account concierge, multi-city placement, custom ad campaign manager, full API export.
+
+### 3. Transparent Advertising & User Experience Guardrails
+- **Mandatory Disclosures**: All paid placements feature an unmistakable `Sponsored` or `Promoted` tag.
+- **No Organic Manipulation**: Organic search relevance and natural algorithmic rankings remain uncorrupted by ad spend.
+- **Anti-Intrusive Standards**: Zero full-screen takeover popups, zero deceptive clickbait buttons, and zero auto-playing audio ads.
+
+### 4. High-Intent Lead Generation Engine
+Tracks and aggregates verifiable customer intent for business owners in real-time:
+- **Phone Calls**: Click-to-call events logged with timestamp and device type.
+- **Website Visits**: Outbound traffic routed to merchant domains.
+- **Direction Requests**: Google Maps and native navigation requests.
+- **WhatsApp Direct Connect**: Immediate customer inquiries via WhatsApp Web / Mobile.
+- **Direct Enquiries & Table Bookings**: Structured booking and quote forms delivered directly to owner dashboards.
+
+### 5. Pluggable Payment Gateway Strategy Pattern
+Payment logic is isolated behind an `IPaymentGateway` strategy interface to ensure provider independence:
+- **Razorpay Integration**: Native Indian UPI, NetBanking, Cards, and Wallets via checkout orders and cryptographic signature verification (`razorpay_signature`).
+- **Stripe Integration**: Global card and international payment processing via checkout sessions and webhooks.
+- **Mock Fallback**: Instant local sandboxing when live credentials are not configured.
+
+---
+
 ## 📈 SEO & Search Engine Optimization
 
 SpotPicks is built search-first:

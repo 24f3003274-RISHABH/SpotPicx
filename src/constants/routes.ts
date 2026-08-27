@@ -18,7 +18,7 @@ export const ROUTES = {
   ARTICLES: '/articles',
   ARTICLE_DETAILS: '/articles/:slug',
 
-  // Phase 10: Events, Offers, Jobs & Specialized Discovery
+  // Phase 10 & 19: Events, Offers, Jobs, Specialized Discovery & Monetization
   EVENTS: '/events',
   EVENT_DETAILS: '/events/:slug',
   OFFERS: '/offers',
@@ -26,12 +26,15 @@ export const ROUTES = {
   HOUSING: '/housing',
   JOBS: '/jobs',
   SPECIAL_DISCOVERY: '/discover',
+  PRICING: '/pricing',
 
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',
   BUSINESS_CREATE: '/business/businesses/new',
   BUSINESS_EDIT: '/business/businesses/:id/edit',
+  BUSINESS_LEADS: '/business/leads',
+  BUSINESS_SUBSCRIPTION: '/business/subscription',
   BUSINESS_REVIEWS: '/business/reviews',
   BUSINESS_OFFERS: '/business/offers',
   BUSINESS_ANALYTICS: '/business/analytics',
@@ -39,6 +42,7 @@ export const ROUTES = {
   // Admin Dashboard Routes
   ADMIN: '/admin',
   ADMIN_ANALYTICS: '/admin/analytics',
+  ADMIN_REVENUE: '/admin/revenue',
   ADMIN_USERS: '/admin/users',
   ADMIN_BUSINESSES: '/admin/businesses',
   ADMIN_CATEGORIES: '/admin/categories',

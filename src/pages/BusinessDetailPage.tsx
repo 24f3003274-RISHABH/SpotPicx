@@ -56,6 +56,8 @@ import { ReportModal } from '../components/common/ReportModal';
 import { ShareButton } from '../components/common/ShareButton';
 import { ClaimBusinessModal } from '../components/business/ClaimBusinessModal';
 import { AskAboutPlaceBox } from '../components/ai/AskAboutPlaceBox';
+import { EnquiryModal } from '../components/monetization/EnquiryModal';
+import { monetizationService } from '../services/monetizationService';
 import { discoveryService } from '../services/discoveryService';
 import { businessOwnerService } from '../services/businessOwnerService';
 import { useBusiness, useBusinesses } from '../hooks/useDiscovery';
@@ -95,6 +97,7 @@ export const BusinessDetailPage: React.FC = () => {
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
   const [nearbyCategoryFilter, setNearbyCategoryFilter] = useState<'all' | 'cafes' | 'restaurants' | 'heritage'>('all');
   const [isRefreshingSummary, setIsRefreshingSummary] = useState(false);
   const [aiSummaryOverride, setAiSummaryOverride] = useState<any>(null);
@@ -830,22 +833,64 @@ export const BusinessDetailPage: React.FC = () => {
 
               {/* Contact Info */}
               <div className="space-y-2 text-xs">
+                {/* Direct Enquiry Button */}
+                <button
+                  type="button"
+                  id="btn-open-enquiry-modal"
+                  onClick={() => setIsEnquiryModalOpen(true)}
+                  className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-sm cursor-pointer"
+                >
+                  <Sparkles className="h-4 w-4 text-neutral-950" />
+                  <span>Send Enquiry / Table Booking</span>
+                </button>
+
                 {business.phone && (
-                  <a
-                    href={`tel:${business.phone}`}
-                    onClick={() => businessOwnerService.trackInteraction(business._id, 'phone_click')}
-                    className="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 transition-colors"
-                  >
-                    <Phone className="h-4 w-4 text-indigo-600" />
-                    <span className="font-semibold">{business.phone}</span>
-                  </a>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href={`tel:${business.phone}`}
+                      onClick={() => {
+                        businessOwnerService.trackInteraction(business._id, 'phone_click');
+                        monetizationService.trackLead({
+                          businessId: business._id || business.slug,
+                          type: 'CALL',
+                        });
+                      }}
+                      className="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 transition-colors"
+                    >
+                      <Phone className="h-3.5 w-3.5 text-indigo-600" />
+                      <span className="font-semibold truncate">Call Spot</span>
+                    </a>
+
+                    <a
+                      href={`https://wa.me/${business.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I discovered ${business.name} on SpotPicks!`)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => {
+                        monetizationService.trackLead({
+                          businessId: business._id || business.slug,
+                          type: 'WHATSAPP',
+                        });
+                      }}
+                      className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-200/80 hover:bg-emerald-100 text-emerald-800 transition-colors"
+                    >
+                      <MessageSquare className="h-3.5 w-3.5 text-emerald-600" />
+                      <span className="font-semibold truncate">WhatsApp</span>
+                    </a>
+                  </div>
                 )}
+
                 {business.website && (
                   <a
                     href={business.website}
                     target="_blank"
                     rel="noreferrer"
-                    onClick={() => businessOwnerService.trackInteraction(business._id, 'website_click')}
+                    onClick={() => {
+                      businessOwnerService.trackInteraction(business._id, 'website_click');
+                      monetizationService.trackLead({
+                        businessId: business._id || business.slug,
+                        type: 'WEBSITE',
+                      });
+                    }}
                     className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-600 transition-colors"
                   >
                     <div className="flex items-center gap-2 truncate">
@@ -862,7 +907,13 @@ export const BusinessDetailPage: React.FC = () => {
                 href={directionsUrl}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => businessOwnerService.trackInteraction(business._id, 'direction_click')}
+                onClick={() => {
+                  businessOwnerService.trackInteraction(business._id, 'direction_click');
+                  monetizationService.trackLead({
+                    businessId: business._id || business.slug,
+                    type: 'DIRECTION',
+                  });
+                }}
                 className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md cursor-pointer"
               >
                 <Navigation className="h-4 w-4" />
@@ -1112,6 +1163,15 @@ export const BusinessDetailPage: React.FC = () => {
         business={business}
         isOpen={isClaimModalOpen}
         onClose={() => setIsClaimModalOpen(false)}
+      />
+
+      {/* Direct Enquiry / Reservation Modal */}
+      <EnquiryModal
+        isOpen={isEnquiryModalOpen}
+        onClose={() => setIsEnquiryModalOpen(false)}
+        businessId={business._id || business.slug}
+        businessName={business.name}
+        categoryName={categoryName}
       />
     </div>
   );

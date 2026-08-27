@@ -4,6 +4,7 @@ import {
   ShieldAlert,
   LayoutDashboard,
   BarChart3,
+  DollarSign,
   Users,
   Store,
   FolderTree,
@@ -26,6 +27,7 @@ export const AdminDashboardLayout: React.FC = () => {
 
   const adminNav = [
     { label: 'Overview', path: ROUTES.ADMIN, icon: LayoutDashboard, exact: true },
+    { label: 'Revenue & Monetization', path: ROUTES.ADMIN_REVENUE, icon: DollarSign },
     { label: 'Analytics & Command Center', path: ROUTES.ADMIN_ANALYTICS, icon: BarChart3 },
     { label: 'Data Ingestion & Feeds', path: ROUTES.ADMIN_DATA_SOURCES, icon: Database },
     { label: 'Users', path: ROUTES.ADMIN_USERS, icon: Users },

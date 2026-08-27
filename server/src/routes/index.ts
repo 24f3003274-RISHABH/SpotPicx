@@ -21,6 +21,7 @@ import eventRoutes from './event.routes';
 import jobRoutes from './job.routes';
 import offerRoutes from './offer.routes';
 import discoveryRoutes from './discovery.routes';
+import monetizationRoutes from './monetization.routes';
 
 const router = Router();
 
@@ -49,6 +50,9 @@ router.use('/discovery', discoveryRoutes);
 router.use('/top10', top10Routes);
 router.use('/seo-pages', seoPageRoutes);
 router.use('/articles', articleRoutes);
+
+// Monetization, Ads & Leads (Phase 19)
+router.use('/monetization', monetizationRoutes);
 
 // Business Owner & Admin Portals
 router.use('/admin', adminRoutes);

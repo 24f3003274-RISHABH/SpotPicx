@@ -166,6 +166,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/pricing" className="hover:text-indigo-600 transition-colors font-semibold text-amber-700">
+                  Business Plans & Pricing
+                </Link>
+              </li>
+              <li>
                 <Link to="/articles" className="hover:text-indigo-600 transition-colors font-medium text-slate-700">
                   Delhi Magazine
                 </Link>

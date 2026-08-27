@@ -4,6 +4,7 @@ import { ClaimController } from '../controllers/claim.controller';
 import { OfferController } from '../controllers/offer.controller';
 import { AnalyticsController } from '../controllers/analytics.controller';
 import { ReviewController } from '../controllers/review.controller';
+import { MonetizationController } from '../controllers/monetization.controller';
 import { authenticate, authorize } from '../middleware/auth.middleware';
 import { USER_ROLES } from '../constants/roles';
 
@@ -18,6 +19,16 @@ router.use(
 // Dashboard Overview / Analytics
 router.get('/dashboard', AnalyticsController.getOwnerAnalytics);
 router.get('/analytics', AnalyticsController.getOwnerAnalytics);
+
+// Leads & Inquiries CRM (Phase 19)
+router.get('/leads/:businessId', MonetizationController.getBusinessLeads);
+router.patch('/leads/:leadId/status', MonetizationController.updateLeadStatus);
+
+// Subscriptions & Plans (Phase 19)
+router.get('/subscription/:businessId', MonetizationController.getSubscription);
+router.post('/checkout', MonetizationController.initiateCheckout);
+router.post('/verify', MonetizationController.verifyPayment);
+router.post('/cancel', MonetizationController.cancelSubscription);
 
 // Manage Owned Listings
 router.get('/businesses', async (req, res, next) => {

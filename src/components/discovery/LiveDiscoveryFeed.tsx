@@ -20,7 +20,7 @@ import { BusinessCard } from './BusinessCard';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { BusinessCardSkeleton } from '../ui/Skeletons';
-import api from '../../lib/api';
+import { apiClient } from '../../api/apiClient';
 
 interface LiveFeedData {
   trendingToday: any[];
@@ -42,7 +42,7 @@ export const LiveDiscoveryFeed: React.FC = () => {
     let isMounted = true;
     const fetchLiveFeed = async () => {
       try {
-        const res = await api.get('/discovery/live-feed');
+        const res = await apiClient.get('/discovery/live-feed');
         if (isMounted && res.data?.data) {
           setData(res.data.data);
         }
