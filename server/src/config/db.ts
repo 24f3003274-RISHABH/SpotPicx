@@ -36,6 +36,46 @@ class DatabaseConnection {
     return DatabaseConnection.instance;
   }
 
+  private sanitizeMongoUri(uri: string): string {
+    let sanitized = uri.trim();
+    
+    // Check if there are multiple '@' characters between the scheme and host
+    const schemeMatch = sanitized.match(/^(mongodb(?:\+srv)?:\/\/)(.*)$/);
+    if (schemeMatch) {
+      const scheme = schemeMatch[1];
+      const rest = schemeMatch[2];
+      
+      // Find the last '@' which separates credentials from host/query
+      const lastAtIndex = rest.lastIndexOf('@');
+      if (lastAtIndex !== -1) {
+        const creds = rest.substring(0, lastAtIndex);
+        const hostAndRest = rest.substring(lastAtIndex + 1);
+        
+        // Split creds by the first ':' to get username and password
+        const colonIndex = creds.indexOf(':');
+        if (colonIndex !== -1) {
+          const username = decodeURIComponent(creds.substring(0, colonIndex));
+          const rawPassword = decodeURIComponent(creds.substring(colonIndex + 1));
+          
+          // Re-encode username and password safely
+          const encodedUser = encodeURIComponent(username);
+          const encodedPass = encodeURIComponent(rawPassword);
+          
+          sanitized = `${scheme}${encodedUser}:${encodedPass}@${hostAndRest}`;
+        }
+      }
+    }
+
+    // Ensure a default database name exists before query params (e.g. /spotpicks?)
+    if (sanitized.includes('.mongodb.net/?') || sanitized.endsWith('.mongodb.net/')) {
+      sanitized = sanitized.replace('.mongodb.net/?', '.mongodb.net/spotpicks?').replace(/\.mongodb\.net\/$/, '.mongodb.net/spotpicks');
+    } else if (sanitized.endsWith('.mongodb.net')) {
+      sanitized = `${sanitized}/spotpicks`;
+    }
+
+    return sanitized;
+  }
+
   private isValidMongoUri(uri: string): boolean {
     if (!uri || typeof uri !== 'string') return false;
     const trimmed = uri.trim();
@@ -88,9 +128,10 @@ class DatabaseConnection {
     try {
       this.isConnecting = true;
       this.connectionAttempted = true;
+      const processedUri = this.sanitizeMongoUri(uri);
       console.log('⏳ [MongoDB] Connecting to MongoDB Atlas cluster...');
 
-      const conn = await mongoose.connect(uri, {
+      const conn = await mongoose.connect(processedUri, {
         serverSelectionTimeoutMS: 15000,
         connectTimeoutMS: 15000,
         socketTimeoutMS: 45000,

@@ -19,6 +19,7 @@ import {
   Calendar,
   ExternalLink,
   ChevronRight,
+  ChevronLeft,
   Heart,
   MessageSquare,
   Send,
@@ -28,6 +29,7 @@ import {
   Copy,
   Coffee,
   Utensils,
+  UtensilsCrossed,
   Landmark,
   Compass,
   Layers,
@@ -42,6 +44,7 @@ import {
   Image as ImageIcon,
   RefreshCw,
   Award,
+  Search,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
@@ -101,6 +104,11 @@ export const BusinessDetailPage: React.FC = () => {
   const [nearbyCategoryFilter, setNearbyCategoryFilter] = useState<'all' | 'cafes' | 'restaurants' | 'heritage'>('all');
   const [isRefreshingSummary, setIsRefreshingSummary] = useState(false);
   const [aiSummaryOverride, setAiSummaryOverride] = useState<any>(null);
+
+  // Menu Search and Filtering states
+  const [menuSearch, setMenuSearch] = useState('');
+  const [selectedMenuCategory, setSelectedMenuCategory] = useState('ALL');
+  const [isVegOnly, setIsVegOnly] = useState(false);
 
   const { data: business, isLoading, error } = useBusiness(slug);
   const { recordView } = usePersonalization();
@@ -369,53 +377,84 @@ export const BusinessDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Mosaic Gallery */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 rounded-3xl overflow-hidden h-[340px] sm:h-[420px] bg-slate-900 relative">
-            <div
-              className="md:col-span-2 h-full relative cursor-pointer group overflow-hidden"
-              onClick={() => {
-                setActiveImageIdx(0);
-                setLightboxOpen(true);
-              }}
-            >
+          {/* Responsive Photo Carousel & Scrollable Reel */}
+          <div className="space-y-3">
+            <div className="relative rounded-3xl overflow-hidden h-[340px] sm:h-[440px] bg-slate-900 shadow-md">
               <img
-                src={images[0]}
-                alt={business.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                src={images[activeImageIdx] || images[0]}
+                alt={`${business.name} photo ${activeImageIdx + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-300"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              
+              {/* Prev / Next Controls */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-slate-950/70 hover:bg-slate-950 text-white backdrop-blur-md border border-white/20 transition-all cursor-pointer shadow-lg z-10"
+                    aria-label="Previous photo"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-slate-950/70 hover:bg-slate-950 text-white backdrop-blur-md border border-white/20 transition-all cursor-pointer shadow-lg z-10"
+                    aria-label="Next photo"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </>
+              )}
+
+              {/* Photo Count Pill */}
+              <div className="absolute top-4 left-4 px-3 py-1.5 rounded-xl bg-slate-950/75 text-white text-xs font-bold backdrop-blur-md border border-white/20 shadow-md">
+                Photo {activeImageIdx + 1} of {images.length}
+              </div>
+
+              {/* Fullscreen Modal Trigger */}
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                className="absolute bottom-4 right-4 px-3.5 py-2 rounded-xl bg-slate-950/80 hover:bg-slate-950 text-white text-xs font-bold backdrop-blur-md border border-white/20 flex items-center gap-1.5 shadow-lg transition-all cursor-pointer z-10"
+              >
+                <Maximize2 className="h-3.5 w-3.5" />
+                <span>Fullscreen View</span>
+              </button>
             </div>
 
-            <div className="hidden md:grid col-span-2 grid-cols-2 gap-3 h-full">
-              {images.slice(1, 5).map((imgUrl, idx) => (
-                <div
-                  key={idx}
-                  className="relative h-full cursor-pointer group overflow-hidden"
-                  onClick={() => {
-                    setActiveImageIdx(idx + 1);
-                    setLightboxOpen(true);
-                  }}
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`${business.name} gallery ${idx + 2}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors" />
-                </div>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(true)}
-              className="absolute bottom-4 right-4 px-3.5 py-2 rounded-xl bg-slate-950/80 hover:bg-slate-950 text-white text-xs font-bold backdrop-blur-md border border-white/20 flex items-center gap-1.5 shadow-lg transition-all cursor-pointer"
-            >
-              <Maximize2 className="h-3.5 w-3.5" />
-              <span>View All {images.length} Photos</span>
-            </button>
+            {/* Horizontal Scrollable Thumbnail Reel */}
+            {images.length > 1 && (
+              <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none snap-x">
+                {images.map((imgUrl, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveImageIdx(idx)}
+                    className={`relative shrink-0 w-20 sm:w-28 h-16 sm:h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer snap-start ${
+                      activeImageIdx === idx
+                        ? 'border-indigo-600 ring-2 ring-indigo-500/30 opacity-100 scale-100'
+                        : 'border-transparent opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -592,6 +631,249 @@ export const BusinessDetailPage: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* RESTAURANT MENU & SPECIALTIES SECTION */}
+            {(() => {
+              // Curated fallback menu items if not populated yet in DB
+              const defaultDishes = [
+                {
+                  name: 'Chef’s Special Gourmet Signature Platter',
+                  category: 'Starters',
+                  price: 490,
+                  isVeg: true,
+                  isBestseller: true,
+                  description: 'Curated mix of artisanal bites, woodfired dips, and house condiments.',
+                },
+                {
+                  name: 'Signature Wood-Fired Truffle Pizza / Entrée',
+                  category: 'Main Course',
+                  price: 620,
+                  isVeg: true,
+                  isBestseller: true,
+                  description: 'Slow-fermented dough topped with fresh mozzarella, sautéed wild mushrooms, and truffle oil.',
+                },
+                {
+                  name: 'Smoked Garlic Butter Herb Bowl',
+                  category: 'Main Course',
+                  price: 540,
+                  isVeg: false,
+                  isBestseller: true,
+                  description: 'Charred tender protein infused with garlic thyme reduction and seasonal greens.',
+                },
+                {
+                  name: 'Artisanal Cold Brew / Specialty Blend',
+                  category: 'Beverages',
+                  price: 260,
+                  isVeg: true,
+                  isBestseller: false,
+                  description: 'Single-origin beans freshly extracted with a smooth velvety finish.',
+                },
+                {
+                  name: 'Signature Lotus Biscoff Baked Dessert',
+                  category: 'Desserts',
+                  price: 380,
+                  isVeg: true,
+                  isBestseller: true,
+                  description: 'Rich creamy decadent cake layer on spiced Belgian caramelized biscuit base.',
+                },
+                {
+                  name: 'House Spiced Butter Naan & Sourdough Crisps',
+                  category: 'Breads & Sides',
+                  price: 180,
+                  isVeg: true,
+                  isBestseller: false,
+                  description: 'Freshly baked breads brushed with aromatic herb butter.',
+                },
+              ];
+
+              const currentMenuItems =
+                business.menu && business.menu.length > 0 ? business.menu : defaultDishes;
+
+              const categories: string[] = [
+                'ALL',
+                ...(Array.from(new Set(currentMenuItems.map((m: any) => String(m.category || 'Main Course')))) as string[]),
+              ];
+
+              const filteredMenu = currentMenuItems.filter((item: any) => {
+                if (selectedMenuCategory !== 'ALL' && item.category !== selectedMenuCategory) return false;
+                if (isVegOnly && !item.isVeg) return false;
+                if (
+                  menuSearch.trim() &&
+                  !item.name.toLowerCase().includes(menuSearch.toLowerCase()) &&
+                  !item.description?.toLowerCase().includes(menuSearch.toLowerCase())
+                ) {
+                  return false;
+                }
+                return true;
+              });
+
+              return (
+                <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs" id="restaurant-menu">
+                  {/* Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+                        <UtensilsCrossed className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                          <span>Restaurant Menu</span>
+                          <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold">
+                            {currentMenuItems.length} Items
+                          </span>
+                        </h2>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          Explore curated culinary offerings & pricing for {business.name}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Veg Only Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setIsVegOnly((prev) => !prev)}
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-all cursor-pointer ${
+                        isVegOnly
+                          ? 'bg-emerald-50 border-emerald-300 text-emerald-700 shadow-xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span
+                        className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center ${
+                          isVegOnly ? 'border-emerald-600 bg-emerald-600' : 'border-emerald-600'
+                        }`}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </span>
+                      <span>{isVegOnly ? 'Pure Veg (Active)' : 'Veg Only Filter'}</span>
+                    </button>
+                  </div>
+
+                  {/* Search Bar & Category Tabs */}
+                  <div className="space-y-3">
+                    {/* Search inside menu */}
+                    <div className="relative">
+                      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="Search menu items (e.g. coffee, pizza, pasta, dessert)..."
+                        value={menuSearch}
+                        onChange={(e) => setMenuSearch(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                      />
+                      {menuSearch && (
+                        <button
+                          type="button"
+                          onClick={() => setMenuSearch('')}
+                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Category Tabs */}
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                      {categories.map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => setSelectedMenuCategory(cat)}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                            selectedMenuCategory === cat
+                              ? 'bg-indigo-600 text-white shadow-xs'
+                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Menu Items Grid */}
+                  {filteredMenu.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {filteredMenu.map((item: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className="p-4 rounded-2xl border border-slate-200/80 hover:border-indigo-200 bg-slate-50/50 hover:bg-white transition-all space-y-2 relative group flex flex-col justify-between"
+                        >
+                          <div className="space-y-1.5">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                {/* Veg/NonVeg Indicator */}
+                                <div
+                                  className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 ${
+                                    item.isVeg
+                                      ? 'border-emerald-600 bg-emerald-50'
+                                      : 'border-rose-600 bg-rose-50'
+                                  }`}
+                                  title={item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+                                >
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${
+                                      item.isVeg ? 'bg-emerald-600' : 'bg-rose-600'
+                                    }`}
+                                  />
+                                </div>
+                                <span className="font-bold text-slate-900 text-sm leading-snug">
+                                  {item.name}
+                                </span>
+                              </div>
+
+                              {/* Price */}
+                              <div className="font-extrabold text-indigo-700 text-sm shrink-0">
+                                ₹{item.price || 250}
+                              </div>
+                            </div>
+
+                            {item.description && (
+                              <p className="text-xs text-slate-500 leading-relaxed">
+                                {item.description}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-100/80 text-[11px]">
+                            <span className="px-2 py-0.5 rounded-md bg-slate-200/70 text-slate-700 font-semibold">
+                              {item.category || 'Specialty'}
+                            </span>
+                            {item.isBestseller && (
+                              <span className="inline-flex items-center gap-1 text-amber-700 font-bold bg-amber-100/80 px-2 py-0.5 rounded-md">
+                                <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                                <span>Bestseller</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center bg-slate-50 rounded-2xl space-y-2 border border-dashed border-slate-200">
+                      <Utensils className="h-8 w-8 text-slate-300 mx-auto" />
+                      <p className="text-sm font-semibold text-slate-700">
+                        No menu items found for this filter
+                      </p>
+                      <p className="text-xs text-slate-400">
+                        Try clearing search terms or selecting 'ALL' categories
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuSearch('');
+                          setSelectedMenuCategory('ALL');
+                          setIsVegOnly(false);
+                        }}
+                        className="text-xs text-indigo-600 font-bold hover:underline pt-1 cursor-pointer"
+                      >
+                        Reset Menu Filters
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Interactive AI Concierge Box */}
             <AskAboutPlaceBox business={business} />
