@@ -362,7 +362,7 @@ export const BusinessListingEditor: React.FC = () => {
                   <optgroup key={area} label={`📍 ${area}`}>
                     {locs.map((loc) => (
                       <option key={loc.id} value={loc.name}>
-                        {loc.name} ({loc.popularFor})
+                        {loc.name}
                       </option>
                     ))}
                   </optgroup>
