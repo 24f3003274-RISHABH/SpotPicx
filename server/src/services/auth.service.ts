@@ -56,12 +56,12 @@ const initializeInMemoryUsers = async () => {
     const salt = await bcrypt.genSalt(10);
     
     // 1. Super Admin / Admin
-    const adminHash = await bcrypt.hash('admin123', salt);
+    const adminHash = await bcrypt.hash('spotpicx@123', salt);
     inMemoryUsers.set('usr_admin_1', {
       id: 'usr_admin_1',
       name: 'SpotPicks Admin',
       username: 'spotpicks_admin',
-      email: 'admin@spotpicks.com',
+      email: 'rishabhmyp@gmail.com',
       passwordHash: adminHash,
       role: USER_ROLES.SUPER_ADMIN,
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
