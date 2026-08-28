@@ -1,5 +1,15 @@
 import { z } from 'zod';
 
+export const menuItemSchema = z.object({
+  name: z.string().trim().min(1, 'Item name is required'),
+  description: z.string().trim().optional().default(''),
+  price: z.number().nonnegative('Price must be a positive number'),
+  category: z.string().trim().optional().default('Main Course'),
+  isVeg: z.boolean().optional().default(true),
+  isBestseller: z.boolean().optional().default(false),
+  image: z.string().trim().optional().default(''),
+});
+
 export const createBusinessSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(150),
   slug: z.string().trim().toLowerCase().optional(),
@@ -24,6 +34,7 @@ export const createBusinessSchema = z.object({
   tags: z.array(z.string()).optional().default([]),
   amenities: z.array(z.string()).optional().default([]),
   features: z.array(z.string()).optional().default([]),
+  menu: z.array(menuItemSchema).optional().default([]),
   openingHours: z.record(z.string(), z.string()).optional().default({}),
   verified: z.boolean().optional().default(false),
   claimed: z.boolean().optional().default(false),

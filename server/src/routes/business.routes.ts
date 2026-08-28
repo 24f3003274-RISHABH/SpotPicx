@@ -29,6 +29,14 @@ router.post('/:id/track', AnalyticsController.trackAction);
 // POST /api/v1/businesses/:id/claim - Authenticated user can submit ownership claim
 router.post('/:id/claim', authenticate, ClaimController.submitClaim);
 
+// POST /api/v1/businesses/batch - Authorized roles batch creation
+router.post(
+  '/batch',
+  authenticate,
+  authorize(USER_ROLES.BUSINESS_OWNER, USER_ROLES.EDITOR, USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN),
+  BusinessController.createBatchBusinesses
+);
+
 // POST /api/v1/businesses - Authorized roles only
 router.post(
   '/',

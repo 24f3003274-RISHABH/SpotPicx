@@ -62,7 +62,13 @@ export const businessOwnerService = {
   async createListing(data: any): Promise<Business> {
     const res: any = await apiClient.post('/businesses', data);
     // Safely extract business from standard response contract
-    return res?.data?.business || res?.data || res?.business || res;
+    return res?.data?.business || res?.data?.data || res?.data || res?.business || res;
+  },
+
+  // Create batch of listings (e.g. 5 in one go)
+  async createBatchListings(businesses: any[]): Promise<Business[]> {
+    const res: any = await apiClient.post('/businesses/batch', { businesses });
+    return res?.data?.data || res?.data?.businesses || res?.data || [];
   },
 
   // Update existing listing

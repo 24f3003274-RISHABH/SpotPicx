@@ -4,6 +4,17 @@ export type PriceRange = 'BUDGET' | 'MODERATE' | 'PREMIUM' | 'LUXURY';
 export type BusinessStatus = 'PUBLISHED' | 'ACTIVE' | 'DRAFT' | 'PENDING_REVIEW' | 'PENDING' | 'REJECTED' | 'ARCHIVED';
 export type ClaimStatus = 'UNCLAIMED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
 
+export interface IMenuItem {
+  _id?: string;
+  name: string;
+  description?: string;
+  price: number;
+  category: string; // e.g., 'Starters', 'Main Course', 'Breads', 'Beverages', 'Desserts'
+  isVeg: boolean;
+  isBestseller?: boolean;
+  image?: string;
+}
+
 export interface PlaceAccessibility {
   wheelchairAccessible: boolean;
   elevator?: boolean;
@@ -102,6 +113,7 @@ export interface IBusiness extends Document {
   tags: string[];
   amenities: string[];
   features: string[];
+  menu?: IMenuItem[];
   openingHours: Record<string, string>;
   verified: boolean;
   claimed: boolean;
@@ -293,6 +305,17 @@ const BusinessSchema = new Schema<IBusiness>(
       {
         type: String,
         trim: true,
+      },
+    ],
+    menu: [
+      {
+        name: { type: String, required: true, trim: true },
+        description: { type: String, default: '', trim: true },
+        price: { type: Number, required: true },
+        category: { type: String, default: 'Main Course', trim: true },
+        isVeg: { type: Boolean, default: true },
+        isBestseller: { type: Boolean, default: false },
+        image: { type: String, default: '' },
       },
     ],
     openingHours: {

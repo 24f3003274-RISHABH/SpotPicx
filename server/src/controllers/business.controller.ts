@@ -159,6 +159,35 @@ export class BusinessController {
     }
   }
 
+  public static async createBatchBusinesses(req: Request, res: Response): Promise<void> {
+    try {
+      const items = Array.isArray(req.body.businesses) ? req.body.businesses : [req.body];
+      const user = (req as any).user;
+      const createdList = [];
+
+      for (const rawItem of items) {
+        const validatedData = createBusinessSchema.parse(rawItem);
+        const newBusiness = await BusinessService.createBusiness(validatedData, user?._id || user?.id);
+        createdList.push(newBusiness);
+      }
+
+      res.status(201).json({
+        success: true,
+        message: `Successfully created ${createdList.length} establishments in MongoDB Atlas`,
+        data: createdList,
+        count: createdList.length,
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'CREATE_BATCH_BUSINESS_ERROR',
+          message: error.message || 'Failed to batch create businesses',
+        },
+      });
+    }
+  }
+
   public static async createBusiness(req: Request, res: Response): Promise<void> {
     try {
       const validatedData = createBusinessSchema.parse(req.body);

@@ -171,6 +171,18 @@ export interface GalleryItem {
   sourceAttribution?: string;
 }
 
+export interface MenuItem {
+  _id?: string;
+  id?: string;
+  name: string;
+  description?: string;
+  price: number;
+  category: string;
+  isVeg: boolean;
+  isBestseller?: boolean;
+  image?: string;
+}
+
 export interface Business {
   _id: string;
   id?: string;
@@ -208,6 +220,7 @@ export interface Business {
   tags: string[];
   amenities: string[];
   features: string[];
+  menu?: MenuItem[];
   openingHours?: Record<string, string> | Array<{ day: string; open: string; close: string; isClosed?: boolean }>;
   verified: boolean;
   claimed: boolean;
