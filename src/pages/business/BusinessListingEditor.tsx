@@ -20,23 +20,7 @@ import {
 import { businessOwnerService } from '../../services/businessOwnerService';
 import { discoveryService } from '../../services/discoveryService';
 import { ROUTES } from '../../constants/routes';
-
-const DELHI_LOCALITIES = [
-  'Hauz Khas Village',
-  'Saidulajab, Saket',
-  'Connaught Place',
-  'Khan Market',
-  'Chandni Chowk',
-  'Greater Kailash 1 (M-Block)',
-  'Shahpur Jat',
-  'Majnu Ka Tilla',
-  'Cyber Hub (NCR)',
-  'Aerocity',
-  'Vasant Kunj',
-  'Green Park',
-  'Defence Colony',
-  'Old Delhi (Jama Masjid)',
-];
+import { POPULAR_DELHI_LOCALITIES } from '../../constants/locations';
 
 const DEFAULT_HOURS: Record<string, string> = {
   Monday: '09:00 AM - 10:00 PM',
@@ -85,6 +69,27 @@ export const BusinessListingEditor: React.FC = () => {
   ]);
   const [amenityInput, setAmenityInput] = useState('');
   const [openingHours, setOpeningHours] = useState<Record<string, string>>(DEFAULT_HOURS);
+
+  const groupedLocalities = React.useMemo(() => {
+    const groups: Record<string, typeof POPULAR_DELHI_LOCALITIES> = {};
+    POPULAR_DELHI_LOCALITIES.forEach((item) => {
+      const area = item.area || 'Delhi NCR';
+      if (!groups[area]) groups[area] = [];
+      groups[area].push(item);
+    });
+    return groups;
+  }, []);
+
+  const handleLocalityChange = (locName: string) => {
+    setLocality(locName);
+    const found = POPULAR_DELHI_LOCALITIES.find(
+      (l) => l.name.toLowerCase() === locName.toLowerCase() || l.id === locName
+    );
+    if (found) {
+      setLatitude(found.latitude);
+      setLongitude(found.longitude);
+    }
+  };
 
   useEffect(() => {
     const init = async () => {
@@ -347,13 +352,20 @@ export const BusinessListingEditor: React.FC = () => {
               <label className="text-xs font-bold text-slate-700">Delhi Locality / Neighborhood</label>
               <select
                 value={locality}
-                onChange={(e) => setLocality(e.target.value)}
+                onChange={(e) => handleLocalityChange(e.target.value)}
                 className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
               >
-                {DELHI_LOCALITIES.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc}
-                  </option>
+                {locality && !POPULAR_DELHI_LOCALITIES.some((l) => l.name === locality) && (
+                  <option value={locality}>{locality}</option>
+                )}
+                {Object.entries(groupedLocalities).map(([area, locs]) => (
+                  <optgroup key={area} label={`📍 ${area}`}>
+                    {locs.map((loc) => (
+                      <option key={loc.id} value={loc.name}>
+                        {loc.name} ({loc.popularFor})
+                      </option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
