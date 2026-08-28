@@ -8,7 +8,7 @@ export const getHealth = (req: Request, res: Response) => {
   // { success: true, message: "SpotPicks API is running" }
   return res.status(200).json({
     success: true,
-    message: 'SpotPicks API is running',
+    message: 'SpotPicx API is running',
     data: healthData,
   });
 };

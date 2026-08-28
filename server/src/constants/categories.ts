@@ -6,6 +6,8 @@ export interface CategoryItem {
   description: string;
   popularSearchTerms: string[];
 }
+// Ok this is the file where i can add the categories of the product in future ,
+// till now i have enough categories
 
 export const MAIN_CATEGORIES: CategoryItem[] = [
   {

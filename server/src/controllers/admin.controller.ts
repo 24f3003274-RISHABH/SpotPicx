@@ -1,4 +1,11 @@
 import { Request, Response } from 'express';
+
+// all the services are mentioned inside the servioce folder , 
+//  from there i justv importing the service , till now ,
+// controller does not know about the what type of service can be provide ,
+//  it just controll the flow
+// whatever route  folder say to controller , controller will that  thing , it dows not kniow anything
+
 import { AdminService } from '../services/admin.service';
 import { BusinessService } from '../services/business.service';
 import { ReviewService } from '../services/review.service';

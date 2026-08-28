@@ -13,6 +13,8 @@ interface DBStatus {
   message?: string;
 }
 
+// this is the mongodb configure file 
+
 const stateMap: Record<number, string> = {
   0: 'disconnected',
   1: 'connected',

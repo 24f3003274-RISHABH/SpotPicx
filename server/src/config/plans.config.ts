@@ -4,6 +4,7 @@ export interface PlanFeature {
   limit?: string | number;
   highlight?: boolean;
 }
+// Ok this is the file , where we can set the business plan , for earning the subscription based money from the type of the user 
 
 export interface BusinessPlan {
   id: 'FREE' | 'BASIC' | 'PREMIUM' | 'ENTERPRISE';
@@ -26,6 +27,10 @@ export interface BusinessPlan {
       savingsPercent: number;
     };
   };
+
+
+  // whatevr features of the plan should be there it is mentioned here 
+
   features: PlanFeature[];
   limits: {
     activeOffers: number;
