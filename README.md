@@ -1,5 +1,4 @@
 # SpotPicx — Local Discovery & Recommendation Platform
-# Spotpicx
 
 > **"Discover. Explore. Pick the Best."**
 > SpotPicks is a scalable, data-driven local discovery and recommendation platform built for Delhi-NCR and architected for rapid expansion across major Indian metros (Mumbai, Bengaluru, Hyderabad, Pune, etc.).
