@@ -119,8 +119,8 @@ export const AdminBusinessesTab: React.FC = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2">
-        {['ALL', 'ACTIVE', 'PENDING', 'SUSPENDED'].map((s) => (
+      <div className="flex items-center gap-2 flex-wrap">
+        {['ALL', 'PUBLISHED', 'ACTIVE', 'DRAFT', 'PENDING_REVIEW', 'SUSPENDED'].map((s) => (
           <button
             key={s}
             type="button"
@@ -218,14 +218,18 @@ export const AdminBusinessesTab: React.FC = () => {
 
                       <td className="p-4">
                         <select
-                          value={biz.status || 'ACTIVE'}
+                          value={biz.status || 'PUBLISHED'}
                           onChange={(e) => handleStatusChange(biz._id, e.target.value)}
                           disabled={isBusy}
                           className="text-[11px] font-bold px-2 py-1 rounded-lg border border-slate-200 bg-white"
                         >
+                          <option value="PUBLISHED">PUBLISHED</option>
                           <option value="ACTIVE">ACTIVE</option>
+                          <option value="DRAFT">DRAFT</option>
+                          <option value="PENDING_REVIEW">PENDING_REVIEW</option>
                           <option value="PENDING">PENDING</option>
                           <option value="SUSPENDED">SUSPENDED</option>
+                          <option value="ARCHIVED">ARCHIVED</option>
                         </select>
                       </td>
 

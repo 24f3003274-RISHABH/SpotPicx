@@ -27,7 +27,8 @@ export const createBusinessSchema = z.object({
   openingHours: z.record(z.string(), z.string()).optional().default({}),
   verified: z.boolean().optional().default(false),
   claimed: z.boolean().optional().default(false),
-  status: z.enum(['ACTIVE', 'PENDING', 'REJECTED', 'ARCHIVED']).optional().default('ACTIVE'),
+  claimStatus: z.enum(['UNCLAIMED', 'PENDING', 'VERIFIED', 'REJECTED']).optional().default('UNCLAIMED'),
+  status: z.enum(['PUBLISHED', 'ACTIVE', 'DRAFT', 'PENDING_REVIEW', 'PENDING', 'REJECTED', 'ARCHIVED']).optional().default('PUBLISHED'),
 });
 
 export const updateBusinessSchema = createBusinessSchema.partial();

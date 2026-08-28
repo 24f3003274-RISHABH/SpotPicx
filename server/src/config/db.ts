@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import { ENV } from './env';
 
-// Disable buffering to prevent hanging requests when MongoDB Atlas is disconnected/unreachable
-mongoose.set('bufferCommands', false);
+// Enable command buffering so initial requests wait for connection rather than failing prematurely
+mongoose.set('bufferCommands', true);
 
 interface DBStatus {
   isConnected: boolean;
@@ -12,8 +12,6 @@ interface DBStatus {
   mode: 'atlas_connected' | 'offline_dev_mode' | 'connecting' | 'error';
   message?: string;
 }
-
-// this is the mongodb configure file 
 
 const stateMap: Record<number, string> = {
   0: 'disconnected',
@@ -27,6 +25,7 @@ class DatabaseConnection {
   private isConnecting: boolean = false;
   private connectionAttempted: boolean = false;
   private lastError: string | null = null;
+  private listenersAttached: boolean = false;
 
   private constructor() {}
 
@@ -49,12 +48,32 @@ class DatabaseConnection {
     return false;
   }
 
+  private attachEventListeners(): void {
+    if (this.listenersAttached) return;
+    this.listenersAttached = true;
+
+    mongoose.connection.on('connected', () => {
+      console.log('✅ [MongoDB] Persistent connection active to MongoDB Atlas.');
+      this.lastError = null;
+    });
+
+    mongoose.connection.on('error', (err) => {
+      console.warn('⚠️ [MongoDB] Runtime connection error:', err?.message || err);
+      this.lastError = err?.message || 'Connection error';
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.warn('🔌 [MongoDB] Connection disconnected. MongoDB client will attempt auto-reconnect.');
+    });
+  }
+
   public async connect(): Promise<boolean> {
     const uri = ENV.MONGODB_URI?.trim();
+    this.attachEventListeners();
 
     if (!this.isValidMongoUri(uri)) {
       this.lastError = 'MONGODB_URI is not configured with valid credentials';
-      console.log('ℹ️ [MongoDB] Running in offline development mode with fast in-memory store.');
+      console.log('ℹ️ [MongoDB] Operating with resilient in-memory fallback until MONGODB_URI is configured.');
       return false;
     }
 
@@ -72,12 +91,15 @@ class DatabaseConnection {
       console.log('⏳ [MongoDB] Connecting to MongoDB Atlas cluster...');
 
       const conn = await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 2000,
-        connectTimeoutMS: 2000,
-        socketTimeoutMS: 10000,
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 15000,
+        socketTimeoutMS: 45000,
+        maxPoolSize: 10,
+        minPoolSize: 2,
+        autoIndex: process.env.NODE_ENV !== 'production',
       });
 
-      console.log(`✅ [MongoDB] Connected successfully: ${conn.connection.host}/${conn.connection.name}`);
+      console.log(`✅ [MongoDB Atlas] Connected successfully: ${conn.connection.host}/${conn.connection.name}`);
       this.isConnecting = false;
       this.lastError = null;
       return true;
@@ -85,7 +107,7 @@ class DatabaseConnection {
       this.isConnecting = false;
       const errorMessage = err instanceof Error ? err.message : String(err);
       this.lastError = errorMessage;
-      console.warn(`⚠️ [MongoDB] Could not reach database server: ${errorMessage}. SpotPicks resilient offline engine active.`);
+      console.warn(`⚠️ [MongoDB] Notice on connection attempt: ${errorMessage}`);
       return false;
     }
   }

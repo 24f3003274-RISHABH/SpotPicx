@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 export type PriceRange = 'BUDGET' | 'MODERATE' | 'PREMIUM' | 'LUXURY';
-export type BusinessStatus = 'ACTIVE' | 'PENDING' | 'REJECTED' | 'ARCHIVED';
+export type BusinessStatus = 'PUBLISHED' | 'ACTIVE' | 'DRAFT' | 'PENDING_REVIEW' | 'PENDING' | 'REJECTED' | 'ARCHIVED';
+export type ClaimStatus = 'UNCLAIMED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
 
 export interface PlaceAccessibility {
   wheelchairAccessible: boolean;
@@ -104,6 +105,7 @@ export interface IBusiness extends Document {
   openingHours: Record<string, string>;
   verified: boolean;
   claimed: boolean;
+  claimStatus: ClaimStatus;
   owner?: mongoose.Types.ObjectId | null;
   status: BusinessStatus;
   // Place Intelligence (Phase 16)
@@ -316,6 +318,12 @@ const BusinessSchema = new Schema<IBusiness>(
       default: false,
       index: true,
     },
+    claimStatus: {
+      type: String,
+      enum: ['UNCLAIMED', 'PENDING', 'VERIFIED', 'REJECTED'],
+      default: 'UNCLAIMED',
+      index: true,
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -324,8 +332,8 @@ const BusinessSchema = new Schema<IBusiness>(
     },
     status: {
       type: String,
-      enum: ['ACTIVE', 'PENDING', 'REJECTED', 'ARCHIVED'],
-      default: 'ACTIVE',
+      enum: ['PUBLISHED', 'ACTIVE', 'DRAFT', 'PENDING_REVIEW', 'PENDING', 'REJECTED', 'ARCHIVED'],
+      default: 'PUBLISHED',
       index: true,
     },
     // Source Tracking & Freshness (Phase 15)

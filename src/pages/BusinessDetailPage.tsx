@@ -69,10 +69,10 @@ import { mapService } from '../services/map';
 import { Business } from '../types';
 
 const priceRangeMap: Record<string, { label: string; text: string; color: string }> = {
-  BUDGET: { label: '₹', text: 'Budget-Friendly (₹100 - ₹400 for two)', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  MODERATE: { label: '₹₹', text: 'Moderate (₹500 - ₹1200 for two)', color: 'text-indigo-700 bg-indigo-50 border-indigo-200' },
-  PREMIUM: { label: '₹₹₹', text: 'Premium (₹1500 - ₹3000 for two)', color: 'text-purple-700 bg-purple-50 border-purple-200' },
-  LUXURY: { label: '₹₹₹₹', text: 'Luxury (₹3500+ for two)', color: 'text-amber-800 bg-amber-50 border-amber-200' },
+  BUDGET: { label: '₹', text: 'Budget-Friendly (Under ₹500 for two)', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+  MODERATE: { label: '₹₹', text: 'Casual Dining (₹500 - ₹1,500 for two)', color: 'text-indigo-700 bg-indigo-50 border-indigo-200' },
+  PREMIUM: { label: '₹₹₹', text: 'Gourmet (₹1,500 - ₹3,000 for two)', color: 'text-purple-700 bg-purple-50 border-purple-200' },
+  LUXURY: { label: '₹₹₹₹', text: 'Fine Dining (₹3,000+ for two)', color: 'text-amber-800 bg-amber-50 border-amber-200' },
 };
 
 interface UserReview {

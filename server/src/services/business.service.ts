@@ -29,7 +29,7 @@ export class BusinessService {
 
     if (dbConnection.getStatus().isConnected) {
       try {
-        const filter: Record<string, any> = { status: 'ACTIVE' };
+        const filter: Record<string, any> = { status: { $in: ['ACTIVE', 'PUBLISHED'] } };
 
         // State filter
         if (params.state) {
@@ -130,7 +130,7 @@ export class BusinessService {
     // In-Memory Fallback
     SeedService.initializeInMemoryStore();
     let all = Array.from(SeedService.inMemoryBusinesses.values()).filter(
-      (b) => b.status === 'ACTIVE'
+      (b) => b.status === 'ACTIVE' || b.status === 'PUBLISHED'
     );
 
     // State filter
@@ -268,10 +268,23 @@ export class BusinessService {
         if (cat) catId = cat._id;
       }
 
+      const primaryImage = input.images && input.images.length > 0 ? input.images[0] : '';
+      const coverImage = input.images && input.images.length > 0 ? input.images[0] : (input.logo || '');
+      const galleryItems = (input.images || []).map((imgUrl, idx) => ({
+        url: imgUrl,
+        caption: `${input.name} Photo ${idx + 1}`,
+        isHero: idx === 0,
+      }));
+
       const business = await Business.create({
         ...input,
         slug,
         category: catId,
+        coverImage,
+        thumbnail: coverImage,
+        gallery: galleryItems,
+        status: input.status || 'PUBLISHED',
+        claimStatus: input.claimStatus || 'UNCLAIMED',
         location: {
           type: 'Point',
           coordinates: [input.longitude || 77.209, input.latitude || 28.6139],
@@ -291,12 +304,20 @@ export class BusinessService {
       slug,
       rating: 5.0,
       reviewCount: 1,
+      coverImage: input.images?.[0] || '',
+      thumbnail: input.images?.[0] || '',
+      gallery: (input.images || []).map((imgUrl, idx) => ({
+        url: imgUrl,
+        caption: `${input.name} Photo ${idx + 1}`,
+        isHero: idx === 0,
+      })),
       location: {
         type: 'Point',
         coordinates: [input.longitude || 77.209, input.latitude || 28.6139],
       },
       owner: userId,
-      status: input.status || 'ACTIVE',
+      status: input.status || 'PUBLISHED',
+      claimStatus: input.claimStatus || 'UNCLAIMED',
       createdAt: new Date(),
       updatedAt: new Date(),
     };

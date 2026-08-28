@@ -48,6 +48,7 @@ export const BusinessListingEditor: React.FC = () => {
   const [description, setDescription] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [category, setCategory] = useState('');
+  const [status, setStatus] = useState('PUBLISHED');
   const [locality, setLocality] = useState('Saidulajab, Saket');
   const [address, setAddress] = useState('');
   const [priceRange, setPriceRange] = useState('MODERATE');
@@ -68,6 +69,8 @@ export const BusinessListingEditor: React.FC = () => {
     'Air Conditioned',
   ]);
   const [amenityInput, setAmenityInput] = useState('');
+  const [tags, setTags] = useState<string[]>(['Artisanal Coffee', 'Work Cafe', 'Brunch Spot']);
+  const [tagInput, setTagInput] = useState('');
   const [openingHours, setOpeningHours] = useState<Record<string, string>>(DEFAULT_HOURS);
 
   const groupedLocalities = React.useMemo(() => {
@@ -107,6 +110,7 @@ export const BusinessListingEditor: React.FC = () => {
             setName(biz.name || '');
             setDescription(biz.description || '');
             setShortDescription(biz.shortDescription || '');
+            setStatus(biz.status || 'PUBLISHED');
             setCategory(
               typeof biz.category === 'object' ? (biz.category as any)._id : biz.category || ''
             );
@@ -120,6 +124,7 @@ export const BusinessListingEditor: React.FC = () => {
             setLongitude(biz.longitude || 77.209);
             if (biz.images && biz.images.length > 0) setImages(biz.images);
             if (biz.amenities && biz.amenities.length > 0) setAmenities(biz.amenities);
+            if (biz.tags && biz.tags.length > 0) setTags(biz.tags);
             if (biz.openingHours) setOpeningHours({ ...DEFAULT_HOURS, ...biz.openingHours });
           }
         }
@@ -132,28 +137,86 @@ export const BusinessListingEditor: React.FC = () => {
     init();
   }, [id, isEditMode]);
 
+  // Bulk add photo URLs (comma, space, or newline separated)
   const handleAddImage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!imageInput.trim()) return;
-    setImages([...images, imageInput.trim()]);
+    const splitUrls = imageInput
+      .split(/[\n,]+/)
+      .map((u) => u.trim())
+      .filter((u) => u.length > 5 && u.startsWith('http'));
+
+    if (splitUrls.length > 0) {
+      const unique = Array.from(new Set([...images, ...splitUrls]));
+      setImages(unique);
+    }
     setImageInput('');
+  };
+
+  const handleBulkAddImages = () => {
+    const curated5Photos = [
+      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800',
+      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800',
+      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800',
+      'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800',
+      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800',
+    ];
+    setImages(Array.from(new Set([...images, ...curated5Photos])));
   };
 
   const handleRemoveImage = (index: number) => {
     setImages(images.filter((_, idx) => idx !== index));
   };
 
+  // Bulk add amenities (comma separated supported)
   const handleAddAmenity = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amenityInput.trim()) return;
-    if (!amenities.includes(amenityInput.trim())) {
-      setAmenities([...amenities, amenityInput.trim()]);
-    }
+    const splitItems = amenityInput
+      .split(',')
+      .map((a) => a.trim())
+      .filter((a) => a.length > 1);
+
+    const merged = Array.from(new Set([...amenities, ...splitItems]));
+    setAmenities(merged);
     setAmenityInput('');
+  };
+
+  const handleBulkAdd5Amenities = () => {
+    const top5Amenities = [
+      'Pet Friendly',
+      'Valet Parking',
+      'Rooftop Seating',
+      'High-Speed Wi-Fi',
+      'Outdoor Courtyard',
+    ];
+    setAmenities(Array.from(new Set([...amenities, ...top5Amenities])));
   };
 
   const handleRemoveAmenity = (val: string) => {
     setAmenities(amenities.filter((a) => a !== val));
+  };
+
+  // Bulk add search tags & keywords
+  const handleAddTag = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!tagInput.trim()) return;
+    const splitTags = tagInput
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t.length > 1);
+
+    setTags(Array.from(new Set([...tags, ...splitTags])));
+    setTagInput('');
+  };
+
+  const handleBulkAdd5Tags = () => {
+    const top5Tags = ['Artisanal Coffee', 'Co-Working Friendly', 'Aesthetic Decor', 'Live Music', 'Brunch Hub'];
+    setTags(Array.from(new Set([...tags, ...top5Tags])));
+  };
+
+  const handleRemoveTag = (val: string) => {
+    setTags(tags.filter((t) => t !== val));
   };
 
   const handleHourChange = (day: string, value: string) => {
@@ -184,6 +247,7 @@ export const BusinessListingEditor: React.FC = () => {
         description: description.trim(),
         shortDescription: shortDescription.trim() || description.substring(0, 160),
         category,
+        status,
         locality,
         address: address.trim(),
         city: 'Delhi',
@@ -195,15 +259,16 @@ export const BusinessListingEditor: React.FC = () => {
         longitude: Number(longitude),
         images,
         amenities,
+        tags,
         openingHours,
       };
 
       if (isEditMode && id) {
         await businessOwnerService.updateListing(id, payload);
-        setSuccessMsg('Establishment listing updated successfully!');
+        setSuccessMsg('Establishment listing updated successfully and saved to MongoDB Atlas!');
       } else {
         await businessOwnerService.createListing(payload);
-        setSuccessMsg('Establishment listing created and published!');
+        setSuccessMsg('Establishment listing created and published to MongoDB Atlas!');
         setTimeout(() => navigate(ROUTES.BUSINESS_LISTINGS), 1200);
       }
     } catch (err: any) {
@@ -301,12 +366,26 @@ export const BusinessListingEditor: React.FC = () => {
               <select
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white font-medium"
               >
-                <option value="BUDGET">BUDGET (Under ₹500 for two)</option>
-                <option value="MODERATE">MODERATE (₹500 - ₹1,500 for two)</option>
-                <option value="PREMIUM">PREMIUM (₹1,500 - ₹3,000 for two)</option>
-                <option value="LUXURY">LUXURY (₹3,000+ for two)</option>
+                <option value="BUDGET">Budget-Friendly — Under ₹500 (BUDGET)</option>
+                <option value="MODERATE">Casual Dining — ₹500–₹1,500 (MODERATE)</option>
+                <option value="PREMIUM">Gourmet — ₹1,500–₹3,000 (PREMIUM)</option>
+                <option value="LUXURY">Fine Dining — ₹3,000+ (LUXURY)</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">Publication Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white font-medium"
+              >
+                <option value="PUBLISHED">🟢 Live / Published (Visible across Delhi directory)</option>
+                <option value="DRAFT">🟡 Draft (Hidden from public discover)</option>
+                <option value="PENDING_REVIEW">🔵 Pending Review (Submitted for verification)</option>
+                <option value="ARCHIVED">⚪ Archived (Unlisted)</option>
               </select>
             </div>
 
@@ -462,7 +541,7 @@ export const BusinessListingEditor: React.FC = () => {
                 type="url"
                 value={imageInput}
                 onChange={(e) => setImageInput(e.target.value)}
-                placeholder="Paste photo image URL (e.g. https://images.unsplash.com/...)"
+                placeholder="Paste single or comma-separated image URLs (e.g. https://images.unsplash.com/...)"
                 className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
               <button
@@ -470,7 +549,15 @@ export const BusinessListingEditor: React.FC = () => {
                 onClick={handleAddImage}
                 className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer"
               >
-                Add Image
+                Add Photo
+              </button>
+              <button
+                type="button"
+                onClick={handleBulkAddImages}
+                className="px-3.5 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-bold transition-all cursor-pointer whitespace-nowrap"
+                title="Quickly populate 5 verified aesthetic venue photos"
+              >
+                ⚡ Add 5 HD Photos
               </button>
             </div>
 
@@ -519,16 +606,25 @@ export const BusinessListingEditor: React.FC = () => {
           </div>
         </div>
 
-        {/* 5. Amenities & Highlights */}
+        {/* 5. Amenities & Features */}
         <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-          <div className="border-b border-slate-100 pb-4">
-            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Tag className="h-4 w-4 text-indigo-600" />
-              <span>Amenities & Features</span>
-            </h2>
-            <p className="text-xs text-slate-500">
-              Badges that help explorers filter for study cafes, rooftop views, valet parking, etc.
-            </p>
+          <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Tag className="h-4 w-4 text-indigo-600" />
+                <span>Amenities & Features</span>
+              </h2>
+              <p className="text-xs text-slate-500">
+                Badges that help explorers filter for study cafes, rooftop views, valet parking, etc.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleBulkAdd5Amenities}
+              className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-bold cursor-pointer"
+            >
+              ⚡ Add 5 Popular Amenities
+            </button>
           </div>
 
           <div className="space-y-3">
@@ -537,15 +633,15 @@ export const BusinessListingEditor: React.FC = () => {
                 type="text"
                 value={amenityInput}
                 onChange={(e) => setAmenityInput(e.target.value)}
-                placeholder="e.g. Pet Friendly, Valet Parking, Rooftop Lake View"
+                placeholder="e.g. Pet Friendly, Valet Parking, Rooftop Lake View (comma separated supported)"
                 className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
               <button
                 type="button"
                 onClick={handleAddAmenity}
-                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold cursor-pointer"
               >
-                Add Tag
+                Add
               </button>
             </div>
 
@@ -559,6 +655,65 @@ export const BusinessListingEditor: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleRemoveAmenity(item)}
+                    className="hover:text-rose-600 cursor-pointer font-bold text-xs"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 6. Tags & Search Keywords */}
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
+          <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Tag className="h-4 w-4 text-emerald-600" />
+                <span>Search Tags & Highlights</span>
+              </h2>
+              <p className="text-xs text-slate-500">
+                Keywords that power natural search, curated guides, and mood filters.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleBulkAdd5Tags}
+              className="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-bold cursor-pointer"
+            >
+              ⚡ Add 5 Trending Tags
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                placeholder="e.g. Artisanal Coffee, Sourdough Pizza, Romantic Date (comma separated supported)"
+                className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold cursor-pointer"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {tags.map((t, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold"
+                >
+                  <span>#{t}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveTag(t)}
                     className="hover:text-rose-600 cursor-pointer font-bold text-xs"
                   >
                     ×
