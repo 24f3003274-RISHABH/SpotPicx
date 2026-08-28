@@ -29,24 +29,6 @@ export const startStandaloneServer = async () => {
     console.log(`📡 [Health Endpoint] http://0.0.0.0:${ENV.PORT}${ENV.API_PREFIX}/health`);
   });
 
-  app.get("/api/v1/debug/database", async (_req, res) => {
-    try {
-      const mongoose = await import("mongoose");
-
-      res.json({
-        success: true,
-        readyState: mongoose.default.connection.readyState,
-        host: mongoose.default.connection.host,
-        database: mongoose.default.connection.name,
-        port: mongoose.default.connection.port,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        error: error instanceof Error ? error.message : String(error),
-      });
-    }
-  });
 
   return server;
 };

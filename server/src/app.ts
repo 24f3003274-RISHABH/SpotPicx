@@ -20,6 +20,26 @@ export const createApp = () => {
     })
   );
 
+
+  app.get("/api/v1/debug/database", async (_req, res) => {
+    try {
+      const mongoose = await import("mongoose");
+
+      res.json({
+        success: true,
+        readyState: mongoose.default.connection.readyState,
+        host: mongoose.default.connection.host,
+        database: mongoose.default.connection.name,
+        port: mongoose.default.connection.port,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  });
+
   // Cross-Origin Resource Sharing with credentials for HTTP-only cookies
   app.use(
     cors({
