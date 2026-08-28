@@ -440,6 +440,74 @@ export class AuthService {
   }
 
   /**
+   * Seed Super Admin and default demo accounts into MongoDB Atlas
+   */
+  public static async seedMongoUsers(): Promise<void> {
+    if (!this.isDbReady()) return;
+
+    try {
+      // 1. Super Admin Account
+      const adminEmail = 'rishabhmyp@gmail.com';
+      let admin = await User.findOne({ email: adminEmail });
+      if (!admin) {
+        admin = new User({
+          name: 'SpotPicks Admin',
+          username: 'spotpicks_admin',
+          email: adminEmail,
+          password: 'spotpicx@8218',
+          role: USER_ROLES.SUPER_ADMIN,
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+          bio: 'Platform architect & chief curator for SpotPicks Delhi NCR.',
+          city: 'Delhi',
+          isActive: true,
+        });
+        await admin.save();
+        console.log(`👤 [AuthService] Seeded Super Admin into MongoDB: ${adminEmail}`);
+      }
+
+      // 2. Business Owner Account
+      const ownerEmail = 'owner@spotpicks.com';
+      let owner = await User.findOne({ email: ownerEmail });
+      if (!owner) {
+        owner = new User({
+          name: 'Rohan Oberoi',
+          username: 'rohan_oberoi',
+          email: ownerEmail,
+          password: 'owner123',
+          role: USER_ROLES.BUSINESS_OWNER,
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
+          bio: 'Proprietor of artisanal cafes in Hauz Khas and premium stays in South Delhi.',
+          city: 'Delhi',
+          isActive: true,
+        });
+        await owner.save();
+        console.log(`👤 [AuthService] Seeded Business Owner into MongoDB: ${ownerEmail}`);
+      }
+
+      // 3. Explorer Account
+      const userEmail = 'user@spotpicks.com';
+      let explorer = await User.findOne({ email: userEmail });
+      if (!explorer) {
+        explorer = new User({
+          name: 'Ananya Sharma',
+          username: 'ananya_delhi',
+          email: userEmail,
+          password: 'user123',
+          role: USER_ROLES.USER,
+          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80',
+          bio: 'Street food lover, momo hunter, and weekend heritage photographer in Delhi.',
+          city: 'Delhi',
+          isActive: true,
+        });
+        await explorer.save();
+        console.log(`👤 [AuthService] Seeded Demo Explorer into MongoDB: ${userEmail}`);
+      }
+    } catch (err: any) {
+      console.warn('[AuthService] seedMongoUsers notice:', err.message);
+    }
+  }
+
+  /**
    * Update User Role (Admin only)
    */
   public static async updateUserRole(userId: string, newRole: UserRole): Promise<SafeUser> {

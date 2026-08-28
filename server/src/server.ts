@@ -8,7 +8,17 @@ export const startStandaloneServer = async () => {
   const app = createApp();
 
   // Attempt database connection
-  await dbConnection.connect();
+  const isConnected = await dbConnection.connect();
+  if (isConnected) {
+    try {
+      const { SeedService } = await import('./services/seed.service');
+      const { AuthService } = await import('./services/auth.service');
+      await SeedService.seedDatabase();
+      await AuthService.seedMongoUsers();
+    } catch (e: any) {
+      console.warn('Standalone server seed notice:', e.message);
+    }
+  }
 
   // 404 & Error handlers for standalone backend mode
   app.use(notFoundHandler);

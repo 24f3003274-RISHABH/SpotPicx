@@ -33,6 +33,20 @@ async function startServer() {
 
   // Initialize MongoDB connection asynchronously (does not block web app if credentials pending)
   dbConnection.connect().then(async () => {
+    // Automatically populate MongoDB Atlas collections if empty
+    try {
+      const { SeedService } = await import('./server/src/services/seed.service');
+      const { AuthService } = await import('./server/src/services/auth.service');
+      
+      console.log('🔄 Checking and populating MongoDB Atlas collections & indexes...');
+      const seedResult = await SeedService.seedDatabase();
+      console.log(`✅ MongoDB Atlas Collections Ready: ${seedResult.counts.businesses} businesses, ${seedResult.counts.categories} categories, ${seedResult.counts.locations} locations.`);
+      
+      await AuthService.seedMongoUsers();
+    } catch (seedErr: any) {
+      console.error('MongoDB initial seed notice:', seedErr.message);
+    }
+
     // Start Ingestion Scheduler Service (Phase 15)
     try {
       const { IngestionSchedulerService } = await import('./server/src/services/scheduler.service');

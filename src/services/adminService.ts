@@ -240,6 +240,16 @@ export const adminService = {
     return res?.data || res || { data: [], total: 0, page: 1, totalPages: 1 };
   },
 
+  async createBusiness(data: any): Promise<Business> {
+    const res: any = await apiClient.post('/businesses', data);
+    return res?.data || res;
+  },
+
+  async updateBusiness(id: string, data: any): Promise<Business> {
+    const res: any = await apiClient.patch(`/businesses/${id}`, data);
+    return res?.data || res;
+  },
+
   async updateBusinessStatus(id: string, status: string): Promise<Business> {
     const res: any = await apiClient.patch(`/admin/businesses/${id}/status`, { status });
     return res?.data?.business || res?.data || res?.business || res;

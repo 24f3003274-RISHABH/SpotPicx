@@ -332,8 +332,9 @@ export class BusinessService {
       if (!business) return null;
 
       // Ownership verification: Allow if owner, ADMIN, or SUPER_ADMIN
-      const isOwner = business.owner && business.owner.toString() === user._id.toString();
-      const isAdmin = ['ADMIN', 'SUPER_ADMIN', 'EDITOR'].includes(user.role);
+      const userIdStr = (user?.id || user?._id || '').toString();
+      const isOwner = business.owner && business.owner.toString() === userIdStr;
+      const isAdmin = user && ['ADMIN', 'SUPER_ADMIN', 'EDITOR'].includes(user.role);
 
       if (!isOwner && !isAdmin) {
         throw new Error('UNAUTHORIZED_MODIFICATION: You do not have permission to update this business');
@@ -369,8 +370,9 @@ export class BusinessService {
       const business = await Business.findById(id);
       if (!business) return false;
 
-      const isOwner = business.owner && business.owner.toString() === user._id.toString();
-      const isAdmin = ['ADMIN', 'SUPER_ADMIN'].includes(user.role);
+      const userIdStr = (user?.id || user?._id || '').toString();
+      const isOwner = business.owner && business.owner.toString() === userIdStr;
+      const isAdmin = user && ['ADMIN', 'SUPER_ADMIN'].includes(user.role);
 
       if (!isOwner && !isAdmin) {
         throw new Error('UNAUTHORIZED_DELETION: You do not have permission to delete this business');

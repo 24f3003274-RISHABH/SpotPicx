@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 import { Category, ICategory } from '../models/Category';
 import { Location, ILocation } from '../models/Location';
 import { Business, IBusiness } from '../models/Business';
+import { Article } from '../models/Article';
+import { Event } from '../models/Event';
+import { Offer } from '../models/Offer';
+import { SeoPage } from '../models/SeoPage';
+import { AuthService } from './auth.service';
 import { dbConnection } from '../config/db';
 import {
   SEED_CATEGORIES,
@@ -544,6 +549,144 @@ export class SeedService {
             freshnessStatus: 'FRESH',
           });
         }
+      }
+
+      // 4. Seed Users (Super Admin & Demo Accounts)
+      await AuthService.seedMongoUsers();
+
+      // 5. Seed Articles if empty
+      const articleCount = await Article.countDocuments();
+      if (articleCount === 0) {
+        await Article.create([
+          {
+            title: 'The Ultimate Guide to South Delhi Hidden Study & Work Cafes',
+            slug: 'guide-south-delhi-study-work-cafes',
+            excerpt: 'Quiet corners, superfast Wi-Fi, great pour-overs, and abundant power sockets across Saket, Green Park, and Hauz Khas.',
+            content: `Delhi's cafe culture has evolved drastically from noisy quick-bites to sanctuary workspaces for creators, freelancers, and students. In this curated guide, we highlight spots that strike the perfect balance between quiet ambiance, artisanal coffees, and uninterrupted working desks.`,
+            coverImage: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800',
+            author: 'SpotPicks Editorial Team',
+            category: 'Local Guides',
+            tags: ['Work Cafes', 'South Delhi', 'Specialty Coffee'],
+            locations: ['Saket', 'Hauz Khas', 'Green Park'],
+            readingTimeMinutes: 6,
+            featured: true,
+            published: true,
+            publishedAt: new Date(),
+          },
+          {
+            title: 'Top 10 Late-Night Keventers, Momos & Kebabs in Delhi NCR',
+            slug: 'top-late-night-momos-kebabs-delhi',
+            excerpt: 'Where to head when midnight hunger strikes in North Campus, Amar Colony, and Connaught Place.',
+            content: `Delhi never sleeps hungry. From sizzling tandoori rolls outside Pandara Road to butter-drenched steamed momos in Majnu Ka Tilla, here are the late-night hubs that locals swear by.`,
+            coverImage: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800',
+            author: 'Aarav Malhotra',
+            category: 'Street Food',
+            tags: ['Street Food', 'Midnight Cravings', 'Delhi Eats'],
+            locations: ['Connaught Place', 'North Campus', 'Lajpat Nagar'],
+            readingTimeMinutes: 5,
+            featured: false,
+            published: true,
+            publishedAt: new Date(),
+          },
+        ]);
+        console.log('📰 [SeedService] Seeded initial editorial articles into MongoDB Atlas.');
+      }
+
+      // 6. Seed Events if empty
+      const eventCount = await Event.countDocuments();
+      if (eventCount === 0) {
+        await Event.create([
+          {
+            title: 'Delhi Heritage Culinary Walk — Old Delhi',
+            slug: 'delhi-heritage-culinary-walk-old-delhi',
+            description: 'Explore 300-year-old culinary traditions through Chandni Chowk, paranthe wali gali, and historic sweet houses.',
+            venue: 'Jama Masjid Gate 3',
+            location: {
+              locality: 'Chandni Chowk',
+              city: 'Delhi',
+              coordinates: [77.2334, 28.6506],
+            },
+            startDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+            endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000 + 4 * 60 * 60 * 1000),
+            ticketPrice: '₹799 / person',
+            category: 'Food Festival',
+            images: ['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800'],
+            organizer: 'Delhi Heritage Guild',
+            featured: true,
+            status: 'UPCOMING',
+          },
+          {
+            title: 'Artisanal Coffee & Roasting Workshop',
+            slug: 'artisanal-coffee-roasting-workshop-saket',
+            description: 'Hands-on cupping, manual brew methods (V60, Aeropress), and latte art session with master baristas.',
+            venue: 'Blue Tokai Roastery',
+            location: {
+              locality: 'Saidulajab, Saket',
+              city: 'Delhi',
+              coordinates: [77.2001, 28.5186],
+            },
+            startDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000),
+            endDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000),
+            ticketPrice: '₹1,200',
+            category: 'Workshop',
+            images: ['https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800'],
+            organizer: 'SpotPicks Special',
+            featured: true,
+            status: 'UPCOMING',
+          },
+        ]);
+        console.log('🎪 [SeedService] Seeded initial cultural events into MongoDB Atlas.');
+      }
+
+      // 7. Seed SEO Landing Pages if empty
+      const seoCount = await SeoPage.countDocuments();
+      if (seoCount === 0) {
+        await SeoPage.create([
+          {
+            slug: 'best-cafes-in-saket-delhi',
+            title: 'Top 10 Best Cafes in Saket Delhi (2026 Updated Guide) | SpotPicks',
+            metaDescription: 'Discover top-rated artisanal cafes, study spots, and aesthetic brunch destinations in Saket, Saidulajab & Champa Gali with reviews & menus.',
+            keywords: ['best cafes in saket', 'champa gali cafes', 'coffee shops saket delhi', 'aesthetic brunch south delhi'],
+            h1: 'Best Cafes & Coffee Roasters in Saket, Delhi',
+            intro: 'Saket and Saidulajab house some of the most aesthetic and coffee-focused cafes in South Delhi.',
+            locality: 'Saket',
+            category: 'Cafes',
+            contentSections: [
+              {
+                title: 'Why Saket is a Coffee Lover Paradise',
+                body: 'From tranquil roasteries to lively courtyard cafes, Saket is the epicenter of third-wave specialty coffee in Delhi.',
+              },
+            ],
+            faq: [
+              { question: 'What is the most popular cafe in Saket?', answer: 'Blue Tokai in Saidulajab and Rose Cafe near Saidulajab are highly rated.' },
+              { question: 'Are there good work-friendly cafes in Saket?', answer: 'Yes, most Champa Gali & Saidulajab coffee shops offer high-speed Wi-Fi and power outlets.' },
+            ],
+            isIndexed: true,
+            published: true,
+          },
+          {
+            slug: 'top-street-food-in-chandni-chowk',
+            title: 'Legendary Street Food in Chandni Chowk Old Delhi | SpotPicks',
+            metaDescription: 'Complete food trail of Chandni Chowk: Paranthe Wali Gali, Natraj Dahi Bhalla, Old Famous Jalebi Wala, and Karim’s.',
+            keywords: ['chandni chowk food trail', 'old delhi street food', 'paranthe wali gali timings', 'famous sweets chandni chowk'],
+            h1: 'Legendary Street Food & Iconic Eateries in Chandni Chowk',
+            intro: 'Chandni Chowk is the historic heart of Indian street food culture with recipes passed down over centuries.',
+            locality: 'Chandni Chowk',
+            category: 'Street Food',
+            contentSections: [
+              {
+                title: 'The Legendary Heritage Food Trail',
+                body: 'Explore centuries-old sweet houses, sizzling paranthas, and creamy rabri falooda.',
+              },
+            ],
+            faq: [
+              { question: 'What is the best time to visit Chandni Chowk for food?', answer: 'Late afternoons between 3 PM and 8 PM for snacks, and mornings around 9 AM for Bedmi Puri.' },
+            ],
+            isIndexed: true,
+            published: true,
+          },
+        ]);
+        console.log('⚡ [SeedService] Seeded initial SEO landing pages into MongoDB Atlas.');
       }
 
       const totalCats = await Category.countDocuments();
