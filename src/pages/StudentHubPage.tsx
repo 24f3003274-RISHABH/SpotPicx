@@ -298,6 +298,118 @@ export const StudentHubPage: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* SpotPicks Student Masterclass & Career Intelligence Guides */}
+        <div className="mt-16 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white space-y-6 border border-indigo-900/50 shadow-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/30 mb-2">
+                <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                SpotPicks Student Editorial Series
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white">
+                Essential Guides for High-Achieving College Students
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Curated research directories, software internships, AI tools, and computer science masterclasses.
+              </p>
+            </div>
+
+            <Link
+              to="/articles"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition border border-white/10 shrink-0"
+            >
+              <span>View All Magazine Guides</span>
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link
+              to="/articles/best-ai-tools-for-college-students-2026"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition group flex flex-col justify-between space-y-3"
+            >
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-violet-400 block mb-1">
+                  AI & Study Tech (2026)
+                </span>
+                <h3 className="font-bold text-sm text-white group-hover:text-violet-300 transition">
+                  20 AI Tools Every College Student Should Know
+                </h3>
+                <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  NotebookLM, Cursor, Consensus, Claude, Gamma, and Teal Resume.
+                </p>
+              </div>
+              <div className="text-xs font-bold text-violet-400 flex items-center gap-1">
+                <span>Read AI Guide</span>
+                <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            <Link
+              to="/articles/best-internship-websites-for-college-students"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition group flex flex-col justify-between space-y-3"
+            >
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-sky-400 block mb-1">
+                  Career Intelligence
+                </span>
+                <h3 className="font-bold text-sm text-white group-hover:text-sky-300 transition">
+                  Best Places to Find Internships & Jobs
+                </h3>
+                <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  Software, AI/ML, YC Startups, GSoC, Mitacs, and AICTE government portals.
+                </p>
+              </div>
+              <div className="text-xs font-bold text-sky-400 flex items-center gap-1">
+                <span>Explore Internships</span>
+                <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            <Link
+              to="/articles/free-websites-every-college-student-should-know"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition group flex flex-col justify-between space-y-3"
+            >
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 block mb-1">
+                  Student Toolkit
+                </span>
+                <h3 className="font-bold text-sm text-white group-hover:text-rose-300 transition">
+                  25 Free Websites Every Student Should Know
+                </h3>
+                <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  Coding sandboxes, free GPUs, resume builders, and academic research.
+                </p>
+              </div>
+              <div className="text-xs font-bold text-rose-400 flex items-center gap-1">
+                <span>Read Directory</span>
+                <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            <Link
+              to="/articles/top-10-github-repositories-every-student-should-know"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition group flex flex-col justify-between space-y-3"
+            >
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 block mb-1">
+                  CS Masterclass
+                </span>
+                <h3 className="font-bold text-sm text-white group-hover:text-amber-300 transition">
+                  Top 10 GitHub Repos for CS Students
+                </h3>
+                <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  OSSU CS, System Design Primer, TheAlgorithms, and ML for Beginners.
+                </p>
+              </div>
+              <div className="text-xs font-bold text-amber-400 flex items-center gap-1">
+                <span>Explore Repos</span>
+                <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+          </div>
+        </div>
       </Container>
     </div>
   );

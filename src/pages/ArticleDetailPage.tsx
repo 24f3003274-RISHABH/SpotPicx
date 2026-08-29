@@ -25,6 +25,8 @@ import { FreeWebsitesEditorialGuide } from '../components/articles/FreeWebsitesE
 import { FREE_WEBSITES_LIST, EDITORIAL_FAQS } from '../data/freeWebsitesData';
 import { InternshipPlatformsEditorialGuide } from '../components/articles/InternshipPlatformsEditorialGuide';
 import { INTERNSHIP_PLATFORMS_LIST, INTERNSHIP_FAQS } from '../data/internshipsData';
+import { AiToolsEditorialGuide } from '../components/articles/AiToolsEditorialGuide';
+import { AI_TOOLS_LIST, AI_TOOLS_FAQS } from '../data/aiToolsData';
 
 export const ArticleDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -32,6 +34,14 @@ export const ArticleDetailPage: React.FC = () => {
   const [jsonLd, setJsonLd] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  const isAiToolsGuide =
+    slug === 'best-ai-tools-for-college-students-2026' ||
+    slug === 'best-ai-tools-for-college-students' ||
+    slug === '20-ai-tools-every-college-student-should-know-in-2026' ||
+    slug === 'top-ai-tools-for-students' ||
+    slug === 'best-ai-tools-for-students' ||
+    article?.slug === 'best-ai-tools-for-college-students-2026';
 
   const isGitHubReposGuide =
     slug === 'top-10-github-repositories-every-student-should-know' ||
@@ -233,15 +243,131 @@ export const ArticleDetailPage: React.FC = () => {
                 },
               ];
               setJsonLd(enhancedJsonLd);
+            } else if (
+              slug === 'best-ai-tools-for-college-students-2026' ||
+              slug === 'best-ai-tools-for-college-students' ||
+              slug === '20-ai-tools-every-college-student-should-know-in-2026' ||
+              res.article?.slug === 'best-ai-tools-for-college-students-2026'
+            ) {
+              const enhancedJsonLd = [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'TechArticle',
+                  headline: '20 AI Tools Every College Student Should Know in 2026',
+                  description: 'The ultimate verified guide to 20 game-changing AI tools for studying, coding, research, writing, presentations, note-taking, and career building in 2026.',
+                  image: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200'],
+                  author: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Tech & Academic Desk',
+                    url: 'https://spotpicks.delhi',
+                  },
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Delhi',
+                    logo: {
+                      '@type': 'ImageObject',
+                      url: 'https://spotpicks.delhi/favicon.ico',
+                    },
+                  },
+                  datePublished: '2026-08-29T00:00:00Z',
+                  dateModified: new Date().toISOString(),
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': 'https://spotpicks.delhi/articles/best-ai-tools-for-college-students-2026',
+                  },
+                  keywords: 'AI Tools for College, NotebookLM, Cursor AI, Consensus, Claude, Gamma App, Teal Resume, Julius AI, Student AI Tools, Studying, Coding, Research',
+                  proficiencyLevel: 'All Levels',
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'ItemList',
+                  name: '20 AI Tools Every College Student Should Know in 2026',
+                  itemListElement: AI_TOOLS_LIST.map((tool, idx) => ({
+                    '@type': 'ListItem',
+                    position: idx + 1,
+                    name: tool.name,
+                    url: tool.url,
+                    description: tool.whatItDoes,
+                  })),
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'FAQPage',
+                  mainEntity: AI_TOOLS_FAQS.map((faq) => ({
+                    '@type': 'Question',
+                    name: faq.question,
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.answer,
+                    },
+                  })),
+                },
+              ];
+              setJsonLd(enhancedJsonLd);
             } else {
               setJsonLd(res.jsonLd);
             }
           } else {
-            setArticle(null);
+            if (
+              slug === 'best-ai-tools-for-college-students-2026' ||
+              slug === 'best-ai-tools-for-college-students' ||
+              slug === '20-ai-tools-every-college-student-should-know-in-2026'
+            ) {
+              setArticle({
+                _id: 'ai-tools-guide-fallback',
+                title: '20 AI Tools Every College Student Should Know in 2026',
+                slug: 'best-ai-tools-for-college-students-2026',
+                excerpt: 'The ultimate verified guide to 20 game-changing AI tools for studying, coding, research, writing, presentations, note-taking, and career building in 2026.',
+                content: '',
+                coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200',
+                author: 'SpotPicks Tech & Academic Desk',
+                authorRole: 'Head of Academic Technology',
+                authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                category: 'Student Guides',
+                tags: ['AI Tools', 'College Students', 'Studying', 'Coding', 'Research', 'Writing', 'Presentations', 'Note Taking', 'Productivity', 'Resume Building', 'Data Analysis'],
+                locations: ['Delhi NCR', 'India', 'Global'],
+                seoTitle: '20 AI Tools Every College Student Should Know in 2026 | SpotPicks',
+                seoDescription: 'The definitive guide to the best AI tools for college students: NotebookLM, Cursor, Consensus, Claude, Gamma, Teal, and Julius AI with verified free tiers and use cases.',
+                published: true,
+                publishedAt: new Date().toISOString(),
+                readingTimeMinutes: 10,
+                featured: true,
+              } as any);
+            } else {
+              setArticle(null);
+            }
           }
         }
       } catch (err) {
         console.error('Error fetching article:', err);
+        if (isMounted) {
+          if (
+            slug === 'best-ai-tools-for-college-students-2026' ||
+            slug === 'best-ai-tools-for-college-students' ||
+            slug === '20-ai-tools-every-college-student-should-know-in-2026'
+          ) {
+            setArticle({
+              _id: 'ai-tools-guide-fallback',
+              title: '20 AI Tools Every College Student Should Know in 2026',
+              slug: 'best-ai-tools-for-college-students-2026',
+              excerpt: 'The ultimate verified guide to 20 game-changing AI tools for studying, coding, research, writing, presentations, note-taking, and career building in 2026.',
+              content: '',
+              coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200',
+              author: 'SpotPicks Tech & Academic Desk',
+              authorRole: 'Head of Academic Technology',
+              authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+              category: 'Student Guides',
+              tags: ['AI Tools', 'College Students', 'Studying', 'Coding', 'Research', 'Writing', 'Presentations', 'Note Taking', 'Productivity', 'Resume Building', 'Data Analysis'],
+              locations: ['Delhi NCR', 'India', 'Global'],
+              seoTitle: '20 AI Tools Every College Student Should Know in 2026 | SpotPicks',
+              seoDescription: 'The definitive guide to the best AI tools for college students: NotebookLM, Cursor, Consensus, Claude, Gamma, Teal, and Julius AI with verified free tiers and use cases.',
+              published: true,
+              publishedAt: new Date().toISOString(),
+              readingTimeMinutes: 10,
+              featured: true,
+            } as any);
+          }
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -376,7 +502,52 @@ export const ArticleDetailPage: React.FC = () => {
 
       {/* Article Body Content */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {isInternshipWebsitesGuide ? (
+        {isAiToolsGuide ? (
+          <div className="space-y-12">
+            <AiToolsEditorialGuide />
+
+            {/* Bottom Back Button & Cross Links */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-violet-600 hover:text-violet-800 transition"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to SpotPicks Magazine & Guides
+              </Link>
+
+              <div className="flex items-center gap-4 text-xs font-bold flex-wrap">
+                <Link
+                  to="/articles/best-internship-websites-for-college-students"
+                  className="text-slate-600 hover:text-violet-600 transition"
+                >
+                  Best Internship Portals
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/articles/free-websites-every-college-student-should-know"
+                  className="text-slate-600 hover:text-violet-600 transition"
+                >
+                  25 Free Websites for Students
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/articles/top-10-github-repositories-every-student-should-know"
+                  className="text-slate-600 hover:text-violet-600 transition"
+                >
+                  GitHub Repos Masterclass
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/students"
+                  className="text-slate-600 hover:text-violet-600 transition"
+                >
+                  Visit Student Hub
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : isInternshipWebsitesGuide ? (
           <div className="space-y-12">
             <InternshipPlatformsEditorialGuide />
 
