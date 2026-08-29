@@ -19,6 +19,7 @@ import {
   ExternalLink,
   Database,
   Award,
+  BookOpen,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { ROUTES } from '../../constants/routes';
@@ -43,6 +44,7 @@ export const AdminDashboardLayout: React.FC = () => {
     { label: 'Curated Articles', path: ROUTES.ADMIN_ARTICLES, icon: FileText },
     { label: 'Student Opportunities', path: ROUTES.ADMIN_OPPORTUNITIES, icon: Award },
     { label: 'SEO & Meta Pages', path: ROUTES.ADMIN_SEO_PAGES, icon: SearchCode },
+    { label: 'Top 10 Guides Engine', path: ROUTES.ADMIN_GUIDES, icon: BookOpen },
   ];
 
   return (

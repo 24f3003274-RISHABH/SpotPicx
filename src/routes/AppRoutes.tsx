@@ -43,6 +43,8 @@ import { SpiritualTraditionPage } from '../pages/spiritual/SpiritualTraditionPag
 import { WeekendGetawaysHubPage } from '../pages/getaways/WeekendGetawaysHubPage';
 import { GetawayDetailPage } from '../pages/getaways/GetawayDetailPage';
 import { GetawayGuideDetailPage } from '../pages/getaways/GetawayGuideDetailPage';
+import { GuidesIndexPage } from '../pages/guides/GuidesIndexPage';
+import { GuideDetailPage } from '../pages/guides/GuideDetailPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -76,6 +78,7 @@ import { AdminArticlesTab } from '../pages/admin/AdminArticlesTab';
 import { AdminOpportunitiesTab } from '../pages/admin/AdminOpportunitiesTab';
 import { AdminSeoPagesTab } from '../pages/admin/AdminSeoPagesTab';
 import { AdminDataSourcesTab } from '../pages/admin/AdminDataSourcesTab';
+import { AdminGuidesTab } from '../pages/admin/AdminGuidesTab';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -146,6 +149,10 @@ export const AppRoutes: React.FC = () => {
         <Route path={ROUTES.JOBS} element={<JobsPage />} />
         <Route path={ROUTES.SPECIAL_DISCOVERY} element={<SpecialDiscoveryPage />} />
         <Route path="/special" element={<SpecialDiscoveryPage />} />
+
+        {/* SpotPicks Top 10 Guides Content Engine */}
+        <Route path={ROUTES.GUIDES} element={<GuidesIndexPage />} />
+        <Route path={ROUTES.GUIDE_DETAILS} element={<GuideDetailPage />} />
 
         {/* Dynamic SEO Landing Pages (Top 10 Guides & Neighborhood Picks) */}
         <Route path="/best-:slug" element={<SeoPageTemplate />} />
@@ -220,6 +227,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="articles" element={<AdminArticlesTab />} />
           <Route path="opportunities" element={<AdminOpportunitiesTab />} />
           <Route path="seo-pages" element={<AdminSeoPagesTab />} />
+          <Route path="guides" element={<AdminGuidesTab />} />
           <Route path="sources" element={<AdminDataSourcesTab />} />
         </Route>
 

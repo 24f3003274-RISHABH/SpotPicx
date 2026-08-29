@@ -252,15 +252,15 @@ export const Navbar: React.FC = () => {
             <span>India</span>
           </Link>
           <Link
-            to="/best-restaurants-in-delhi"
-            className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
-              location.pathname.startsWith('/best-')
-                ? 'text-indigo-600 font-semibold'
+            to="/guides"
+            className={`transition-colors hover:text-amber-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/guides')
+                ? 'text-amber-600 font-semibold'
                 : ''
             }`}
           >
             <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-            <span>Top 10</span>
+            <span>Top 10 Guides</span>
           </Link>
           <Link
             to="/articles"
@@ -524,12 +524,12 @@ export const Navbar: React.FC = () => {
               <span>Spiritual India (Nationwide Pilgrimage & Traditions)</span>
             </Link>
             <Link
-              to="/best-restaurants-in-delhi"
+              to="/guides"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-50 text-indigo-700 flex items-center gap-1.5"
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-amber-50 text-amber-800 flex items-center gap-1.5"
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-              <span>Top 10 Picks & SEO Guides</span>
+              <span>Top 10 Guides Content Engine</span>
             </Link>
             <Link
               to="/articles"

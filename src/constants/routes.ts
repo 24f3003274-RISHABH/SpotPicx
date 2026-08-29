@@ -47,6 +47,10 @@ export const ROUTES = {
   DELHI_HERITAGE_PLACE: '/delhi/heritage/place/:placeSlug',
   DELHI_HERITAGE_GUIDE: '/delhi/heritage/guide/:guideSlug',
 
+  // Top 10 Guides Content Engine
+  GUIDES: '/guides',
+  GUIDE_DETAILS: '/guides/:slug',
+
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',
@@ -74,6 +78,7 @@ export const ROUTES = {
   ADMIN_ARTICLES: '/admin/articles',
   ADMIN_OPPORTUNITIES: '/admin/opportunities',
   ADMIN_SEO_PAGES: '/admin/seo-pages',
+  ADMIN_GUIDES: '/admin/guides',
   ADMIN_DATA_SOURCES: '/admin/sources',
 
   NOT_FOUND: '*',
