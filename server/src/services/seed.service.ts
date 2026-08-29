@@ -8,6 +8,9 @@ import { Offer } from '../models/Offer';
 import { SeoPage } from '../models/SeoPage';
 import { Opportunity } from '../models/Opportunity';
 import { PopularSearch, IPopularSearch } from '../models/PopularSearch';
+import { Book } from '../models/Book';
+import { Author } from '../models/Author';
+import { SEED_AUTHORS, SEED_BOOKS } from '../seed/booksData';
 import { SEED_OPPORTUNITIES } from './opportunity.service';
 import { AuthService } from './auth.service';
 import { dbConnection } from '../config/db';
@@ -854,11 +857,33 @@ export class SeedService {
       }
       console.log('⚡ [SeedService] Seeded popular search shortcuts into MongoDB Atlas.');
 
+      // Check and seed Authors
+      for (const author of SEED_AUTHORS) {
+        await Author.findOneAndUpdate(
+          { slug: author.slug },
+          { $set: author },
+          { upsert: true, new: true }
+        );
+      }
+      console.log('⚡ [SeedService] Seeded verified Authors into MongoDB Atlas.');
+
+      // Check and seed Books
+      for (const book of SEED_BOOKS) {
+        await Book.findOneAndUpdate(
+          { slug: book.slug },
+          { $set: book },
+          { upsert: true, new: true }
+        );
+      }
+      console.log('⚡ [SeedService] Seeded verified Books into MongoDB Atlas.');
+
       const totalCats = await Category.countDocuments();
       const totalLocs = await Location.countDocuments();
       const totalBiz = await Business.countDocuments();
       const totalOpps = await Opportunity.countDocuments();
       const totalPops = await PopularSearch.countDocuments();
+      const totalAuthors = await Author.countDocuments();
+      const totalBooks = await Book.countDocuments();
 
       return {
         success: true,
@@ -868,6 +893,8 @@ export class SeedService {
           businesses: totalBiz,
           opportunities: totalOpps,
           popularSearches: totalPops,
+          authors: totalAuthors,
+          books: totalBooks,
           tags: SEED_TAGS.length,
         } as any,
         mode: 'MONGODB',

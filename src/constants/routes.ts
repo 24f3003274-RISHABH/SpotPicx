@@ -51,6 +51,19 @@ export const ROUTES = {
   GUIDES: '/guides',
   GUIDE_DETAILS: '/guides/:slug',
 
+  // Book Discovery, Author & Knowledge Hub Platform
+  BOOKS: '/books',
+  BOOK_DETAILS: '/books/:slug',
+  BOOK_AUTHORS: '/books/authors',
+  BOOK_AUTHOR_DETAILS: '/books/authors/:slug',
+  BOOK_CATEGORIES: '/books/categories',
+  BOOK_CATEGORY_DETAILS: '/books/category/:slug',
+  BOOK_READING_PATHS: '/books/paths',
+  BOOK_READING_PATH_DETAILS: '/books/paths/:slug',
+  BOOK_COLLECTIONS: '/books/collections',
+  BOOK_COLLECTION_DETAILS: '/books/collections/:slug',
+  BOOK_COMPARE: '/books/compare',
+
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',
@@ -79,6 +92,8 @@ export const ROUTES = {
   ADMIN_OPPORTUNITIES: '/admin/opportunities',
   ADMIN_SEO_PAGES: '/admin/seo-pages',
   ADMIN_GUIDES: '/admin/guides',
+  ADMIN_BOOKS: '/admin/books',
+  ADMIN_AUTHORS: '/admin/authors',
   ADMIN_DATA_SOURCES: '/admin/sources',
 
   NOT_FOUND: '*',

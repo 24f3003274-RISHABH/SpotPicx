@@ -24,6 +24,8 @@ import discoveryRoutes from './discovery.routes';
 import monetizationRoutes from './monetization.routes';
 import opportunityRoutes from './opportunity.routes';
 import popularSearchRoutes from './popular-search.routes';
+import bookRoutes from './book.routes';
+import authorRoutes from './author.routes';
 
 const router = Router();
 
@@ -42,6 +44,10 @@ router.use('/favorites', favoriteRoutes);
 router.use('/collections', collectionRoutes);
 router.use('/reports', reportRoutes);
 router.use('/notifications', notificationRoutes);
+
+// Books & Authors Knowledge Discovery Platform
+router.use('/books', bookRoutes);
+router.use('/authors', authorRoutes);
 
 // Events, Offers, Jobs, Opportunities & Specialized Discovery
 router.use('/events', eventRoutes);
