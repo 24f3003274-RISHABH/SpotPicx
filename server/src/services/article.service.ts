@@ -214,6 +214,207 @@ Shopping in Delhi is an adventure that spans centuries-old spice bazaars, high-s
     readingTimeMinutes: 6,
     featured: false,
   },
+  {
+    title: 'Top 10 GitHub Repositories Every Computer Science Student Should Know',
+    slug: 'top-10-github-repositories-every-student-should-know',
+    excerpt: 'The definitive curated guide to 10 foundational open-source repositories covering Data Structures & Algorithms, Web Architecture, System Design, Generative AI, Machine Learning, and DevOps.',
+    content: `
+# Top 10 GitHub Repositories Every Computer Science Student Should Know
+
+GitHub is the ultimate open-source knowledge repository. Whether you are aiming for high-impact campus placements, competitive software engineering roles, or building your own startup from scratch, these 10 repositories will accelerate your technical trajectory.
+
+---
+
+## 1. OSSU Computer Science (Path to a Free Self-Taught CS Degree)
+- **Repository**: ossu/computer-science
+- **Domain**: Computer Science Fundamentals
+- **Who Should Use**: Beginner to Advanced (Start Here)
+- **Why Students Should Know**: Structured, tuition-free degree curriculum from MIT, Harvard, and UC Berkeley covering discrete math, compilers, and systems architecture.
+
+---
+
+## 2. The Algorithms - Python
+- **Repository**: TheAlgorithms/Python
+- **Domain**: Data Structures & Algorithms (DSA)
+- **Who Should Use**: Beginner to Intermediate
+- **Why Students Should Know**: Reference implementations for hundreds of classic algorithms in pure Python without external dependencies.
+
+---
+
+## 3. Developer Roadmap
+- **Repository**: kamranahmedse/developer-roadmap
+- **Domain**: Web Development & Career Pathways
+- **Who Should Use**: Beginner
+- **Why Students Should Know**: Visual roadmaps and study milestones for Frontend, Backend, DevOps, Full-Stack, and AI engineering that eliminate tutorial fatigue.
+
+---
+
+## 4. System Design Primer
+- **Repository**: donnemartin/system-design-primer
+- **Domain**: System Design & Scalability
+- **Who Should Use**: Intermediate to Advanced
+- **Why Students Should Know**: Learn how to architect large-scale, high-concurrency systems covering caching, CDNs, load balancing, and database sharding.
+
+---
+
+## 5. Build Your Own X
+- **Repository**: codecrafters-io/build-your-own-x
+- **Domain**: CS Engineering & Hands-on Mastery
+- **Who Should Use**: Intermediate
+- **Why Students Should Know**: Recreate Git, Docker, Redis, operating systems, and databases from scratch to build rock-solid engineering depth.
+
+---
+
+## 6. Free for Dev
+- **Repository**: ripienaar/free-for-dev
+- **Domain**: DevOps, Cloud & Infrastructure
+- **Who Should Use**: Beginner
+- **Why Students Should Know**: Catalogs free cloud tiers, databases, CI/CD runners, and APIs so students can deploy production portfolios without spending money.
+
+---
+
+## 7. ML for Beginners by Microsoft
+- **Repository**: microsoft/ML-For-Beginners
+- **Domain**: Machine Learning
+- **Who Should Use**: Beginner
+- **Why Students Should Know**: A 12-week, 24-lesson project-based Scikit-learn curriculum with interactive Jupyter notebooks and visual sketchnotes.
+
+---
+
+## 8. Generative AI for Beginners by Microsoft
+- **Repository**: microsoft/generative-ai-for-beginners
+- **Domain**: Artificial Intelligence & LLMs
+- **Who Should Use**: Intermediate
+- **Why Students Should Know**: Hands-on blueprint for building modern AI applications with LLMs, prompt engineering, RAG pipelines, and autonomous AI agents.
+
+---
+
+## 9. First Contributions
+- **Repository**: firstcontributions/first-contributions
+- **Domain**: Open Source
+- **Who Should Use**: Beginner (Start Here for Git)
+- **Why Students Should Know**: A beginner-friendly sandbox that guides you through submitting your very first Git pull request in under 5 minutes.
+
+---
+
+## 10. Coding Interview University
+- **Repository**: jwasham/coding-interview-university
+- **Domain**: DSA & Tech Interview Prep
+- **Who Should Use**: Intermediate
+- **Why Students Should Know**: Multi-month study plan that took a non-CS engineer to Amazon, detailing algorithmic complexity, data structures, and interview mock strategies.
+    `,
+    coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200',
+    author: 'SpotPicks Tech & Engineering Desk',
+    authorRole: 'Chief Technology Curator',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    category: 'Student Guides',
+    tags: ['GitHub', 'Computer Science', 'DSA', 'System Design', 'Open Source', 'Web Development', 'Machine Learning', 'AI', 'DevOps'],
+    locations: ['Delhi NCR', 'India', 'Global'],
+    seoTitle: 'Top 10 GitHub Repositories Every Computer Science Student Should Know (2026) | SpotPicks',
+    seoDescription: 'Discover the top 10 GitHub repositories every computer science student must know: DSA, System Design, Web Dev, Generative AI, and Open Source guides with live stats.',
+    published: true,
+    publishedAt: new Date('2026-02-28'),
+    readingTimeMinutes: 8,
+    featured: true,
+  },
+  {
+    title: '25 Free Websites Every College Student Should Know',
+    slug: 'free-websites-every-college-student-should-know',
+    excerpt: 'The ultimate curated directory of 25+ essential, verified free websites for college students covering Coding, DSA, AI/ML, CS, Mathematics, Resumes, Certifications, Research, and Internships.',
+    content: `
+# 25 Free Websites Every College Student Should Know
+
+A comprehensive, categorized guide to 25+ zero-cost and student-discounted educational tools, developer sandboxes, open-source degree curriculums, ATS resume builders, and research paper databases.
+
+---
+
+## Coding & Web Development
+- **freeCodeCamp**: 100% free interactive 300+ hour full-stack curriculum with verified certificates.
+- **The Odin Project**: Open-source, project-based full-stack engineering path using real local tools and Git.
+- **W3Schools**: Instant web syntax references, SQL playgrounds, and interactive try-it sandboxes.
+
+---
+
+## Data Structures & Algorithms (DSA)
+- **LeetCode**: The industry standard technical interview practice platform with free problem sets and weekly contests.
+- **NeetCode.io**: Curated 75 & 150 algorithmic pattern roadmaps with crystal clear visual video explanations.
+- **HackerRank**: Skill-based assessments, 30 days of code challenges, and verified domain badges.
+
+---
+
+## AI & Machine Learning
+- **Kaggle**: Free NVIDIA cloud GPUs/TPUs, 50k+ public datasets, and practical ML micro-courses.
+- **Hugging Face**: Open-weight LLMs, pre-trained transformer checkpoints, and free Spaces app hosting.
+- **Google AI Studio**: Million-token multimodal context prototyping and free developer API keys for Gemini models.
+
+---
+
+## Computer Science Fundamentals
+- **CS50 by Harvard**: World-class foundational computer science course covering memory, C, Python, algorithms, and web dev.
+- **OSSU (Open Source Society University)**: Complete 4-year equivalent university CS curriculum curated from MIT, Berkeley, and Harvard.
+
+---
+
+## Mathematics & Visualizations
+- **Wolfram Alpha**: Computational knowledge engine for step-by-step calculus, linear algebra, and function plotting.
+- **3Blue1Brown**: Geometric animations building visual intuition for linear algebra, calculus, and neural networks.
+- **Paul's Online Math Notes**: University-level Calculus I-III and Differential Equations notes with complete worked examples.
+
+---
+
+## English, Writing & Communication
+- **Hemingway Editor**: Highlight wordy phrases, passive voice, and complex sentences for clear academic and cover letter writing.
+- **QuillBot**: AI paraphrasing and grammar refinement to polish project reports and email tone.
+
+---
+
+## Resume Building (Zero Paywalls)
+- **Reactive Resume**: 100% free and open-source ATS resume builder with zero watermarks or credit card traps.
+- **FlowCV**: Modern visual resume and matching cover letter designer with watermark-free PDF exports.
+
+---
+
+## Interview Preparation & Career
+- **InterviewBit**: Timed company-wise placement preparation modules and simulated technical test assessments.
+- **Tech Interview Handbook**: Master the non-coding aspects of technical hiring: behavioral STAR questions and offer negotiation.
+
+---
+
+## Free Audited Certifications
+- **edX**: Free audit access to MIT, Harvard, and Berkeley university lectures and course materials.
+- **Coursera**: Free course auditing and 100% financial aid waivers for Google, IBM, and Meta professional certificates.
+
+---
+
+## Productivity & Knowledge Base
+- **Notion for Education**: 100% free Notion Plus Plan ($120/yr value) for enrolled college students with institutional email.
+
+---
+
+## Academic Research & Papers
+- **Google Scholar**: Free index of peer-reviewed journals, conference papers, and one-click citation generators.
+- **arXiv.org**: Open-access Cornell archive for cutting-edge AI, machine learning, physics, and computer science preprints.
+
+---
+
+## Student Developer Packs & Internships
+- **GitHub Student Developer Pack**: Over $200k in free cloud credits, domain names, GitHub Copilot, and JetBrains IDE licenses.
+- **Wellfound**: Direct access to startup founders, transparent compensation, and verified tech internship listings.
+    `,
+    coverImage: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200',
+    author: 'SpotPicks Academic & Career Desk',
+    authorRole: 'Head of Student Resources',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    category: 'Student Guides',
+    tags: ['College Life', 'Free Tools', 'Coding', 'DSA', 'Resume', 'Scholarships', 'Internships', 'Mathematics', 'AI'],
+    locations: ['Delhi NCR', 'India', 'Global'],
+    seoTitle: '25 Free Websites Every College Student Should Know (2026) | SpotPicks',
+    seoDescription: 'Explore the 25 essential free websites every college student needs: coding, DSA, free GPUs, resume builders, academic research, and student discounts.',
+    published: true,
+    publishedAt: new Date('2026-08-29'),
+    readingTimeMinutes: 10,
+    featured: true,
+  },
 ];
 
 export class ArticleService {
@@ -240,7 +441,7 @@ export class ArticleService {
         ];
       }
 
-      const dbArticles = await Article.find(query).sort({ publishedAt: -1, createdAt: -1 }).lean();
+      const dbArticles = await Article.find(query).sort({ featured: -1, publishedAt: -1, createdAt: -1 }).lean();
       if (dbArticles && dbArticles.length > 0) {
         return dbArticles;
       }
@@ -271,9 +472,34 @@ export class ArticleService {
    * Get a single article by slug
    */
   public static async getArticleBySlug(slug: string) {
-    const cleanSlug = slug.toLowerCase().trim();
+    let cleanSlug = slug.toLowerCase().trim();
+    // Support aliases
+    if (
+      cleanSlug === 'top-10-github-repositories-every-computer-science-student-should-know' ||
+      cleanSlug === 'top-10-github-repos-for-cs-students' ||
+      cleanSlug === 'top-github-repos-for-students'
+    ) {
+      cleanSlug = 'top-10-github-repositories-every-student-should-know';
+    }
+
+    if (
+      cleanSlug === '25-free-websites-every-college-student-should-know' ||
+      cleanSlug === 'free-websites-every-student-should-know' ||
+      cleanSlug === 'top-free-websites-for-college-students' ||
+      cleanSlug === '25-free-websites-for-students'
+    ) {
+      cleanSlug = 'free-websites-every-college-student-should-know';
+    }
+
     try {
-      const article = await Article.findOne({ slug: cleanSlug, published: true })
+      const article = await Article.findOne({
+        $or: [
+          { slug: cleanSlug },
+          { slug: 'top-10-github-repositories-every-student-should-know' },
+          { slug: 'free-websites-every-college-student-should-know' },
+        ],
+        published: true,
+      })
         .populate('relatedBusinesses')
         .lean();
       if (article) return article;

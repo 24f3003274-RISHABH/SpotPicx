@@ -36,7 +36,7 @@ export const ArticlesPage: React.FC = () => {
     fetchArticles();
   }, []);
 
-  const categories = ['ALL', 'Food Trails', 'Coffee & Cafes', 'Romantic Escapes', 'Shopping & Bazaars'];
+  const categories = ['ALL', 'Student Guides', 'Food Trails', 'Coffee & Cafes', 'Romantic Escapes', 'Shopping & Bazaars'];
 
   const filteredArticles = articles.filter((art) => {
     if (selectedCategory !== 'ALL' && !art.category.toLowerCase().includes(selectedCategory.toLowerCase())) {

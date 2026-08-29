@@ -19,6 +19,10 @@ import {
 import { SEOHead } from '../components/seo/SEOHead';
 import { articleService } from '../services/article.service';
 import { Article } from '../types';
+import { GitHubReposEditorialGuide } from '../components/articles/GitHubReposEditorialGuide';
+import { GITHUB_REPOSITORIES_LIST } from '../data/githubReposData';
+import { FreeWebsitesEditorialGuide } from '../components/articles/FreeWebsitesEditorialGuide';
+import { FREE_WEBSITES_LIST, EDITORIAL_FAQS } from '../data/freeWebsitesData';
 
 export const ArticleDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -26,6 +30,17 @@ export const ArticleDetailPage: React.FC = () => {
   const [jsonLd, setJsonLd] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  const isGitHubReposGuide =
+    slug === 'top-10-github-repositories-every-student-should-know' ||
+    slug === 'top-10-github-repositories-every-computer-science-student-should-know' ||
+    article?.slug === 'top-10-github-repositories-every-student-should-know';
+
+  const isFreeWebsitesGuide =
+    slug === 'free-websites-every-college-student-should-know' ||
+    slug === '25-free-websites-every-college-student-should-know' ||
+    slug === 'top-free-websites-for-college-students' ||
+    article?.slug === 'free-websites-every-college-student-should-know';
 
   useEffect(() => {
     let isMounted = true;
@@ -39,7 +54,119 @@ export const ArticleDetailPage: React.FC = () => {
         if (isMounted) {
           if (res) {
             setArticle(res.article);
-            setJsonLd(res.jsonLd);
+            
+            // Build rich JSON-LD for Search Engine Optimization
+            if (
+              slug === 'free-websites-every-college-student-should-know' ||
+              slug === '25-free-websites-every-college-student-should-know' ||
+              res.article?.slug === 'free-websites-every-college-student-should-know'
+            ) {
+              const enhancedJsonLd = [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'TechArticle',
+                  headline: '25 Free Websites Every College Student Should Know',
+                  description: 'The ultimate curated directory of 25+ essential, verified free websites for college students covering Coding, DSA, AI/ML, CS, Mathematics, Resumes, Certifications, Research, and Internships.',
+                  image: ['https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200'],
+                  author: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Editorial Team',
+                    url: 'https://spotpicks.delhi',
+                  },
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Delhi',
+                    logo: {
+                      '@type': 'ImageObject',
+                      url: 'https://spotpicks.delhi/favicon.ico',
+                    },
+                  },
+                  datePublished: '2026-08-29T00:00:00Z',
+                  dateModified: new Date().toISOString(),
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': 'https://spotpicks.delhi/articles/free-websites-every-college-student-should-know',
+                  },
+                  keywords: 'Free Student Websites, Coding Resources, DSA, Machine Learning, Resume Builder, Scholarships, College Tools, Free Certifications',
+                  proficiencyLevel: 'All Levels',
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'ItemList',
+                  name: '25 Free Websites Every College Student Should Know',
+                  itemListElement: FREE_WEBSITES_LIST.map((site, idx) => ({
+                    '@type': 'ListItem',
+                    position: idx + 1,
+                    name: site.name,
+                    url: site.url,
+                    description: site.shortDescription,
+                  })),
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'FAQPage',
+                  mainEntity: EDITORIAL_FAQS.map((faq) => ({
+                    '@type': 'Question',
+                    name: faq.question,
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.answer,
+                    },
+                  })),
+                },
+              ];
+              setJsonLd(enhancedJsonLd);
+            } else if (
+              slug === 'top-10-github-repositories-every-student-should-know' ||
+              slug === 'top-10-github-repositories-every-computer-science-student-should-know' ||
+              res.article?.slug === 'top-10-github-repositories-every-student-should-know'
+            ) {
+              const enhancedJsonLd = [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'TechArticle',
+                  headline: 'Top 10 GitHub Repositories Every Computer Science Student Should Know',
+                  description: 'The definitive curated guide to 10 foundational open-source repositories covering Data Structures & Algorithms, Web Architecture, System Design, Generative AI, Machine Learning, and DevOps.',
+                  image: ['https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200'],
+                  author: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Editorial Team',
+                    url: 'https://spotpicks.delhi',
+                  },
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Delhi',
+                    logo: {
+                      '@type': 'ImageObject',
+                      url: 'https://spotpicks.delhi/favicon.ico',
+                    },
+                  },
+                  datePublished: '2026-02-28T00:00:00Z',
+                  dateModified: new Date().toISOString(),
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': 'https://spotpicks.delhi/articles/top-10-github-repositories-every-student-should-know',
+                  },
+                  keywords: 'GitHub, Computer Science, DSA, System Design, Generative AI, Open Source, DevOps, Web Development',
+                  proficiencyLevel: 'Beginner to Advanced',
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'ItemList',
+                  name: 'Top 10 GitHub Repositories for Computer Science Students',
+                  itemListElement: GITHUB_REPOSITORIES_LIST.map((repo, idx) => ({
+                    '@type': 'ListItem',
+                    position: idx + 1,
+                    name: repo.name,
+                    url: repo.githubUrl,
+                    description: repo.shortDescription,
+                  })),
+                },
+              ];
+              setJsonLd(enhancedJsonLd);
+            } else {
+              setJsonLd(res.jsonLd);
+            }
           } else {
             setArticle(null);
           }
@@ -179,94 +306,174 @@ export const ArticleDetailPage: React.FC = () => {
       </div>
 
       {/* Article Body Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm space-y-8">
-          <div className="prose prose-slate max-w-none space-y-6 text-slate-700 leading-relaxed text-base sm:text-lg">
-            {article.content.split('\n\n').map((paragraph, pIdx) => {
-              const trimmed = paragraph.trim();
-              if (!trimmed) return null;
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {isFreeWebsitesGuide ? (
+          <div className="space-y-12">
+            <FreeWebsitesEditorialGuide />
 
-              if (trimmed.startsWith('# ')) {
-                return null; // Skip redundant H1 since we have it in hero
-              }
-              if (trimmed.startsWith('## ')) {
-                return (
-                  <h2 key={pIdx} className="text-2xl font-black text-slate-900 pt-6 pb-2 border-b border-slate-100 flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-indigo-600 shrink-0" />
-                    <span>{trimmed.replace('## ', '')}</span>
-                  </h2>
-                );
-              }
-              if (trimmed.startsWith('### ')) {
-                return (
-                  <h3 key={pIdx} className="text-lg font-bold text-slate-800 pt-4">
-                    {trimmed.replace('### ', '')}
-                  </h3>
-                );
-              }
-              if (trimmed.startsWith('---')) {
-                return <hr key={pIdx} className="border-slate-100 my-6" />;
-              }
-              if (trimmed.startsWith('- ') || trimmed.startsWith('1. ')) {
-                const lines = trimmed.split('\n');
-                return (
-                  <ul key={pIdx} className="space-y-2 my-4 pl-2">
-                    {lines.map((line, lIdx) => (
-                      <li key={lIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-slate-700">
-                        <CheckCircle2 className="h-4 w-4 text-indigo-600 shrink-0 mt-1" />
-                        <span>{line.replace(/^[-*]|\d+\.\s*/, '')}</span>
-                      </li>
-                    ))}
-                  </ul>
-                );
-              }
+            {/* Bottom Back Button & Cross Links */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to SpotPicks Magazine & Guides
+              </Link>
 
-              return (
-                <p key={pIdx} className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                  {trimmed}
-                </p>
-              );
-            })}
-          </div>
-
-          {/* Tags */}
-          {article.tags && article.tags.length > 0 && (
-            <div className="pt-6 border-t border-slate-100">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2.5">
-                Related Topics & Tags:
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
-                  >
-                    #{tag}
-                  </span>
-                ))}
+              <div className="flex items-center gap-4 text-xs font-bold">
+                <Link
+                  to="/articles/top-10-github-repositories-every-student-should-know"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  GitHub Repos Masterclass
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/students"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  Visit Student Hub
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/explore"
+                  className="inline-flex items-center gap-1.5 text-slate-900 hover:text-indigo-600 transition"
+                >
+                  <span>Explore Delhi Tech & Work Cafes</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </div>
-          )}
-
-          {/* Bottom Back Button */}
-          <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
-            <Link
-              to="/articles"
-              className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to All Articles
-            </Link>
-
-            <Link
-              to="/explore"
-              className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-indigo-600 transition"
-            >
-              Explore Top Delhi Spots
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
-        </div>
+        ) : isGitHubReposGuide ? (
+          <div className="space-y-12">
+            <GitHubReposEditorialGuide />
+
+            {/* Bottom Back Button & Cross Links */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to SpotPicks Magazine & Guides
+              </Link>
+
+              <div className="flex items-center gap-4 text-xs font-bold">
+                <Link
+                  to="/articles/free-websites-every-college-student-should-know"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  25 Free Websites for Students
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/students"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  Visit Student Hub
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/explore"
+                  className="inline-flex items-center gap-1.5 text-slate-900 hover:text-indigo-600 transition"
+                >
+                  <span>Explore Delhi Tech & Work Cafes</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm space-y-8">
+            <div className="prose prose-slate max-w-none space-y-6 text-slate-700 leading-relaxed text-base sm:text-lg">
+              {article.content.split('\n\n').map((paragraph, pIdx) => {
+                const trimmed = paragraph.trim();
+                if (!trimmed) return null;
+
+                if (trimmed.startsWith('# ')) {
+                  return null; // Skip redundant H1 since we have it in hero
+                }
+                if (trimmed.startsWith('## ')) {
+                  return (
+                    <h2 key={pIdx} className="text-2xl font-black text-slate-900 pt-6 pb-2 border-b border-slate-100 flex items-center gap-2">
+                      <Sparkles className="h-5 w-5 text-indigo-600 shrink-0" />
+                      <span>{trimmed.replace('## ', '')}</span>
+                    </h2>
+                  );
+                }
+                if (trimmed.startsWith('### ')) {
+                  return (
+                    <h3 key={pIdx} className="text-lg font-bold text-slate-800 pt-4">
+                      {trimmed.replace('### ', '')}
+                    </h3>
+                  );
+                }
+                if (trimmed.startsWith('---')) {
+                  return <hr key={pIdx} className="border-slate-100 my-6" />;
+                }
+                if (trimmed.startsWith('- ') || trimmed.startsWith('1. ')) {
+                  const lines = trimmed.split('\n');
+                  return (
+                    <ul key={pIdx} className="space-y-2 my-4 pl-2">
+                      {lines.map((line, lIdx) => (
+                        <li key={lIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-slate-700">
+                          <CheckCircle2 className="h-4 w-4 text-indigo-600 shrink-0 mt-1" />
+                          <span>{line.replace(/^[-*]|\d+\.\s*/, '')}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                }
+
+                return (
+                  <p key={pIdx} className="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    {trimmed}
+                  </p>
+                );
+              })}
+            </div>
+
+            {/* Tags */}
+            {article.tags && article.tags.length > 0 && (
+              <div className="pt-6 border-t border-slate-100">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2.5">
+                  Related Topics & Tags:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {article.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Back Button */}
+            <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to All Articles
+              </Link>
+
+              <Link
+                to="/explore"
+                className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-indigo-600 transition"
+              >
+                Explore Top Delhi Spots
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

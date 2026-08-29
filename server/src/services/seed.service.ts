@@ -554,9 +554,58 @@ export class SeedService {
       // 4. Seed Users (Super Admin & Demo Accounts)
       await AuthService.seedMongoUsers();
 
-      // 5. Seed Articles if empty
+      // 5. Seed Articles if empty or missing GitHub guide
+      const githubArticle = await Article.findOne({ slug: 'top-10-github-repositories-every-student-should-know' });
+      if (!githubArticle) {
+        await Article.create({
+          title: 'Top 10 GitHub Repositories Every Computer Science Student Should Know',
+          slug: 'top-10-github-repositories-every-student-should-know',
+          excerpt: 'The definitive curated guide to 10 foundational open-source repositories covering Data Structures & Algorithms, Web Architecture, System Design, Generative AI, Machine Learning, and DevOps.',
+          content: `GitHub is the ultimate open-source knowledge repository. Whether you are aiming for high-impact campus placements, competitive software engineering roles, or building your own startup from scratch, these 10 repositories will accelerate your technical trajectory.`,
+          coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200',
+          author: 'SpotPicks Tech & Engineering Desk',
+          authorRole: 'Chief Technology Curator',
+          authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+          category: 'Student Guides',
+          tags: ['GitHub', 'Computer Science', 'DSA', 'System Design', 'Open Source', 'Web Development', 'Machine Learning', 'AI', 'DevOps'],
+          locations: ['Delhi NCR', 'India', 'Global'],
+          seoTitle: 'Top 10 GitHub Repositories Every Computer Science Student Should Know (2026) | SpotPicks',
+          seoDescription: 'Discover the top 10 GitHub repositories every computer science student must know: DSA, System Design, Web Dev, Generative AI, and Open Source guides with live stats.',
+          published: true,
+          publishedAt: new Date(),
+          readingTimeMinutes: 8,
+          featured: true,
+        });
+      }
+
+      // Check and seed Free Websites guide
+      const freeWebsitesExists = await Article.findOne({
+        slug: 'free-websites-every-college-student-should-know',
+      });
+      if (!freeWebsitesExists) {
+        await Article.create({
+          title: '25 Free Websites Every College Student Should Know',
+          slug: 'free-websites-every-college-student-should-know',
+          excerpt: 'The ultimate curated directory of 25+ essential, verified free websites for college students covering Coding, DSA, AI/ML, CS, Mathematics, Resumes, Certifications, Research, and Internships.',
+          content: `A comprehensive, categorized guide to 25+ zero-cost and student-discounted educational tools, developer sandboxes, open-source degree curriculums, ATS resume builders, and research paper databases.`,
+          coverImage: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200',
+          author: 'SpotPicks Academic & Career Desk',
+          authorRole: 'Head of Student Resources',
+          authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+          category: 'Student Guides',
+          tags: ['College Life', 'Free Tools', 'Coding', 'DSA', 'Resume', 'Scholarships', 'Internships', 'Mathematics', 'AI'],
+          locations: ['Delhi NCR', 'India', 'Global'],
+          seoTitle: '25 Free Websites Every College Student Should Know (2026) | SpotPicks',
+          seoDescription: 'Explore the 25 essential free websites every college student needs: coding, DSA, free GPUs, resume builders, academic research, and student discounts.',
+          published: true,
+          publishedAt: new Date(),
+          readingTimeMinutes: 10,
+          featured: true,
+        });
+      }
+
       const articleCount = await Article.countDocuments();
-      if (articleCount === 0) {
+      if (articleCount <= 1) {
         await Article.create([
           {
             title: 'The Ultimate Guide to South Delhi Hidden Study & Work Cafes',
