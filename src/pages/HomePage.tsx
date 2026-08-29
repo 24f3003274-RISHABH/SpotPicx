@@ -623,6 +623,73 @@ export const HomePage: React.FC = () => {
         </Container>
       </section>
 
+      {/* 2.3 SPECIAL FEATURE: WEEKEND GETAWAYS FROM DELHI */}
+      <section className="bg-gradient-to-br from-sky-950 via-slate-900 to-slate-950 text-white py-14 border-b border-sky-900/40">
+        <Container size="xl" className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold tracking-wide">
+                <Compass className="h-3.5 w-3.5 text-sky-400" />
+                <span>Delhi NCR Travel & Road Trip Engine</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Weekend Getaways From Delhi (100–500 km)
+              </h2>
+              <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
+                Filter 24+ handpicked hill stations, fort resorts, tiger reserves, and sacred river towns. Reliable travel times via expressway networks and Vande Bharat train routes.
+              </p>
+            </div>
+
+            <Link
+              to="/delhi/weekend-getaways"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-colors shrink-0 shadow-lg shadow-sky-500/20"
+            >
+              <span>Explore All Weekend Getaways</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          {/* Quick Distance and Trip Type Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <Link
+              to="/delhi/weekend-getaways/guide/best-places-near-delhi-for-one-day-trip"
+              className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/50 hover:bg-white/10 transition-all group space-y-1"
+            >
+              <span className="text-[10px] font-bold uppercase tracking-wider text-sky-400">Under 150 km</span>
+              <h4 className="text-sm font-bold text-white group-hover:text-sky-200">1-Day Road Trips</h4>
+              <p className="text-xs text-slate-400">Neemrana, Damdama Lake, Murthal, Sultanpur Bird Sanctuary.</p>
+            </Link>
+
+            <Link
+              to="/delhi/weekend-getaways/guide/best-hill-stations-near-delhi"
+              className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/50 hover:bg-white/10 transition-all group space-y-1"
+            >
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Himalayan Escapes</span>
+              <h4 className="text-sm font-bold text-white group-hover:text-emerald-200">Top Hill Stations</h4>
+              <p className="text-xs text-slate-400">Lansdowne, Mussoorie, Nainital, Kasauli & Shimla.</p>
+            </Link>
+
+            <Link
+              to="/delhi/weekend-getaways/guide/best-2-day-trips-from-delhi"
+              className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/50 hover:bg-white/10 transition-all group space-y-1"
+            >
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">Expressway Routes</span>
+              <h4 className="text-sm font-bold text-white group-hover:text-amber-200">2-Day Getaways</h4>
+              <p className="text-xs text-slate-400">Agra, Jaipur, Rishikesh, Bharatpur & Sariska.</p>
+            </Link>
+
+            <Link
+              to="/delhi/weekend-getaways/guide/best-spiritual-trips-from-delhi"
+              className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/50 hover:bg-white/10 transition-all group space-y-1"
+            >
+              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400">Sacred Circuits</span>
+              <h4 className="text-sm font-bold text-white group-hover:text-purple-200">Spiritual Escapes</h4>
+              <p className="text-xs text-slate-400">Mathura-Vrindavan, Haridwar-Rishikesh, Pushkar & Kurukshetra.</p>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       {/* 2.5 PHASE 11 & PHASE 18: LIVE DISCOVERY & TRENDING INTELLIGENCE */}
       <Container size="xl" className="space-y-12">
         <LiveDiscoveryFeed />

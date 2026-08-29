@@ -136,6 +136,21 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-500">
               <li>
+                <Link to="/delhi/weekend-getaways" className="hover:text-sky-600 font-semibold text-sky-600 transition-colors flex items-center gap-1">
+                  <span>Weekend Getaways From Delhi</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/delhi/weekend-getaways/guide/best-places-near-delhi-for-one-day-trip" className="hover:text-sky-600 transition-colors">
+                  Best 1-Day Trips From Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/delhi/weekend-getaways/guide/best-hill-stations-near-delhi" className="hover:text-sky-600 transition-colors">
+                  Best Hill Stations Near Delhi
+                </Link>
+              </li>
+              <li>
                 <Link to="/delhi/heritage" className="hover:text-indigo-600 font-semibold text-indigo-600 transition-colors flex items-center gap-1">
                   <span>Delhi Heritage Hub</span>
                 </Link>

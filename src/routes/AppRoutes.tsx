@@ -40,6 +40,9 @@ import { SpiritualStatePage } from '../pages/spiritual/SpiritualStatePage';
 import { SpiritualPlaceDetailPage } from '../pages/spiritual/SpiritualPlaceDetailPage';
 import { SpiritualGuideDetailPage } from '../pages/spiritual/SpiritualGuideDetailPage';
 import { SpiritualTraditionPage } from '../pages/spiritual/SpiritualTraditionPage';
+import { WeekendGetawaysHubPage } from '../pages/getaways/WeekendGetawaysHubPage';
+import { GetawayDetailPage } from '../pages/getaways/GetawayDetailPage';
+import { GetawayGuideDetailPage } from '../pages/getaways/GetawayGuideDetailPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -103,6 +106,11 @@ export const AppRoutes: React.FC = () => {
         <Route path="/india" element={<IndiaExpansionPage />} />
         <Route path="/india/:stateSlug" element={<StateOverviewPage />} />
         <Route path="/india/:stateSlug/:citySlug" element={<CityDiscoveryPage />} />
+
+        {/* Weekend Getaways From Delhi Discovery System */}
+        <Route path="/delhi/weekend-getaways" element={<WeekendGetawaysHubPage />} />
+        <Route path="/delhi/weekend-getaways/destination/:destinationSlug" element={<GetawayDetailPage />} />
+        <Route path="/delhi/weekend-getaways/guide/:guideSlug" element={<GetawayGuideDetailPage />} />
 
         {/* Delhi Heritage & History Specialized Discovery Hub */}
         <Route path="/delhi/heritage" element={<DelhiHeritageHubPage />} />

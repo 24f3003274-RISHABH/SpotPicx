@@ -208,6 +208,17 @@ export const Navbar: React.FC = () => {
             Vibes
           </Link>
           <Link
+            to="/delhi/weekend-getaways"
+            className={`transition-colors hover:text-sky-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/delhi/weekend-getaways')
+                ? 'text-sky-600 font-semibold'
+                : ''
+            }`}
+          >
+            <Compass className="h-3.5 w-3.5 text-sky-500" />
+            <span>Getaways</span>
+          </Link>
+          <Link
             to="/delhi/heritage"
             className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
               location.pathname.startsWith('/delhi/heritage')
@@ -487,6 +498,14 @@ export const Navbar: React.FC = () => {
               className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
             >
               Vibe Discovery (Couples, Friends, Luxury)
+            </Link>
+            <Link
+              to="/delhi/weekend-getaways"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-sky-50 text-sky-800 flex items-center gap-1.5"
+            >
+              <Compass className="h-3.5 w-3.5 text-sky-500" />
+              <span>Weekend Getaways From Delhi (100–500 km & Road Trips)</span>
             </Link>
             <Link
               to="/delhi/heritage"
