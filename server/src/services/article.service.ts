@@ -415,6 +415,69 @@ A comprehensive, categorized guide to 25+ zero-cost and student-discounted educa
     readingTimeMinutes: 10,
     featured: true,
   },
+  {
+    title: 'Best Places to Find Internships & Jobs for College Students',
+    slug: 'best-internship-websites-for-college-students',
+    excerpt: 'The definitive searchable directory of verified, high-yield platforms for Software, Data Science, AI/ML, Startups, Remote Work, Government, Research Fellowships, and Open Source programs.',
+    content: `
+# Best Places to Find Internships & Jobs for College Students
+
+Tired of sending hundreds of resumes into automated job board black holes? We tested and cataloged the most reliable, high-yield platforms for Software Engineering, Data Science & AI, Remote Work, Funded Research Fellowships, Government Portals, and Open-Source Mentorships.
+
+---
+
+## 1. Startup & Tech Direct Applications
+- **Wellfound (formerly AngelList Talent)**: Talk directly to startup founders and engineering leads with transparent salary and equity data.
+- **Work at a Startup (Y Combinator)**: Apply to thousands of hyper-growth YC-backed companies across Silicon Valley, India, and global hubs with a single profile.
+
+---
+
+## 2. Open-Source Mentorships & Fellowships
+- **Google Summer of Code (GSoC)**: Generous stipend program pairing student developers with global open-source mentors.
+- **Outreachy**: $7,000 USD fully remote stipend fellowships for students underrepresented in tech.
+- **Linux Foundation (LFX) Mentorship**: Kernel, Cloud Native (Kubernetes), and infrastructure mentorships.
+- **Major League Hacking (MLH) Fellowship**: 12-week remote open-source internship alternative sponsored by GitHub and Meta.
+
+---
+
+## 3. Data Science & AI/ML
+- **Kaggle Competitions & Datasets**: Prove practical machine learning problem-solving to top recruiters.
+- **Hugging Face Jobs & Spaces**: Build and host interactive Gradio demos to attract AI startup founders.
+
+---
+
+## 4. Academic & Research Fellowships
+- **Mitacs Globalink Research Internship**: 12-week fully funded summer research program at Canadian universities.
+- **CERN Summer Student Programme**: Experimental physics and high-performance computing in Geneva, Switzerland.
+- **Indian Academy of Sciences (IASc)**: Summer research fellowships placing Indian students at IISc, IITs, and TIFR labs.
+- **DAAD WISE**: Funded research stays at German public universities for Indian STEM undergraduates.
+
+---
+
+## 5. Government & Public Sector
+- **AICTE Internship Portal**: 100,000+ verified national opportunities across Smart Cities, NHAI, and PSUs.
+- **National Informatics Centre (NIC)**: National e-Governance and cloud infrastructure internships.
+
+---
+
+## 6. Remote & Freelancing
+- **Remote OK & We Work Remotely**: Global distributed tech positions with international compensation.
+- **Upwork & Contra**: Commission-free and verified freelance opportunities to build client experience.
+    `,
+    coverImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200',
+    author: 'SpotPicks Student Career Desk',
+    authorRole: 'Head of Career Intelligence',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    category: 'Student Guides',
+    tags: ['Internships', 'College Students', 'Software Jobs', 'Data Science', 'AI/ML', 'Remote Work', 'Research Fellowships', 'Open Source', 'Government Jobs', 'Freelancing'],
+    locations: ['Delhi NCR', 'India', 'Global'],
+    seoTitle: 'Best Places to Find Internships & Jobs for College Students (2026) | SpotPicks',
+    seoDescription: 'Discover the most reliable platforms for student internships: Software, AI/ML, YC Startups, Remote, GSoC, Mitacs research, and Government portals with application playbooks.',
+    published: true,
+    publishedAt: new Date('2026-08-29'),
+    readingTimeMinutes: 9,
+    featured: true,
+  },
 ];
 
 export class ArticleService {
@@ -480,6 +543,16 @@ export class ArticleService {
       cleanSlug === 'top-github-repos-for-students'
     ) {
       cleanSlug = 'top-10-github-repositories-every-student-should-know';
+    }
+
+    if (
+      cleanSlug === 'best-internship-websites-for-college-students' ||
+      cleanSlug === 'best-places-to-find-internships-for-college-students' ||
+      cleanSlug === 'top-internship-websites-for-college-students' ||
+      cleanSlug === 'best-internship-websites' ||
+      cleanSlug === 'internship-websites-for-students'
+    ) {
+      cleanSlug = 'best-internship-websites-for-college-students';
     }
 
     if (

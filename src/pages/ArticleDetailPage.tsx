@@ -23,6 +23,8 @@ import { GitHubReposEditorialGuide } from '../components/articles/GitHubReposEdi
 import { GITHUB_REPOSITORIES_LIST } from '../data/githubReposData';
 import { FreeWebsitesEditorialGuide } from '../components/articles/FreeWebsitesEditorialGuide';
 import { FREE_WEBSITES_LIST, EDITORIAL_FAQS } from '../data/freeWebsitesData';
+import { InternshipPlatformsEditorialGuide } from '../components/articles/InternshipPlatformsEditorialGuide';
+import { INTERNSHIP_PLATFORMS_LIST, INTERNSHIP_FAQS } from '../data/internshipsData';
 
 export const ArticleDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -41,6 +43,12 @@ export const ArticleDetailPage: React.FC = () => {
     slug === '25-free-websites-every-college-student-should-know' ||
     slug === 'top-free-websites-for-college-students' ||
     article?.slug === 'free-websites-every-college-student-should-know';
+
+  const isInternshipWebsitesGuide =
+    slug === 'best-internship-websites-for-college-students' ||
+    slug === 'best-places-to-find-internships-for-college-students' ||
+    slug === 'top-internship-websites-for-college-students' ||
+    article?.slug === 'best-internship-websites-for-college-students';
 
   useEffect(() => {
     let isMounted = true;
@@ -160,6 +168,67 @@ export const ArticleDetailPage: React.FC = () => {
                     name: repo.name,
                     url: repo.githubUrl,
                     description: repo.shortDescription,
+                  })),
+                },
+              ];
+              setJsonLd(enhancedJsonLd);
+            } else if (
+              slug === 'best-internship-websites-for-college-students' ||
+              slug === 'best-places-to-find-internships-for-college-students' ||
+              slug === 'top-internship-websites-for-college-students' ||
+              res.article?.slug === 'best-internship-websites-for-college-students'
+            ) {
+              const enhancedJsonLd = [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'TechArticle',
+                  headline: 'Best Places to Find Internships & Jobs for College Students',
+                  description: 'The definitive searchable directory of verified, high-yield platforms for Software, Data Science, AI/ML, Startups, Remote Work, Government, Research Fellowships, and Open Source programs.',
+                  image: ['https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200'],
+                  author: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Student Career Desk',
+                    url: 'https://spotpicks.delhi',
+                  },
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'SpotPicks Delhi',
+                    logo: {
+                      '@type': 'ImageObject',
+                      url: 'https://spotpicks.delhi/favicon.ico',
+                    },
+                  },
+                  datePublished: '2026-08-29T00:00:00Z',
+                  dateModified: new Date().toISOString(),
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': 'https://spotpicks.delhi/articles/best-internship-websites-for-college-students',
+                  },
+                  keywords: 'Student Internships, Software Jobs, Remote Internships, YC Startups, AI ML Jobs, Research Fellowships, GSoC, Mitacs, AICTE Portal, LinkedIn Referrals',
+                  proficiencyLevel: 'Beginner to Advanced',
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'ItemList',
+                  name: 'Best Places to Find Internships & Jobs for College Students',
+                  itemListElement: INTERNSHIP_PLATFORMS_LIST.map((platform, idx) => ({
+                    '@type': 'ListItem',
+                    position: idx + 1,
+                    name: platform.name,
+                    url: platform.url,
+                    description: platform.shortDescription,
+                  })),
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'FAQPage',
+                  mainEntity: INTERNSHIP_FAQS.map((faq) => ({
+                    '@type': 'Question',
+                    name: faq.question,
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.answer,
+                    },
                   })),
                 },
               ];
@@ -307,7 +376,53 @@ export const ArticleDetailPage: React.FC = () => {
 
       {/* Article Body Content */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {isFreeWebsitesGuide ? (
+        {isInternshipWebsitesGuide ? (
+          <div className="space-y-12">
+            <InternshipPlatformsEditorialGuide />
+
+            {/* Bottom Back Button & Cross Links */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to SpotPicks Magazine & Guides
+              </Link>
+
+              <div className="flex items-center gap-4 text-xs font-bold flex-wrap">
+                <Link
+                  to="/articles/free-websites-every-college-student-should-know"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  25 Free Websites for Students
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/articles/top-10-github-repositories-every-student-should-know"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  GitHub Repos Masterclass
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/students"
+                  className="text-slate-600 hover:text-indigo-600 transition"
+                >
+                  Visit Student Hub
+                </Link>
+                <span className="text-slate-300">•</span>
+                <Link
+                  to="/explore"
+                  className="inline-flex items-center gap-1.5 text-slate-900 hover:text-indigo-600 transition"
+                >
+                  <span>Explore Tech Cafes</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : isFreeWebsitesGuide ? (
           <div className="space-y-12">
             <FreeWebsitesEditorialGuide />
 

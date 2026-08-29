@@ -2,6 +2,29 @@ import { apiClient } from '../api/apiClient';
 import { Article } from '../types';
 
 const FALLBACK_ARTICLES: Record<string, Article> = {
+  'best-internship-websites-for-college-students': {
+    _id: 'art-best-internship-websites',
+    id: 'art-best-internship-websites',
+    title: 'Best Places to Find Internships & Jobs for College Students',
+    slug: 'best-internship-websites-for-college-students',
+    excerpt: 'The definitive searchable directory of verified, high-yield platforms for Software, Data Science, AI/ML, Startups, Remote Work, Government, Research Fellowships, and Open Source programs.',
+    content: 'Comprehensive directory of reliable internship platforms, application playbooks, and common application mistakes to avoid.',
+    coverImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200',
+    author: 'SpotPicks Student Career Desk',
+    authorRole: 'Head of Career Intelligence',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    category: 'Student Guides',
+    tags: ['Internships', 'College Students', 'Software Jobs', 'Data Science', 'AI/ML', 'Remote Work', 'Research Fellowships', 'Open Source', 'Government Jobs', 'Freelancing'],
+    locations: ['Delhi NCR', 'India', 'Global'],
+    seoTitle: 'Best Places to Find Internships & Jobs for College Students (2026) | SpotPicks',
+    seoDescription: 'Discover the most reliable platforms for student internships: Software, AI/ML, YC Startups, Remote, GSoC, Mitacs research, and Government portals with application playbooks.',
+    published: true,
+    publishedAt: '2026-08-29T00:00:00Z',
+    readingTimeMinutes: 9,
+    featured: true,
+    createdAt: '2026-08-29T00:00:00Z',
+    updatedAt: '2026-08-29T00:00:00Z',
+  },
   'free-websites-every-college-student-should-know': {
     _id: 'art-free-websites-college',
     id: 'art-free-websites-college',
@@ -77,6 +100,16 @@ export const articleService = {
       if (response?.data) return { article: response.data };
     } catch (e) {
       console.warn(`Failed to fetch article /${cleanSlug}:`, e);
+    }
+
+    if (
+      cleanSlug === 'best-internship-websites-for-college-students' ||
+      cleanSlug === 'best-places-to-find-internships-for-college-students' ||
+      cleanSlug === 'top-internship-websites-for-college-students' ||
+      cleanSlug === 'best-internship-websites' ||
+      cleanSlug === 'internship-websites-for-students'
+    ) {
+      return { article: FALLBACK_ARTICLES['best-internship-websites-for-college-students'] };
     }
 
     if (

@@ -604,6 +604,32 @@ export class SeedService {
         });
       }
 
+      // Check and seed Best Internship Websites guide
+      const internshipWebsitesExists = await Article.findOne({
+        slug: 'best-internship-websites-for-college-students',
+      });
+      if (!internshipWebsitesExists) {
+        await Article.create({
+          title: 'Best Places to Find Internships & Jobs for College Students',
+          slug: 'best-internship-websites-for-college-students',
+          excerpt: 'The definitive searchable directory of verified, high-yield platforms for Software, Data Science, AI/ML, Startups, Remote Work, Government, Research Fellowships, and Open Source programs.',
+          content: `The definitive guide to finding verified student internships and entry-level engineering jobs across Y Combinator startups, remote portals, Google Summer of Code, Mitacs research, and AICTE government programs.`,
+          coverImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200',
+          author: 'SpotPicks Student Career Desk',
+          authorRole: 'Head of Career Intelligence',
+          authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+          category: 'Student Guides',
+          tags: ['Internships', 'College Students', 'Software Jobs', 'Data Science', 'AI/ML', 'Remote Work', 'Research Fellowships', 'Open Source', 'Government Jobs', 'Freelancing'],
+          locations: ['Delhi NCR', 'India', 'Global'],
+          seoTitle: 'Best Places to Find Internships & Jobs for College Students (2026) | SpotPicks',
+          seoDescription: 'Discover the most reliable platforms for student internships: Software, AI/ML, YC Startups, Remote, GSoC, Mitacs research, and Government portals with application playbooks.',
+          published: true,
+          publishedAt: new Date(),
+          readingTimeMinutes: 9,
+          featured: true,
+        });
+      }
+
       const articleCount = await Article.countDocuments();
       if (articleCount <= 1) {
         await Article.create([
