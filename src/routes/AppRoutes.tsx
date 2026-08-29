@@ -35,6 +35,11 @@ import { CityDiscoveryPage } from '../pages/CityDiscoveryPage';
 import { DelhiHeritageHubPage } from '../pages/delhi/DelhiHeritageHubPage';
 import { DelhiHeritagePlaceDetailPage } from '../pages/delhi/DelhiHeritagePlaceDetailPage';
 import { DelhiHeritageGuideDetailPage } from '../pages/delhi/DelhiHeritageGuideDetailPage';
+import { SpiritualHubPage } from '../pages/spiritual/SpiritualHubPage';
+import { SpiritualStatePage } from '../pages/spiritual/SpiritualStatePage';
+import { SpiritualPlaceDetailPage } from '../pages/spiritual/SpiritualPlaceDetailPage';
+import { SpiritualGuideDetailPage } from '../pages/spiritual/SpiritualGuideDetailPage';
+import { SpiritualTraditionPage } from '../pages/spiritual/SpiritualTraditionPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -86,6 +91,13 @@ export const AppRoutes: React.FC = () => {
         {/* Locations Routes */}
         <Route path={ROUTES.LOCATIONS} element={<LocationsPage />} />
         <Route path={ROUTES.LOCATION_DETAILS} element={<LocationDetailPage />} />
+
+        {/* Spiritual India Specialized Nationwide Discovery Directory */}
+        <Route path="/india/spiritual" element={<SpiritualHubPage />} />
+        <Route path="/india/spiritual/place/:placeSlug" element={<SpiritualPlaceDetailPage />} />
+        <Route path="/india/spiritual/guide/:guideSlug" element={<SpiritualGuideDetailPage />} />
+        <Route path="/india/spiritual/tradition/:traditionSlug" element={<SpiritualTraditionPage />} />
+        <Route path="/india/spiritual/:stateSlug" element={<SpiritualStatePage />} />
 
         {/* Phase 21: India-Wide Scalability Dynamic Routes */}
         <Route path="/india" element={<IndiaExpansionPage />} />

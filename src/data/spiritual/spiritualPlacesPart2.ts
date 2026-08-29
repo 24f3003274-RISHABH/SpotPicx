@@ -1,0 +1,621 @@
+import { SpiritualPlace } from '../../types/spiritual.types';
+
+export const SPIRITUAL_PLACES_PART2: SpiritualPlace[] = [
+  // BIHAR
+  {
+    id: 'mahabodhi-temple-bodhgaya',
+    name: 'Mahabodhi Temple Complex',
+    slug: 'mahabodhi-temple-bodhgaya',
+    stateSlug: 'bihar',
+    stateName: 'Bihar',
+    cityDistrict: 'Bodh Gaya, Gaya District',
+    tradition: 'Buddhist',
+    traditionDetail: 'UNESCO World Heritage Site & Supreme Center of Buddhism',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'The holiest place on Earth for Buddhists, marking the exact spot where Prince Siddhartha Gautama sat in deep meditation and attained Supreme Enlightenment (Bodhi) to become the Buddha around 528 BCE.',
+    historicalSignificance:
+      'The first temple was constructed by Emperor Ashoka in the 3rd century BCE, and the present grand 50-meter brick temple dates from the 5th–6th century CE Gupta period, restored over subsequent eras.',
+    culturalSignificance:
+      'Houses the sacred Bodhi Tree (a direct descendant of the original Sri Maha Bodhi), the Diamond Throne (Vajrasana), and the Animesh Lochana Chaitya where Buddha gazed in gratitude.',
+    architecturalStyle: 'Classical Gupta Brick Temple Architecture with Pyramidal Spire, Ashokan Stone Railings, and Stupas',
+    whyPeopleVisit: [
+      'Meditating under the branches of the sacred Bodhi Tree and sitting near the Diamond Throne',
+      'Darshan of the golden gilded statue of the Buddha inside the main sanctum in Bhumisparsha mudra',
+      'Circumambulating the peaceful grounds alongside international monks in silent prayer',
+      'Exploring nearby international Buddhist monasteries (Thai, Bhutanese, Tibetan, Japanese, Vietnamese)',
+    ],
+    festivals: [
+      { name: 'Buddha Jayanti (Vaisakha Purnima)', period: 'May', significance: 'Grand worldwide celebration marking Buddha\'s birth, enlightenment, and parinirvana.' },
+      { name: 'Kagyu & Nyingma Monlam Chenmo', period: 'December / January', significance: 'International prayer ceremonies with thousands of Tibetan Buddhist monks and lamas.' },
+    ],
+    suggestedDuration: '3 to 5 Hours (or multiple days for meditation retreat)',
+    bestTimeToVisit: 'October to March (5:00 AM – 9:00 PM daily)',
+    nearbyAttractions: [
+      { name: 'Great Buddha Statue (80 ft)', distance: '1.2 km', isHeritage: false },
+      { name: 'Royal Bhutan Monastery', distance: '800 m', isHeritage: false },
+      { name: 'Muchalinda Lake', distance: '300 m', isHeritage: true },
+      { name: 'Dungeshwari Cave Temples', distance: '12 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Bodh Gaya Tibetan Kitchen & Cafes', type: 'Tibetan & International Vegan Dishes' },
+      { name: 'Fujiya Green Restaurant', type: 'Japanese & Indian Vegetarian Cuisine' },
+    ],
+    coordinates: { lat: 24.6959, lng: 84.9914 },
+    officialSource: 'Bodhgaya Temple Management Committee (BTMC) & UNESCO',
+    officialWebsite: 'https://bodhgayatemple.com',
+    heroImage: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', caption: 'The soaring pyramidal tower of Mahabodhi Temple surrounded by votive stupas' },
+    ],
+    tags: ['Buddhism', 'UNESCO', 'Bodhi Tree', 'Bodh Gaya', 'Enlightenment', 'Bihar'],
+    dressCodeEtiquette: [
+      'Remove footwear before stepping onto the inner stone courtyard.',
+      'Mobile phones and cameras are subject to security tokens and permits.',
+      'Maintain quiet meditation and reverence around the Bodhi Tree.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'takht-sri-patna-sahib',
+    name: 'Takht Sri Patna Sahib (Gurudwara Harimandir Sahib)',
+    slug: 'takht-sri-patna-sahib',
+    stateSlug: 'bihar',
+    stateName: 'Bihar',
+    cityDistrict: 'Patna City, Patna',
+    tradition: 'Sikh',
+    traditionDetail: 'One of the Five Takhts (Seats of Temporal Authority)',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'The sacred birthplace of the tenth Sikh Guru, Guru Gobind Singh Ji, born here on December 22, 1666 CE. It serves as one of the Five Takhts of Sikhism.',
+    historicalSignificance:
+      'Constructed by Maharaja Ranjit Singh of Punjab between 1839 and 1845 CE to commemorate Guru Gobind Singh Ji\'s birth and early childhood in Patna.',
+    culturalSignificance:
+      'Preserves several historic relics including Guru Gobind Singh Ji\'s childhood wooden cradle (Pangura), golden chappals, swords (talwar), and handwritten scripture pages.',
+    architecturalStyle: 'Sikh Marble Architecture with Gilded Domes, Arched Openings, and Expansive Langar Hall',
+    whyPeopleVisit: [
+      'Darshan of the sacred Takht and historic weapons and relics of Guru Gobind Singh Ji',
+      'Listening to devotional Gurbani Kirtan and partaking in 24/7 Langar',
+      'Visiting other historic Patna gurudwaras including Gurudwara Guru Ka Bagh and Baal Leela',
+    ],
+    festivals: [
+      { name: 'Prakash Parv of Guru Gobind Singh Ji', period: 'December / January', significance: 'Enormous 3-day festival with massive international processions, Gatka martial arts, and continuous langars.' },
+    ],
+    suggestedDuration: '2 to 3 Hours',
+    bestTimeToVisit: 'October to March (Open 24 hours daily)',
+    nearbyAttractions: [
+      { name: 'Gurudwara Baal Leela', distance: '1.2 km', isHeritage: true },
+      { name: 'Kumhrar Maurya Archaeological Site', distance: '5 km', isHeritage: true },
+      { name: 'Golghar & Bihar Museum', distance: '11 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Takht Sri Patna Sahib Langar (On-site)', type: '24/7 Free Guru ka Langar' },
+      { name: 'Patna City Street Sweets (Khaja & Anarsa)', type: 'Traditional Bihari Sweets' },
+    ],
+    coordinates: { lat: 25.5941, lng: 85.2289 },
+    officialSource: 'Takht Sri Harimandir Ji Patna Sahib Management Committee',
+    heroImage: 'https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80', caption: 'The white marble facade of Takht Sri Patna Sahib' },
+    ],
+    tags: ['Sikh', 'Takht', 'Guru Gobind Singh', 'Patna Sahib', 'Bihar', 'Langar'],
+    dressCodeEtiquette: [
+      'Cover head before entering the complex.',
+      'Deposit shoes and socks at the counter; wash feet in running water channel.',
+      'Strict prohibition of tobacco and alcohol.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: false,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+
+  // ODISHA
+  {
+    id: 'jagannath-temple-puri',
+    name: 'Shree Jagannath Temple (Puri)',
+    slug: 'jagannath-temple-puri',
+    stateSlug: 'odisha',
+    stateName: 'Odisha',
+    cityDistrict: 'Puri',
+    tradition: 'Hindu',
+    traditionDetail: 'One of the Four Cardinal All-India Char Dhams',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'The 12th-century monumental temple of Lord Jagannath (Lord of the Universe), Lord Balabhadra, and Devi Subhadra, celebrated for its unique wooden neem deities, towering Kalinga deula spire, and world-famous annual Rath Yatra.',
+    historicalSignificance:
+      'Constructed by King Anantavarman Chodaganga Deva of the Eastern Ganga Dynasty in the 12th century CE, further enriched by Gajapati rulers over centuries.',
+    culturalSignificance:
+      'The epicenter of Odia culture and spirituality. Operates the world’s largest traditional kitchen (Rosha Ghara), preparing the sacred 56 bhog (Mahaprasad) cooked in earthen pots on wood fires.',
+    architecturalStyle: 'Classical Kalinga Architecture with 65-meter Rekha Deula Spire, Jagamohana, Natamandapa, and Bhogamandapa',
+    whyPeopleVisit: [
+      'Darshan of the triad deities—Jagannath, Balabhadra, and Subhadra',
+      'Receiving and tasting sacred Mahaprasad in the Ananda Bazar marketplace',
+      'Observing the daring daily ritual of climbing the 65m spire to change the Patitapabana flag (Neelachakra)',
+      'Experiencing the holy beaches and bathing in sacred theerthams (Indradyumna, Markandeya)',
+    ],
+    festivals: [
+      { name: 'Puri Rath Yatra (Chariot Festival)', period: 'Ashadha (June/July)', significance: 'Millions pull the colossal wooden chariots (Nandighosha, Taladhwaja, Darpadalana) to Gundicha Temple.' },
+      { name: 'Chandan Yatra', period: 'Baisakha (April/May)', significance: '42-day water festival in Narendra Tank.' },
+      { name: 'Snana Yatra', period: 'Jyeshtha Purnima', significance: 'Sacred ceremonial bathing of the deities with 108 pots of perfumed water.' },
+    ],
+    suggestedDuration: '3 to 5 Hours',
+    bestTimeToVisit: 'October to March (5:00 AM – 11:00 PM daily; subject to daily ritual schedules)',
+    nearbyAttractions: [
+      { name: 'Puri Golden Beach (Blue Flag certified)', distance: '1.8 km', isHeritage: false },
+      { name: 'Gundicha Temple', distance: '3 km', isHeritage: true },
+      { name: 'Konark Sun Temple', distance: '35 km', isHeritage: true },
+      { name: 'Raghurajpur Heritage Craft Village', distance: '14 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Ananda Bazar (Inside Temple)', type: 'Sacred Mahaprasad & Khaja' },
+      { name: 'Nrusimha Sweets Puri', type: 'Famous Odia Chenna Poda & Malpua' },
+    ],
+    coordinates: { lat: 19.8049, lng: 85.8179 },
+    officialSource: 'Shree Jagannath Temple Administration (SJTA), Puri',
+    officialWebsite: 'https://shreejagannatha.in',
+    heroImage: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80', caption: 'The soaring 65-meter spire of Shree Jagannath Temple in Puri' },
+    ],
+    tags: ['Char Dham', 'Jagannath', 'Puri', 'Rath Yatra', 'Kalinga Architecture', 'Mahaprasad'],
+    dressCodeEtiquette: [
+      'Inner sanctum entry is traditionally reserved for followers of Sanatana Dharma.',
+      'Modest traditional dress code applies; leather items, mobile phones, and cameras are strictly banned inside.',
+      'Free view of the entire temple complex is available for all visitors from the Raghunandan Library terrace facing the Lions Gate.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'konark-sun-temple',
+    name: 'Sun Temple of Konark',
+    slug: 'konark-sun-temple',
+    stateSlug: 'odisha',
+    stateName: 'Odisha',
+    cityDistrict: 'Konark, Puri District',
+    tradition: 'Hindu',
+    traditionDetail: '13th-Century Solar Architecture & UNESCO World Heritage Site',
+    category: 'Historic Temple & Shrine',
+    shortDescription:
+      'A breathtaking architectural monument conceived as a colossal chariot of Surya (the Sun God) with 24 intricately carved stone wheels drawn by seven straining horses.',
+    historicalSignificance:
+      'Built in 1250 CE by King Narasimhadeva I of the Eastern Ganga Dynasty along the Chandrabhaga River estuary.',
+    culturalSignificance:
+      'A masterpiece of creative genius, where the 24 stone wheels act as precise solar sundials calculating time to the minute.',
+    architecturalStyle: 'Kalinga Stone Architecture in Khondalite with 24 Sundial Wheels and Expressive Relief Friezes',
+    whyPeopleVisit: [
+      'Marveling at the UNESCO World Heritage stone carvings and sundial wheels',
+      'Attending the annual Konark Dance Festival in December',
+      'Visiting the Konark Archaeological Museum and Chandrabhaga Beach nearby',
+    ],
+    festivals: [
+      { name: 'Konark Dance Festival', period: 'December 1–5', significance: 'Classical Odissi, Bharatanatyam, and Kathak recitals against the illuminated temple.' },
+      { name: 'Magha Saptami (Chandrabhaga Mela)', period: 'Magha (Jan/Feb)', significance: 'Pilgrims take a sacred dawn dip in the sea to welcome the rising Sun.' },
+    ],
+    suggestedDuration: '2 to 3 Hours',
+    bestTimeToVisit: 'October to March (6:00 AM – 8:00 PM; Light & Sound Show in evenings)',
+    nearbyAttractions: [
+      { name: 'Chandrabhaga Beach', distance: '3 km', isHeritage: false },
+      { name: 'Konark Archaeological Museum', distance: '500 m', isHeritage: true },
+      { name: 'Puri Jagannath Temple', distance: '35 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'OTDC Panthanivas Restaurant', type: 'Traditional Odia Thali & Seafood' },
+    ],
+    coordinates: { lat: 19.8876, lng: 86.0945 },
+    officialSource: 'Archaeological Survey of India (ASI) & UNESCO',
+    officialWebsite: 'https://asi.nic.in',
+    heroImage: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80', caption: 'The intricately carved stone chariot wheel of Konark Sun Temple' },
+    ],
+    tags: ['UNESCO', 'Sun Temple', 'Konark', 'Kalinga Architecture', 'Odisha'],
+    dressCodeEtiquette: [
+      'Comfortable walking shoes recommended for exploring the expansive stone lawns.',
+      'Do not touch or lean upon delicate ancient relief sculptures.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: false,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+
+  // MAHARASHTRA
+  {
+    id: 'shirdi-sai-baba-samadhi-mandir',
+    name: 'Shirdi Sai Baba Samadhi Mandir',
+    slug: 'shirdi-sai-baba-samadhi-mandir',
+    stateSlug: 'maharashtra',
+    stateName: 'Maharashtra',
+    cityDistrict: 'Shirdi, Ahmednagar District',
+    tradition: 'Interfaith & Spiritual',
+    traditionDetail: 'Universal Saint Revered by Hindus, Muslims, and Seekers Globally',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'The sacred Samadhi shrine of the 19th-century saint Sai Baba of Shirdi, who taught the universal message of "Sabka Malik Ek" (One God governs all), Shraddha (Faith), and Saburi (Patience).',
+    historicalSignificance:
+      'Sai Baba arrived in Shirdi around 1858 and lived in the dilapidated mosque (Dwarkamai) until taking Mahasamadhi in October 1918.',
+    culturalSignificance:
+      'Draws over 25,000 to 100,000 pilgrims daily of all faiths. Operates India\'s largest solar-powered mega kitchen serving over 40,000 free/subsidized meals daily.',
+    architecturalStyle: 'Italian White Marble Sanctum with Solid Gold Throne and Surrounding Heritage Precincts',
+    whyPeopleVisit: [
+      'Darshan of Sai Baba\'s marble Samadhi and live Aarti (Kakad, Madhyan, Dhoop, Shej)',
+      'Visiting Dwarkamai (the sacred mosque with the perpetual Dhuni fire burning since Baba\'s lifetime)',
+      'Visiting Chavadi, Gurusthan (neem tree), and Lendi Baug garden',
+      'Partaking in the Prasadalaya mega kitchen meals',
+    ],
+    festivals: [
+      { name: 'Ram Navami', period: 'Chaitra (March/April)', significance: 'Celebrates both Ram Navami and the Urs of Baba with sacred processions and reading of Sai Satcharitra.' },
+      { name: 'Guru Purnima', period: 'Ashadha (July)', significance: 'Largest congregation of devotees honoring their spiritual master.' },
+      { name: 'Vijayadashami / Punyatithi', period: 'Ashwin (Oct)', significance: 'Marks Sai Baba\'s Mahasamadhi anniversary with palanquin processions.' },
+    ],
+    suggestedDuration: '3 to 5 Hours',
+    bestTimeToVisit: 'Throughout the year (Mandir opens 4:00 AM to 11:15 PM daily)',
+    nearbyAttractions: [
+      { name: 'Dwarkamai & Chavadi', distance: '100 m', isHeritage: true },
+      { name: 'Shani Shingnapur Village & Temple', distance: '72 km', isHeritage: true },
+      { name: 'Nashik & Trimbakeshwar', distance: '90 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Shri Sai Sansthan Prasadalaya', type: 'Mega Solar Kitchen Vegetarian Meals' },
+    ],
+    coordinates: { lat: 19.7668, lng: 74.4764 },
+    officialSource: 'Shri Saibaba Sansthan Trust (SSST), Shirdi',
+    officialWebsite: 'https://sai.org.in',
+    heroImage: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', caption: 'The sacred Samadhi Mandir complex of Shri Sai Baba in Shirdi' },
+    ],
+    tags: ['Sai Baba', 'Shirdi', 'Sabka Malik Ek', 'Interfaith', 'Maharashtra', 'Samadhi'],
+    dressCodeEtiquette: [
+      'Modest attire recommended.',
+      'Online advance booking for VIP Darshan and Aarti passes is available on the official SSST portal.',
+      'Deposit mobile phones and cameras at free counters.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'haji-ali-dargah-mumbai',
+    name: 'Haji Ali Dargah (Mumbai)',
+    slug: 'haji-ali-dargah-mumbai',
+    stateSlug: 'maharashtra',
+    stateName: 'Maharashtra',
+    cityDistrict: 'Worli Coast, South Mumbai',
+    tradition: 'Muslim',
+    traditionDetail: '15th-Century Sufi Shrine on an Offshore Islet',
+    category: 'Dargah & Mosque',
+    shortDescription:
+      'An iconic Indo-Islamic shrine and mosque set on a tiny islet 500 meters off the coast of Worli in the Arabian Sea, accessible via a narrow causeway during low tide.',
+    historicalSignificance:
+      'Constructed in 1431 CE in memory of wealthy Uzbek merchant Pir Haji Ali Shah Bukhari, who renounced worldly possessions after making a pilgrimage to Mecca.',
+    culturalSignificance:
+      'Attracts tens of thousands of visitors of all faiths daily who walk the sea causeway to offer prayers, listen to Qawwalis, and enjoy the ocean breezes.',
+    architecturalStyle: 'Indo-Islamic Coastal Architecture with Pure White Makrana Marble Domes, Minarets, and Silver Sanctum Pillars',
+    whyPeopleVisit: [
+      'Walking the unique 500m ocean causeway surrounded by the Arabian Sea on both sides',
+      'Offering prayers and floral chaadars at the tomb of Saint Haji Ali',
+      'Attending Sufi Qawwali performances in the open courtyard on Friday evenings',
+      'Tasting Mumbai street food and famous Haji Ali Juice Centre faloodas',
+    ],
+    festivals: [
+      { name: 'Urs of Pir Haji Ali Shah Bukhari', period: '16th of Rabi-ul-Awwal', significance: 'Special prayers, sandalwood paste offerings, and massive congregations.' },
+      { name: 'Eid-e-Milad-un-Nabi', period: 'Rabi-ul-Awwal', significance: 'Illumination of the sea causeway and shrine complex.' },
+    ],
+    suggestedDuration: '1.5 to 2.5 Hours',
+    bestTimeToVisit: 'October to March (5:30 AM – 10:00 PM; strictly check ocean tide tables before walking causeway)',
+    nearbyAttractions: [
+      { name: 'Mahalaxmi Temple Mumbai', distance: '1 km', isHeritage: true },
+      { name: 'Marine Drive & Chowpatty', distance: '4 km', isHeritage: false },
+      { name: 'Siddhivinayak Temple Prabhadevi', distance: '5 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Haji Ali Juice Centre', type: 'Famous Custard Apple Cream & Falooda' },
+      { name: 'Sardar Refreshments (Tardeo)', type: 'Famous Mumbai Pav Bhaji' },
+    ],
+    coordinates: { lat: 18.9774, lng: 72.8089 },
+    officialSource: 'Haji Ali Dargah Trust, Mumbai',
+    officialWebsite: 'https://hajialidargah.in',
+    heroImage: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80', caption: 'The white marble Haji Ali Dargah connected by the sea causeway in Mumbai' },
+    ],
+    tags: ['Sufi', 'Mumbai', 'Arabian Sea', 'Causeway', 'Qawwali', 'Maharashtra'],
+    dressCodeEtiquette: [
+      'Dress modestly; covering head is required for all visitors entering the sanctum.',
+      'Causeway is submerged during high tides; plan visits around low-tide schedules.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: false,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+
+  // GUJARAT
+  {
+    id: 'somnath-temple',
+    name: 'Somnath Jyotirlinga Temple',
+    slug: 'somnath-temple',
+    stateSlug: 'gujarat',
+    stateName: 'Gujarat',
+    cityDistrict: 'Prabhas Patan, Gir Somnath District',
+    tradition: 'Hindu',
+    traditionDetail: 'First Among the Twelve Revered Jyotirlinga Shrines of Lord Shiva',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'Revered as "Aadi Jyotirlinga", the eternal shrine stands majestically on the Arabian Sea coast, celebrated for its resilience, grand Kailash Mahameru Prasad architecture, and the famous Baan Stambh (arrow pillar).',
+    historicalSignificance:
+      'Documented in Rigveda; rebuilt seven times throughout history. The present magnificent temple was reconstructed in 1951 through the initiative of Sardar Vallabhbhai Patel.',
+    culturalSignificance:
+      'Marks the holy confluence of three sacred rivers (Hiran, Kapila, Saraswati) known as Triveni Sangam, and the site where Lord Krishna ended his earthly pastimes at Bhalka Tirth.',
+    architecturalStyle: 'Chaulukya / Solanki Nagara Style with 50-Meter High Shikhara, 10-Tonne Kalash, and Seafront Promenade',
+    whyPeopleVisit: [
+      'Darshan of the foremost Jyotirlinga of Shiva during dawn and evening aartis',
+      'Viewing the "Sound & Light Show" (Jay Somnath) narrating the temple\'s resilient history',
+      'Walking along the scenic Samudra Darshan oceanfront walkway',
+      'Visiting Bhalka Tirth and Triveni Sangam nearby',
+    ],
+    festivals: [
+      { name: 'Maha Shivratri', period: 'Phalguna (Feb/March)', significance: 'Grand 4-day mela with night-long aartis and cultural music performances.' },
+      { name: 'Kartik Purnima Fair', period: 'Kartik (November)', significance: 'Traditional 5-day fair drawing pilgrims across Saurashtra.' },
+      { name: 'Shravan Maas Pilgrimage', period: 'July / August', significance: 'Special daily Someshwar pujas and floral shringar.' },
+    ],
+    suggestedDuration: '2 to 4 Hours',
+    bestTimeToVisit: 'October to March (Open 6:00 AM – 10:00 PM daily; Sound & Light show at 8:00 PM)',
+    nearbyAttractions: [
+      { name: 'Bhalka Tirth (Lord Krishna)', distance: '4 km', isHeritage: true },
+      { name: 'Triveni Sangam & Gita Mandir', distance: '1.5 km', isHeritage: true },
+      { name: 'Gir National Park (Asiatic Lions)', distance: '45 km', isHeritage: false },
+      { name: 'Diu Island Fort & Churches', distance: '85 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Shree Somnath Trust Sagar Darshan Restaurant', type: 'Gujarati & North Indian Satvik Thali' },
+    ],
+    coordinates: { lat: 20.888, lng: 70.401 },
+    officialSource: 'Shree Somnath Trust, Prabhas Patan',
+    officialWebsite: 'https://somnath.org',
+    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', caption: 'The magnificent sandstone tower of Somnath Temple by the Arabian Sea' },
+    ],
+    tags: ['Jyotirlinga', 'Somnath', 'Shiva', 'Saurashtra', 'Gujarat', 'Arabian Sea'],
+    dressCodeEtiquette: [
+      'Modest traditional clothing mandatory.',
+      'Mobile phones, cameras, leather belts, and electronic devices are strictly prohibited inside the complex (free deposit counters provided).',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'palitana-jain-temples',
+    name: 'Palitana Jain Temples on Shatrunjaya Hill',
+    slug: 'palitana-jain-temples',
+    stateSlug: 'gujarat',
+    stateName: 'Gujarat',
+    cityDistrict: 'Palitana, Bhavnagar District',
+    tradition: 'Jain',
+    traditionDetail: 'The Holiest Svetambara Jain Mountain Pilgrimage',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'The world\'s largest cluster of marble temples perched atop the sacred Shatrunjaya hill, featuring over 860 exquisitely carved marble shrines consecrated over 900 years.',
+    historicalSignificance:
+      'Revered as the sacred hill where 23 of the 24 Jain Tirthankaras (except Neminatha) consecrated the ground, and where the first Tirthankara, Lord Rishabhanatha (Adishwar), gave his first sermon.',
+    culturalSignificance:
+      'The entire hill is sacred; nobody (including priests) is allowed to stay overnight atop the mountain, ensuring complete sanctity and silence under the night sky.',
+    architecturalStyle: 'Maru-Gurjara Temple-City in White Marble with 863 Fortified Tuks, Spired Shrines, and Stepped Plinths',
+    whyPeopleVisit: [
+      'Climbing the 3,500 stone steps to reach the sacred mountain summits',
+      'Darshan of the principal Adishwar Temple in the Chaumukhi and Vimalvasi tuks',
+      'Experiencing the world\'s only fully vegetarian and mountain-temple city',
+      'Viewing the panoramic valley and Shetrunji River below',
+    ],
+    festivals: [
+      { name: 'Chha Gau Feri (Kartik Purnima)', period: 'Kartik (November)', significance: '12-mile circumambulation walk around Shatrunjaya hill undertaken by tens of thousands of Jain pilgrims.' },
+      { name: 'Fagun Sud Teras (Phalguna 13)', period: 'Feb / March', significance: 'Special holy pilgrimage day for visiting the ancient shrines.' },
+    ],
+    suggestedDuration: '4 to 6 Hours (climb + temple visits + descent)',
+    bestTimeToVisit: 'October to March (Climb begins 5:00 AM; all visitors must descend before sunset)',
+    nearbyAttractions: [
+      { name: 'Palitana Jain Museum', distance: '1 km at base', isHeritage: true },
+      { name: 'Bhavnagar Heritage City', distance: '55 km', isHeritage: true },
+      { name: 'Velavadar Blackbuck National Park', distance: '70 km', isHeritage: false },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Palitana Jain Dharamshala Bhojanalayas', type: 'Authentic Satvik Jain Thali' },
+    ],
+    coordinates: { lat: 21.5233, lng: 71.8286 },
+    officialSource: 'Sheth Anandji Kalyanji Trust (Palitana)',
+    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', caption: 'Clusters of white marble Jain temple spires crowned on Shatrunjaya Hill' },
+    ],
+    tags: ['Jain', 'Palitana', 'Shatrunjaya', 'Tirthankara', 'Adishwar', 'Gujarat'],
+    dressCodeEtiquette: [
+      'Strictly no leather items, food, or snacks permitted on the mountain.',
+      'Wear clean, modest attire (light colors/white preferred).',
+      'Doli (palanquin) services are available for elderly pilgrims at the foot of the hill.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'udvada-atash-behram',
+    name: 'Udvada Atash Behram (Iranshah Fire Temple)',
+    slug: 'udvada-atash-behram',
+    stateSlug: 'gujarat',
+    stateName: 'Gujarat',
+    cityDistrict: 'Udvada, Valsad District',
+    tradition: 'Zoroastrian',
+    traditionDetail: 'The Oldest Continuously Burning Consecrated Zoroastrian Fire in India',
+    category: 'Agiyari & Synagogue',
+    shortDescription:
+      'The most sacred pilgrimage destination for the global Parsi and Irani Zoroastrian community, housing the sacred Iranshah fire that has burned continuously for over 1,280 years since being consecrated in Sanjan.',
+    historicalSignificance:
+      'Following the migration of Zoroastrians from ancient Persia in the 8th century CE, the sacred fire was consecrated at Sanjan with 16 distinct fire sources and later moved to Udvada in 1742 CE.',
+    culturalSignificance:
+      'Udvada town preserves quintessential Parsi coastal architecture with heritage bungalows, otlas (verandas), and the Zoroastrian Information Center.',
+    architecturalStyle: 'Traditional Parsi-Persian Colonial Architecture with Faravahar Motifs, Sloped Mangalore Tiled Roofs, and Spacious Courtyards',
+    whyPeopleVisit: [
+      'Parsi pilgrims visit for Navjote, Jashan prayers, and receiving blessings of the Iranshah fire',
+      'Tourists explore the Udvada Heritage Village, Zoroastrian Heritage Museum, and traditional otla architecture',
+      'Sampling traditional Parsi culinary heritage (Parsi Chai, Akuri, Dhansak, Patra Ni Machhi, and hand-churned ice creams)',
+    ],
+    festivals: [
+      { name: 'Udvada Utsav', period: 'December (Biennial)', significance: 'Global cultural festival celebrating Parsi heritage, arts, literature, and cuisine.' },
+      { name: 'Jamshedi Navroz & Pateti', period: 'March 21 / August', significance: 'Parsi New Year with special thanksgiving prayers and festive feasts.' },
+    ],
+    suggestedDuration: '2 to 3 Hours',
+    bestTimeToVisit: 'October to March',
+    nearbyAttractions: [
+      { name: 'Zoroastrian Heritage Museum Udvada', distance: '300 m', isHeritage: true },
+      { name: 'Udvada Beach', distance: '500 m', isHeritage: false },
+      { name: 'Sanjan Stambh Memorial', distance: '28 km', isHeritage: true },
+      { name: 'Daman Portuguese Forts & Beaches', distance: '18 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Hotel Ashishvg & Parsi Baug', type: 'Traditional Parsi Cuisine (Dhansak, Sali Boti)' },
+      { name: 'Udvada Heritage Bakery', type: 'Famous Parsi Nankhatai & Mawa Cakes' },
+    ],
+    coordinates: { lat: 20.485, lng: 72.923 },
+    officialSource: 'Udvada Samast Anjuman & Zoroastrian Heritage Board',
+    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', caption: 'Heritage colonial facades and tree-lined lanes of Udvada village' },
+    ],
+    tags: ['Zoroastrian', 'Parsi', 'Iranshah', 'Udvada', 'Atash Behram', 'Gujarat'],
+    dressCodeEtiquette: [
+      'The inner sanctum of the Atash Behram is strictly reserved for members of the Zoroastrian faith as per traditional custom.',
+      'Visitors of all backgrounds are welcome to tour the heritage village, visit the Zoroastrian Museum, and enjoy local cuisine.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: false,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+
+  // MADHYA PRADESH
+  {
+    id: 'mahakaleshwar-temple-ujjain',
+    name: 'Mahakaleshwar Jyotirlinga Temple',
+    slug: 'mahakaleshwar-temple-ujjain',
+    stateSlug: 'madhya-pradesh',
+    stateName: 'Madhya Pradesh',
+    cityDistrict: 'Ujjain (Avantika)',
+    tradition: 'Hindu',
+    traditionDetail: 'Dakshinabhimukhi (South-Facing) Jyotirlinga of Shiva',
+    category: 'Major Pilgrimage Destination',
+    shortDescription:
+      'One of the twelve revered Jyotirlingas, situated on the sacred Shipra River in the ancient holy city of Ujjain, world-renowned for its legendary dawn Bhasma Aarti (ritual using holy ash).',
+    historicalSignificance:
+      'Ujjain was the prime meridian of ancient Indian astronomers and capital of King Vikramaditya. The temple was restored by the Maratha general Ranoji Shinde in the 18th century CE.',
+    culturalSignificance:
+      'Mahakal is revered as the Master of Time and Death. The newly developed 900-meter "Mahakal Lok Corridor" features 108 grand sculpted pillars depicting Shiva\'s Anand Tandav.',
+    architecturalStyle: 'Bhumija and Maratha Temple Architecture with High Shikhara and Expansive Sculpted Mahakal Lok Corridor',
+    whyPeopleVisit: [
+      'Attending the sacred 4:00 AM Bhasma Aarti inside the sanctum',
+      'Walking through the grand Mahakal Lok Corridor with musical fountains and murals',
+      'Taking a holy dip in the Shipra River at Ram Ghat',
+      'Visiting Kal Bhairav Temple and Harsiddhi Mata Shaktipeeth nearby',
+    ],
+    festivals: [
+      { name: 'Simhastha Kumbh Mela', period: 'Every 12 Years (Next: 2028)', significance: 'Tens of millions take ritual baths in the sacred Shipra River.' },
+      { name: 'Maha Shivratri', period: 'Phalguna (Feb/March)', significance: '44-hour continuous darshan and elaborate Navratri of Mahakal.' },
+      { name: 'Shravan Sawaari Processions', period: 'July – August (Mondays)', significance: 'Lord Mahakal is taken out in royal palanquins through the streets of Ujjain.' },
+    ],
+    suggestedDuration: '3 to 5 Hours',
+    bestTimeToVisit: 'October to March (Open 4:00 AM – 11:00 PM daily; Bhasma Aarti requires prior online token)',
+    nearbyAttractions: [
+      { name: 'Mahakal Lok Corridor', distance: 'On-site', isHeritage: true },
+      { name: 'Kal Bhairav Temple Ujjain', distance: '5 km', isHeritage: true },
+      { name: 'Harsiddhi Temple (Shaktipeeth)', distance: '400 m', isHeritage: true },
+      { name: 'Ram Ghat Shipra River', distance: '1.2 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'Ujjain Poha & Jalebi Stalls', type: 'Famous Morning Street Breakfast' },
+      { name: 'Bhojanalaya Mahakal Lok', type: 'Pure Vegetarian Satvik Food' },
+    ],
+    coordinates: { lat: 23.1827, lng: 75.7682 },
+    officialSource: 'Shri Mahakaleshwar Temple Management Committee (SMTMC)',
+    officialWebsite: 'https://shrimahakaleshwar.com',
+    heroImage: 'https://images.unsplash.com/photo-1600100397608-f010e421d017?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1600100397608-f010e421d017?auto=format&fit=crop&w=800&q=80', caption: 'The sacred spires and Mahakal Lok Corridor of Mahakaleshwar in Ujjain' },
+    ],
+    tags: ['Jyotirlinga', 'Mahakal', 'Ujjain', 'Bhasma Aarti', 'Kumbh Mela', 'Madhya Pradesh'],
+    dressCodeEtiquette: [
+      'Traditional dress code mandatory for inner sanctum entry and Bhasma Aarti (Dhoti/Kurta for men, Saree for women).',
+      'Advance online booking for Bhasma Aarti is compulsory on the official SMTMC portal.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: true,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+  {
+    id: 'sanchi-stupa-complex',
+    name: 'Great Stupa at Sanchi',
+    slug: 'sanchi-stupa-complex',
+    stateSlug: 'madhya-pradesh',
+    stateName: 'Madhya Pradesh',
+    cityDistrict: 'Sanchi, Raisen District',
+    tradition: 'Buddhist',
+    traditionDetail: 'Oldest Stone Structure in India & UNESCO World Heritage Site',
+    category: 'Monastery & Stupa',
+    shortDescription:
+      'Commissioned by Emperor Ashoka in the 3rd century BCE, this hemispherical Buddhist stupa crowned by a chatra is world-famous for its four elaborately carved Torana gateways depicting Jataka tales.',
+    historicalSignificance:
+      'Originally established by Emperor Ashoka, whose wife Devi was from nearby Vidisha. Enlarged during the Shunga and Satavahana periods with intricately sculpted stone balustrades.',
+    culturalSignificance:
+      'Enshrined the sacred relics of the Buddha’s principal disciples, Sariputta and Maha Moggallana (now preserved in the nearby Chetiyagiri Vihara).',
+    architecturalStyle: 'Classical Mauryan & Satavahana Stone Architecture with 4 Ornate Torana Gateways and Pradakshina Patha',
+    whyPeopleVisit: [
+      'Admiring the four Toranas with detailed stone bas-reliefs illustrating Buddha\'s life and Jataka tales',
+      'Circumambulating the peaceful hilltop Great Stupa',
+      'Visiting Stupa No. 2 and Stupa No. 3 and the Ashokan Pillar edicts',
+      'Sanchi Archaeological Museum',
+    ],
+    festivals: [
+      { name: 'Chetiyagiri Vihara Festival', period: 'November (Last Sunday)', significance: 'Sacred exposition of the holy relics of Sariputta and Maha Moggallana attracting global Buddhist pilgrims.' },
+    ],
+    suggestedDuration: '2 to 3 Hours',
+    bestTimeToVisit: 'October to March (6:30 AM – 6:30 PM daily)',
+    nearbyAttractions: [
+      { name: 'Sanchi Archaeological Museum', distance: '500 m', isHeritage: true },
+      { name: 'Udayagiri Caves (Gupta rock-cut caves)', distance: '12 km', isHeritage: true },
+      { name: 'Heliodorus Pillar Vidisha', distance: '10 km', isHeritage: true },
+      { name: 'Bhopal Heritage City & Upper Lake', distance: '48 km', isHeritage: true },
+    ],
+    nearbyFoodAndCulture: [
+      { name: 'MPSTDC Gateway Retreat Sanchi', type: 'Vegetarian & Multi-cuisine Food' },
+    ],
+    coordinates: { lat: 23.4793, lng: 77.7397 },
+    officialSource: 'Archaeological Survey of India (ASI) & UNESCO',
+    officialWebsite: 'https://asi.nic.in',
+    heroImage: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80',
+    galleryImages: [
+      { url: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', caption: 'The Great Stupa at Sanchi with its ornate carved stone Torana gateway' },
+    ],
+    tags: ['Buddhism', 'UNESCO', 'Ashoka', 'Stupa', 'Sanchi', 'Madhya Pradesh'],
+    dressCodeEtiquette: [
+      'Respectful clothing suited for a Buddhist monument.',
+      'Circumambulate the stupa clockwise.',
+      'Do not deface or climb the ancient masonry.',
+    ],
+    isTopPilgrimage: true,
+    isTempleTown: false,
+    weekendTripFromDelhi: false,
+    verifiedNotice: 'Please verify current information with the official source.',
+  },
+];

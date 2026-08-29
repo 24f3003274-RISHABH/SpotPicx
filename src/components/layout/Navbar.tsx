@@ -219,9 +219,20 @@ export const Navbar: React.FC = () => {
             <span>Heritage</span>
           </Link>
           <Link
+            to="/india/spiritual"
+            className={`transition-colors hover:text-amber-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/india/spiritual')
+                ? 'text-amber-600 font-semibold'
+                : ''
+            }`}
+          >
+            <Compass className="h-3.5 w-3.5 text-amber-500" />
+            <span>Spiritual India</span>
+          </Link>
+          <Link
             to="/india"
             className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
-              location.pathname.startsWith('/india')
+              location.pathname === '/india' || (location.pathname.startsWith('/india/') && !location.pathname.startsWith('/india/spiritual'))
                 ? 'text-indigo-600 font-semibold'
                 : ''
             }`}
@@ -484,6 +495,14 @@ export const Navbar: React.FC = () => {
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-500" />
               <span>Delhi Heritage & History (13 Categories & Guides)</span>
+            </Link>
+            <Link
+              to="/india/spiritual"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-amber-50 text-amber-800 flex items-center gap-1.5"
+            >
+              <Compass className="h-3.5 w-3.5 text-amber-500" />
+              <span>Spiritual India (Nationwide Pilgrimage & Traditions)</span>
             </Link>
             <Link
               to="/best-restaurants-in-delhi"

@@ -34,6 +34,13 @@ export const ROUTES = {
   INDIA_STATE: '/india/:stateSlug',
   INDIA_CITY: '/india/:stateSlug/:citySlug',
 
+  // Spiritual India Nationwide Discovery Directory
+  SPIRITUAL_HUB: '/india/spiritual',
+  SPIRITUAL_STATE: '/india/spiritual/:stateSlug',
+  SPIRITUAL_PLACE: '/india/spiritual/place/:placeSlug',
+  SPIRITUAL_GUIDE: '/india/spiritual/guide/:guideSlug',
+  SPIRITUAL_TRADITION: '/india/spiritual/tradition/:traditionSlug',
+
   // Delhi Heritage & History Specialized Discovery Hub
   DELHI_HERITAGE: '/delhi/heritage',
   DELHI_HERITAGE_CATEGORY: '/delhi/heritage/category/:categorySlug',

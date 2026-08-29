@@ -141,6 +141,26 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/india/spiritual" className="hover:text-amber-600 font-semibold text-amber-700 dark:text-amber-400 transition-colors flex items-center gap-1">
+                  <span>Spiritual India (Nationwide)</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/india/spiritual/guide/top-10-religious-places-in-delhi" className="hover:text-amber-600 transition-colors">
+                  Top 10 Religious Places Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/india/spiritual/uttar-pradesh" className="hover:text-amber-600 transition-colors">
+                  Spiritual Uttar Pradesh
+                </Link>
+              </li>
+              <li>
+                <Link to="/india/spiritual/uttarakhand" className="hover:text-amber-600 transition-colors">
+                  Spiritual Uttarakhand (Devbhoomi)
+                </Link>
+              </li>
+              <li>
                 <Link to="/delhi/heritage/guide/top-10-heritage-places-in-delhi" className="hover:text-indigo-600 transition-colors">
                   Top 10 Heritage Places
                 </Link>
