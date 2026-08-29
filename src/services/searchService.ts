@@ -10,6 +10,8 @@ import {
   UserPreferencesProfile,
   PersonalizedRecommendationsResponse,
   AdminSearchAnalyticsData,
+  PopularSearchItem,
+  PopularSearchApiResponse,
 } from '../types';
 
 export interface SearchQueryOptions {
@@ -178,5 +180,72 @@ export const searchService = {
       '/search/analytics/admin'
     );
     return (response as any).data;
+  },
+
+  /**
+   * Fetch active popular searches for homepage and discovery
+   */
+  async getPopularSearches(group?: string, limit: number = 24): Promise<PopularSearchItem[]> {
+    try {
+      const params = new URLSearchParams();
+      if (group && group !== 'ALL') params.set('group', group);
+      if (limit) params.set('limit', String(limit));
+      const response = await apiClient.get<PopularSearchApiResponse>(`/popular-searches?${params.toString()}`);
+      return (response as any).data || [];
+    } catch (err) {
+      console.warn('Failed to load popular searches from API, returning empty array', err);
+      return [];
+    }
+  },
+
+  /**
+   * Track click on a popular search item
+   */
+  async trackPopularSearchClick(idOrSlug: string): Promise<void> {
+    try {
+      await apiClient.post(`/popular-searches/${idOrSlug}/click`, {});
+    } catch {
+      // Fire-and-forget telemetry
+    }
+  },
+
+  /**
+   * Admin API: Get all popular searches with filters
+   */
+  async getAdminPopularSearches(group?: string, search?: string): Promise<PopularSearchItem[]> {
+    const params = new URLSearchParams();
+    if (group && group !== 'ALL') params.set('group', group);
+    if (search) params.set('search', search);
+    const response = await apiClient.get<PopularSearchApiResponse>(`/popular-searches/admin/all?${params.toString()}`);
+    return (response as any).data || [];
+  },
+
+  /**
+   * Admin API: Create popular search shortcut
+   */
+  async createPopularSearch(data: Partial<PopularSearchItem>): Promise<PopularSearchItem> {
+    const response = await apiClient.post<{ success: boolean; data: PopularSearchItem }>(
+      '/popular-searches/admin/create',
+      data
+    );
+    return (response as any).data;
+  },
+
+  /**
+   * Admin API: Update popular search shortcut
+   */
+  async updatePopularSearch(id: string, data: Partial<PopularSearchItem>): Promise<PopularSearchItem> {
+    const response = await apiClient.put<{ success: boolean; data: PopularSearchItem }>(
+      `/popular-searches/admin/${id}`,
+      data
+    );
+    return (response as any).data;
+  },
+
+  /**
+   * Admin API: Delete popular search shortcut
+   */
+  async deletePopularSearch(id: string): Promise<void> {
+    await apiClient.delete(`/popular-searches/admin/${id}`);
   },
 };

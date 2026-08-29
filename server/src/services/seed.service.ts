@@ -7,6 +7,7 @@ import { Event } from '../models/Event';
 import { Offer } from '../models/Offer';
 import { SeoPage } from '../models/SeoPage';
 import { Opportunity } from '../models/Opportunity';
+import { PopularSearch, IPopularSearch } from '../models/PopularSearch';
 import { SEED_OPPORTUNITIES } from './opportunity.service';
 import { AuthService } from './auth.service';
 import { dbConnection } from '../config/db';
@@ -14,10 +15,12 @@ import {
   SEED_CATEGORIES,
   SEED_LOCATIONS,
   SEED_TAGS,
+  SEED_POPULAR_SEARCHES,
   generateFullDemoBusinesses,
   SeedCategory,
   SeedLocation,
   SeedBusiness,
+  SeedPopularSearch,
 } from './seed.data';
 
 export class SeedService {
@@ -25,6 +28,7 @@ export class SeedService {
   public static inMemoryCategories: Map<string, any> = new Map();
   public static inMemoryLocations: Map<string, any> = new Map();
   public static inMemoryBusinesses: Map<string, any> = new Map();
+  public static inMemoryPopularSearches: Map<string, any> = new Map();
   public static isSeeded = false;
 
   public static initializeInMemoryStore(): void {
@@ -164,9 +168,34 @@ export class SeedService {
       this.inMemoryBusinesses.set(biz.slug, bizObj);
     }
 
+    // 4. Seed in-memory popular searches
+    for (const pop of SEED_POPULAR_SEARCHES) {
+      const generatedId = new mongoose.Types.ObjectId().toString();
+      const popObj = {
+        _id: generatedId,
+        id: generatedId,
+        title: pop.title,
+        slug: pop.slug,
+        query: pop.query,
+        category: pop.category,
+        location: pop.location,
+        filters: pop.filters || {},
+        description: pop.description,
+        icon: pop.icon,
+        group: pop.group,
+        badge: pop.badge || '',
+        priority: pop.priority,
+        isActive: pop.isActive,
+        clickCount: pop.clickCount || 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.inMemoryPopularSearches.set(pop.slug, popObj);
+    }
+
     this.isSeeded = true;
     console.log(
-      `[SeedService] In-Memory Store populated: ${this.inMemoryCategories.size} Categories, ${this.inMemoryLocations.size} Locations, ${this.inMemoryBusinesses.size} Businesses.`
+      `[SeedService] In-Memory Store populated: ${this.inMemoryCategories.size} Categories, ${this.inMemoryLocations.size} Locations, ${this.inMemoryBusinesses.size} Businesses, ${this.inMemoryPopularSearches.size} Popular Searches.`
     );
   }
 
@@ -799,10 +828,37 @@ export class SeedService {
         console.log('⚡ [SeedService] Seeded initial verified student opportunities into MongoDB Atlas.');
       }
 
+      // Check and seed Popular Searches
+      for (const pop of SEED_POPULAR_SEARCHES) {
+        await PopularSearch.findOneAndUpdate(
+          { slug: pop.slug },
+          {
+            $setOnInsert: {
+              title: pop.title,
+              slug: pop.slug,
+              query: pop.query,
+              category: pop.category,
+              location: pop.location,
+              filters: pop.filters || {},
+              description: pop.description,
+              icon: pop.icon,
+              group: pop.group,
+              badge: pop.badge || '',
+              priority: pop.priority,
+              isActive: pop.isActive,
+              clickCount: pop.clickCount || 0,
+            },
+          },
+          { upsert: true, new: true }
+        );
+      }
+      console.log('⚡ [SeedService] Seeded popular search shortcuts into MongoDB Atlas.');
+
       const totalCats = await Category.countDocuments();
       const totalLocs = await Location.countDocuments();
       const totalBiz = await Business.countDocuments();
       const totalOpps = await Opportunity.countDocuments();
+      const totalPops = await PopularSearch.countDocuments();
 
       return {
         success: true,
@@ -811,8 +867,9 @@ export class SeedService {
           locations: totalLocs,
           businesses: totalBiz,
           opportunities: totalOpps,
+          popularSearches: totalPops,
           tags: SEED_TAGS.length,
-        },
+        } as any,
         mode: 'MONGODB',
       };
     } catch (err: any) {

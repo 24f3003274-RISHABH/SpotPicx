@@ -23,6 +23,7 @@ import offerRoutes from './offer.routes';
 import discoveryRoutes from './discovery.routes';
 import monetizationRoutes from './monetization.routes';
 import opportunityRoutes from './opportunity.routes';
+import popularSearchRoutes from './popular-search.routes';
 
 const router = Router();
 
@@ -34,6 +35,7 @@ router.use('/categories', categoryRoutes);
 router.use('/locations', locationRoutes);
 router.use('/businesses', businessRoutes);
 router.use('/search', searchRoutes);
+router.use('/popular-searches', popularSearchRoutes);
 router.use('/seed', seedRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/favorites', favoriteRoutes);

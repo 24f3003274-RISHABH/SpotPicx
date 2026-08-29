@@ -42,6 +42,7 @@ import { AskSpotPicks } from '../components/ai/AskSpotPicks';
 import { TrendingSection } from '../components/discovery/TrendingSection';
 import { PersonalizedPicksSection } from '../components/discovery/PersonalizedPicksSection';
 import { LiveDiscoveryFeed } from '../components/discovery/LiveDiscoveryFeed';
+import { PopularSearchesSection } from '../components/discovery/PopularSearchesSection';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -370,29 +371,8 @@ export const HomePage: React.FC = () => {
                 </div>
               )}
 
-              {/* Popular Searches Quick Badges */}
-              <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1 text-xs text-slate-500">
-                <span className="font-semibold text-slate-700 flex items-center gap-1 text-[11px] uppercase tracking-wider">
-                  <TrendingUp className="h-3 w-3 text-indigo-600" /> Popular:
-                </span>
-                {[
-                  'Best cafes',
-                  'Momos under 200',
-                  'Quiet cafes with WiFi',
-                  'Rooftop date places',
-                  'Laptop repair',
-                  'Student PGs',
-                ].map((tag, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => navigate(`/search?q=${encodeURIComponent(tag)}`)}
-                    className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 text-slate-700 shadow-2xs transition-all text-xs font-medium cursor-pointer"
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
+              {/* Dynamic Popular Searches Quick Badges */}
+              <PopularSearchesSection variant="compact" />
             </motion.div>
 
             {/* Phase 10: Specialized Hub Quick Action Strip */}
@@ -523,6 +503,11 @@ export const HomePage: React.FC = () => {
                 </Link>
               );
             })}
+          </div>
+
+          {/* 2.1 POPULAR SEARCHES & CURATED TRAILS */}
+          <div className="pt-6">
+            <PopularSearchesSection variant="expanded" />
           </div>
         </Container>
       </section>

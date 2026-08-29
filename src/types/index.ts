@@ -933,7 +933,36 @@ export interface AdminSearchAnalyticsData {
   }>;
 }
 
+export type PopularSearchGroup = 'ALL' | 'FOOD' | 'EXPERIENCES' | 'PLACES' | 'SERVICES' | 'STUDENTS' | 'TRAVEL';
+
+export interface PopularSearchItem {
+  _id?: string;
+  id?: string;
+  title: string;
+  slug: string;
+  query: string;
+  category?: string;
+  location?: string;
+  filters?: Record<string, any>;
+  description?: string;
+  icon?: string;
+  group?: PopularSearchGroup;
+  badge?: string;
+  priority?: number;
+  isActive?: boolean;
+  clickCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PopularSearchApiResponse {
+  success: boolean;
+  data: PopularSearchItem[];
+  total: number;
+}
+
 export * from './opportunity.types';
+
 
 
 
