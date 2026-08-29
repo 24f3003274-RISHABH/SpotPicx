@@ -208,6 +208,17 @@ export const Navbar: React.FC = () => {
             Vibes
           </Link>
           <Link
+            to="/delhi/heritage"
+            className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/delhi/heritage')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+            <span>Heritage</span>
+          </Link>
+          <Link
             to="/india"
             className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
               location.pathname.startsWith('/india')
@@ -465,6 +476,14 @@ export const Navbar: React.FC = () => {
               className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
             >
               Vibe Discovery (Couples, Friends, Luxury)
+            </Link>
+            <Link
+              to="/delhi/heritage"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-50 text-indigo-700 flex items-center gap-1.5"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+              <span>Delhi Heritage & History (13 Categories & Guides)</span>
             </Link>
             <Link
               to="/best-restaurants-in-delhi"

@@ -527,6 +527,102 @@ export const HomePage: React.FC = () => {
         </Container>
       </section>
 
+      {/* 2.2 SPECIAL SECTION: DELHI HERITAGE & HISTORY DISCOVERY */}
+      <section className="bg-gradient-to-br from-amber-950 via-slate-900 to-stone-900 text-white py-14 border-y border-amber-900/40">
+        <Container size="xl" className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wide">
+                <Landmark className="h-3.5 w-3.5 text-amber-400" />
+                <span>Specialized Editorial Feature</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Delhi Heritage & History Discovery
+              </h2>
+              <p className="text-sm text-stone-300 max-w-2xl leading-relaxed">
+                Explore 2,500 years of civilization across the 7 Historic Cities of Delhi. Verified ASI architectural data, stepwells, UNESCO monuments, and walking trails.
+              </p>
+            </div>
+
+            <Link
+              to="/delhi/heritage"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs transition-colors shrink-0 shadow-lg shadow-amber-500/20"
+            >
+              <span>Explore All 20+ Heritage Sights</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          {/* Quick Heritage Era & Category Highlights */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {[
+              { name: 'Mughal Heritage', slug: 'mughal-heritage', count: '6 Sights', desc: 'Charbaghs & sandstone' },
+              { name: 'Sultanate Era', slug: 'sultanate-architecture', count: '5 Sights', desc: '12th–16th century dynasties' },
+              { name: 'UNESCO World Heritage', slug: 'unesco-heritage', count: '3 Sites', desc: 'World heritage marvels' },
+              { name: 'Historic Stepwells', slug: 'stepwells', count: 'Baolis', desc: 'Ancient water reservoirs' },
+              { name: 'Museums & Archives', slug: 'museums', count: 'Artifacts', desc: 'National collections' },
+              { name: 'Hidden Historical Sights', slug: 'hidden-historical-places', count: 'Gems', desc: 'Lesser-known ruins' },
+            ].map((c) => (
+              <Link
+                key={c.slug}
+                to={`/delhi/heritage/category/${c.slug}`}
+                className="p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-400/50 hover:bg-white/10 transition-all group"
+              >
+                <div className="text-xs font-bold text-amber-300 group-hover:text-amber-200">
+                  {c.name}
+                </div>
+                <div className="text-[11px] text-stone-400 mt-1">{c.desc}</div>
+                <div className="mt-2 text-[10px] font-semibold text-amber-400/80">
+                  {c.count} →
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Editorial Guide Quick Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <Link
+              to="/delhi/heritage/guide/top-10-heritage-places-in-delhi"
+              className="p-4 rounded-2xl bg-stone-900/80 border border-stone-800 hover:border-amber-500/50 transition-all group"
+            >
+              <div className="text-[10px] uppercase font-bold text-amber-400">Curated Ranking</div>
+              <div className="text-sm font-bold text-white group-hover:text-amber-300 mt-1">
+                Top 10 Heritage Places in Delhi
+              </div>
+              <p className="text-xs text-stone-400 mt-1">
+                The essential monuments every visitor and resident must experience.
+              </p>
+            </Link>
+
+            <Link
+              to="/delhi/heritage/guide/best-mughal-architecture-in-delhi"
+              className="p-4 rounded-2xl bg-stone-900/80 border border-stone-800 hover:border-amber-500/50 transition-all group"
+            >
+              <div className="text-[10px] uppercase font-bold text-amber-400">Architectural Guide</div>
+              <div className="text-sm font-bold text-white group-hover:text-amber-300 mt-1">
+                Best Mughal Architecture in Delhi
+              </div>
+              <p className="text-xs text-stone-400 mt-1">
+                From Humayun's charbagh symmetry to Shahjahanabad sandstone pavilions.
+              </p>
+            </Link>
+
+            <Link
+              to="/delhi/heritage/guide/delhi-heritage-walk-guide"
+              className="p-4 rounded-2xl bg-stone-900/80 border border-stone-800 hover:border-amber-500/50 transition-all group"
+            >
+              <div className="text-[10px] uppercase font-bold text-amber-400">Walking Trails</div>
+              <div className="text-sm font-bold text-white group-hover:text-amber-300 mt-1">
+                Self-Guided Heritage Walking Trails
+              </div>
+              <p className="text-xs text-stone-400 mt-1">
+                Step-by-step pedestrian itineraries through Mehrauli, Nizamuddin, and Old Delhi.
+              </p>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       {/* 2.5 PHASE 11 & PHASE 18: LIVE DISCOVERY & TRENDING INTELLIGENCE */}
       <Container size="xl" className="space-y-12">
         <LiveDiscoveryFeed />

@@ -32,6 +32,9 @@ import { PricingPage } from '../pages/PricingPage';
 import { IndiaExpansionPage } from '../pages/IndiaExpansionPage';
 import { StateOverviewPage } from '../pages/StateOverviewPage';
 import { CityDiscoveryPage } from '../pages/CityDiscoveryPage';
+import { DelhiHeritageHubPage } from '../pages/delhi/DelhiHeritageHubPage';
+import { DelhiHeritagePlaceDetailPage } from '../pages/delhi/DelhiHeritagePlaceDetailPage';
+import { DelhiHeritageGuideDetailPage } from '../pages/delhi/DelhiHeritageGuideDetailPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { ROUTES } from '../constants/routes';
@@ -88,6 +91,12 @@ export const AppRoutes: React.FC = () => {
         <Route path="/india" element={<IndiaExpansionPage />} />
         <Route path="/india/:stateSlug" element={<StateOverviewPage />} />
         <Route path="/india/:stateSlug/:citySlug" element={<CityDiscoveryPage />} />
+
+        {/* Delhi Heritage & History Specialized Discovery Hub */}
+        <Route path="/delhi/heritage" element={<DelhiHeritageHubPage />} />
+        <Route path="/delhi/heritage/category/:categorySlug" element={<DelhiHeritageHubPage />} />
+        <Route path="/delhi/heritage/place/:placeSlug" element={<DelhiHeritagePlaceDetailPage />} />
+        <Route path="/delhi/heritage/guide/:guideSlug" element={<DelhiHeritageGuideDetailPage />} />
 
         {/* Database-Driven Location Dynamic Hubs */}
         <Route path="/delhi" element={<LocationHubPage />} />

@@ -34,6 +34,12 @@ export const ROUTES = {
   INDIA_STATE: '/india/:stateSlug',
   INDIA_CITY: '/india/:stateSlug/:citySlug',
 
+  // Delhi Heritage & History Specialized Discovery Hub
+  DELHI_HERITAGE: '/delhi/heritage',
+  DELHI_HERITAGE_CATEGORY: '/delhi/heritage/category/:categorySlug',
+  DELHI_HERITAGE_PLACE: '/delhi/heritage/place/:placeSlug',
+  DELHI_HERITAGE_GUIDE: '/delhi/heritage/guide/:guideSlug',
+
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',
