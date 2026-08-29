@@ -933,5 +933,8 @@ export interface AdminSearchAnalyticsData {
   }>;
 }
 
+export * from './opportunity.types';
+
+
 
 

@@ -18,6 +18,7 @@ import {
   SearchCode,
   ExternalLink,
   Database,
+  Award,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { ROUTES } from '../../constants/routes';
@@ -40,6 +41,7 @@ export const AdminDashboardLayout: React.FC = () => {
     { label: 'City Events', path: ROUTES.ADMIN_EVENTS, icon: Calendar },
     { label: 'Promotional Offers', path: ROUTES.ADMIN_OFFERS, icon: Tag },
     { label: 'Curated Articles', path: ROUTES.ADMIN_ARTICLES, icon: FileText },
+    { label: 'Student Opportunities', path: ROUTES.ADMIN_OPPORTUNITIES, icon: Award },
     { label: 'SEO & Meta Pages', path: ROUTES.ADMIN_SEO_PAGES, icon: SearchCode },
   ];
 

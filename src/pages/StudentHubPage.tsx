@@ -19,6 +19,7 @@ import {
   ArrowUpRight,
   MapPin,
   Star,
+  Award,
 } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { discoveryService } from '../services/discoveryService';
@@ -142,6 +143,31 @@ export const StudentHubPage: React.FC = () => {
 
       {/* Main Filter Section */}
       <Container size="xl" className="mt-8 space-y-8">
+        {/* Student Opportunities Spotlight Banner */}
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-rose-950 via-slate-900 to-indigo-950 text-white shadow-lg border border-rose-900/40 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-bold uppercase tracking-wider">
+                New Hub Feature
+              </span>
+              <span className="text-xs text-slate-400">• Verified 2026</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white">
+              Student Opportunities Hub
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+              Explore scholarships, hackathons, coding competitions, research fellowships, and open-source programs with verified deadlines and official links.
+            </p>
+          </div>
+          <Link
+            to="/student-opportunities"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md transition-all shrink-0"
+          >
+            <span>Explore Opportunities</span>
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+
         {/* Category Horizontal Bar */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {STUDENT_CATEGORIES.map((cat) => {

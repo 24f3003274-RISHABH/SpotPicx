@@ -23,6 +23,7 @@ export const ROUTES = {
   EVENT_DETAILS: '/events/:slug',
   OFFERS: '/offers',
   STUDENTS: '/students',
+  STUDENT_OPPORTUNITIES: '/student-opportunities',
   HOUSING: '/housing',
   JOBS: '/jobs',
   SPECIAL_DISCOVERY: '/discover',
@@ -58,6 +59,7 @@ export const ROUTES = {
   ADMIN_EVENTS: '/admin/events',
   ADMIN_OFFERS: '/admin/offers',
   ADMIN_ARTICLES: '/admin/articles',
+  ADMIN_OPPORTUNITIES: '/admin/opportunities',
   ADMIN_SEO_PAGES: '/admin/seo-pages',
   ADMIN_DATA_SOURCES: '/admin/sources',
 

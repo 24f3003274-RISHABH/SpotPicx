@@ -6,6 +6,8 @@ import { Article } from '../models/Article';
 import { Event } from '../models/Event';
 import { Offer } from '../models/Offer';
 import { SeoPage } from '../models/SeoPage';
+import { Opportunity } from '../models/Opportunity';
+import { SEED_OPPORTUNITIES } from './opportunity.service';
 import { AuthService } from './auth.service';
 import { dbConnection } from '../config/db';
 import {
@@ -389,7 +391,7 @@ export class SeedService {
   // MongoDB persistent seeder
   public static async seedDatabase(): Promise<{
     success: boolean;
-    counts: { categories: number; locations: number; businesses: number; tags: number };
+    counts: { categories: number; locations: number; businesses: number; tags: number; opportunities?: number };
     mode: 'MONGODB' | 'IN_MEMORY';
   }> {
     this.initializeInMemoryStore();
@@ -790,9 +792,17 @@ export class SeedService {
         console.log('⚡ [SeedService] Seeded initial SEO landing pages into MongoDB Atlas.');
       }
 
+      // Check and seed Student Opportunities
+      const oppCount = await Opportunity.countDocuments();
+      if (oppCount === 0) {
+        await Opportunity.create(SEED_OPPORTUNITIES);
+        console.log('⚡ [SeedService] Seeded initial verified student opportunities into MongoDB Atlas.');
+      }
+
       const totalCats = await Category.countDocuments();
       const totalLocs = await Location.countDocuments();
       const totalBiz = await Business.countDocuments();
+      const totalOpps = await Opportunity.countDocuments();
 
       return {
         success: true,
@@ -800,6 +810,7 @@ export class SeedService {
           categories: totalCats,
           locations: totalLocs,
           businesses: totalBiz,
+          opportunities: totalOpps,
           tags: SEED_TAGS.length,
         },
         mode: 'MONGODB',

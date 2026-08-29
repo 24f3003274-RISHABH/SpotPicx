@@ -333,6 +333,78 @@ export const ArticleDetailPage: React.FC = () => {
                 readingTimeMinutes: 10,
                 featured: true,
               } as any);
+            } else if (
+              slug === 'top-10-github-repositories-every-student-should-know' ||
+              slug === 'top-10-github-repositories-every-computer-science-student-should-know'
+            ) {
+              setArticle({
+                _id: 'github-repos-fallback',
+                title: 'Top 10 GitHub Repositories Every Computer Science Student Should Know',
+                slug: 'top-10-github-repositories-every-student-should-know',
+                excerpt: 'The definitive curated guide to 10 foundational open-source repositories covering Data Structures & Algorithms, Web Architecture, System Design, Generative AI, Machine Learning, and DevOps.',
+                content: '',
+                coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200',
+                author: 'SpotPicks Tech & Engineering Desk',
+                authorRole: 'Chief Technology Curator',
+                authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                category: 'Student Guides',
+                tags: ['GitHub', 'Computer Science', 'DSA', 'System Design', 'Open Source', 'Web Development', 'Machine Learning', 'AI', 'DevOps'],
+                locations: ['Delhi NCR', 'India', 'Global'],
+                seoTitle: 'Top 10 GitHub Repositories Every Computer Science Student Should Know (2026) | SpotPicks',
+                seoDescription: 'Discover the top 10 GitHub repositories every computer science student must know: DSA, System Design, Web Dev, Generative AI, and Open Source guides with live stats.',
+                published: true,
+                publishedAt: new Date().toISOString(),
+                readingTimeMinutes: 8,
+                featured: true,
+              } as any);
+            } else if (
+              slug === 'free-websites-every-college-student-should-know' ||
+              slug === '25-free-websites-every-college-student-should-know'
+            ) {
+              setArticle({
+                _id: 'free-websites-fallback',
+                title: '25 Free Websites Every College Student Should Know',
+                slug: 'free-websites-every-college-student-should-know',
+                excerpt: 'The ultimate curated directory of 25+ essential, verified free websites for college students covering Coding, DSA, AI/ML, CS, Mathematics, Resumes, Certifications, Research, and Internships.',
+                content: '',
+                coverImage: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200',
+                author: 'SpotPicks Academic & Career Desk',
+                authorRole: 'Head of Student Resources',
+                authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                category: 'Student Guides',
+                tags: ['College Life', 'Free Tools', 'Coding', 'DSA', 'Resume', 'Scholarships', 'Internships', 'Mathematics', 'AI'],
+                locations: ['Delhi NCR', 'India', 'Global'],
+                seoTitle: '25 Free Websites Every College Student Should Know (2026) | SpotPicks',
+                seoDescription: 'Explore the 25 essential free websites every college student needs: coding, DSA, free GPUs, resume builders, academic research, and student discounts.',
+                published: true,
+                publishedAt: new Date().toISOString(),
+                readingTimeMinutes: 10,
+                featured: true,
+              } as any);
+            } else if (
+              slug === 'best-internship-websites-for-college-students' ||
+              slug === 'best-places-to-find-internships-for-college-students'
+            ) {
+              setArticle({
+                _id: 'internship-websites-fallback',
+                title: 'Best Places to Find Internships & Jobs for College Students',
+                slug: 'best-internship-websites-for-college-students',
+                excerpt: 'The definitive searchable directory of verified, high-yield platforms for Software, Data Science, AI/ML, Startups, Remote Work, Government, Research Fellowships, and Open Source programs.',
+                content: '',
+                coverImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200',
+                author: 'SpotPicks Student Career Desk',
+                authorRole: 'Head of Career Intelligence',
+                authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                category: 'Student Guides',
+                tags: ['Internships', 'College Students', 'Software Jobs', 'Data Science', 'AI/ML', 'Remote Work', 'Research Fellowships', 'Open Source', 'Government Jobs', 'Freelancing'],
+                locations: ['Delhi NCR', 'India', 'Global'],
+                seoTitle: 'Best Places to Find Internships & Jobs for College Students (2026) | SpotPicks',
+                seoDescription: 'Discover the most reliable platforms for student internships: Software, AI/ML, YC Startups, Remote, GSoC, Mitacs research, and Government portals with application playbooks.',
+                published: true,
+                publishedAt: new Date().toISOString(),
+                readingTimeMinutes: 9,
+                featured: true,
+              } as any);
             } else {
               setArticle(null);
             }
@@ -364,6 +436,30 @@ export const ArticleDetailPage: React.FC = () => {
               published: true,
               publishedAt: new Date().toISOString(),
               readingTimeMinutes: 10,
+              featured: true,
+            } as any);
+          } else if (
+            slug === 'top-10-github-repositories-every-student-should-know' ||
+            slug === 'top-10-github-repositories-every-computer-science-student-should-know'
+          ) {
+            setArticle({
+              _id: 'github-repos-fallback',
+              title: 'Top 10 GitHub Repositories Every Computer Science Student Should Know',
+              slug: 'top-10-github-repositories-every-student-should-know',
+              excerpt: 'The definitive curated guide to 10 foundational open-source repositories covering Data Structures & Algorithms, Web Architecture, System Design, Generative AI, Machine Learning, and DevOps.',
+              content: '',
+              coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200',
+              author: 'SpotPicks Tech & Engineering Desk',
+              authorRole: 'Chief Technology Curator',
+              authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+              category: 'Student Guides',
+              tags: ['GitHub', 'Computer Science', 'DSA', 'System Design', 'Open Source', 'Web Development', 'Machine Learning', 'AI', 'DevOps'],
+              locations: ['Delhi NCR', 'India', 'Global'],
+              seoTitle: 'Top 10 GitHub Repositories Every Computer Science Student Should Know (2026) | SpotPicks',
+              seoDescription: 'Discover the top 10 GitHub repositories every computer science student must know: DSA, System Design, Web Dev, Generative AI, and Open Source guides with live stats.',
+              published: true,
+              publishedAt: new Date().toISOString(),
+              readingTimeMinutes: 8,
               featured: true,
             } as any);
           }

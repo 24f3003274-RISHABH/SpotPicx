@@ -23,6 +23,7 @@ import { EventsPage } from '../pages/EventsPage';
 import { EventDetailPage } from '../pages/EventDetailPage';
 import { OffersPage } from '../pages/OffersPage';
 import { StudentHubPage } from '../pages/StudentHubPage';
+import { StudentOpportunitiesPage } from '../pages/StudentOpportunitiesPage';
 import { HousingPage } from '../pages/HousingPage';
 import { JobsPage } from '../pages/JobsPage';
 import { SpecialDiscoveryPage } from '../pages/SpecialDiscoveryPage';
@@ -61,6 +62,7 @@ import { AdminReportsTab } from '../pages/admin/AdminReportsTab';
 import { AdminEventsTab } from '../pages/admin/AdminEventsTab';
 import { AdminOffersTab } from '../pages/admin/AdminOffersTab';
 import { AdminArticlesTab } from '../pages/admin/AdminArticlesTab';
+import { AdminOpportunitiesTab } from '../pages/admin/AdminOpportunitiesTab';
 import { AdminSeoPagesTab } from '../pages/admin/AdminSeoPagesTab';
 import { AdminDataSourcesTab } from '../pages/admin/AdminDataSourcesTab';
 
@@ -109,6 +111,8 @@ export const AppRoutes: React.FC = () => {
         <Route path={ROUTES.EVENT_DETAILS} element={<EventDetailPage />} />
         <Route path={ROUTES.OFFERS} element={<OffersPage />} />
         <Route path={ROUTES.STUDENTS} element={<StudentHubPage />} />
+        <Route path={ROUTES.STUDENT_OPPORTUNITIES} element={<StudentOpportunitiesPage />} />
+        <Route path="/opportunities" element={<StudentOpportunitiesPage />} />
         <Route path={ROUTES.HOUSING} element={<HousingPage />} />
         <Route path={ROUTES.JOBS} element={<JobsPage />} />
         <Route path={ROUTES.SPECIAL_DISCOVERY} element={<SpecialDiscoveryPage />} />
@@ -185,6 +189,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="events" element={<AdminEventsTab />} />
           <Route path="offers" element={<AdminOffersTab />} />
           <Route path="articles" element={<AdminArticlesTab />} />
+          <Route path="opportunities" element={<AdminOpportunitiesTab />} />
           <Route path="seo-pages" element={<AdminSeoPagesTab />} />
           <Route path="sources" element={<AdminDataSourcesTab />} />
         </Route>

@@ -156,6 +156,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/student-opportunities" className="hover:text-rose-600 font-semibold text-rose-600 transition-colors flex items-center gap-1">
+                  <span>Student Opportunities Hub</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/housing" className="hover:text-indigo-600 transition-colors">
                   Housing & PGs
                 </Link>

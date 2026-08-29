@@ -656,13 +656,7 @@ export class ArticleService {
 
     try {
       const article = await Article.findOne({
-        $or: [
-          { slug: cleanSlug },
-          { slug: 'best-ai-tools-for-college-students-2026' },
-          { slug: 'best-internship-websites-for-college-students' },
-          { slug: 'top-10-github-repositories-every-student-should-know' },
-          { slug: 'free-websites-every-college-student-should-know' },
-        ],
+        slug: cleanSlug,
         published: true,
       })
         .populate('relatedBusinesses')

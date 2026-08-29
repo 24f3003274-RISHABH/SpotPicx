@@ -22,6 +22,7 @@ import jobRoutes from './job.routes';
 import offerRoutes from './offer.routes';
 import discoveryRoutes from './discovery.routes';
 import monetizationRoutes from './monetization.routes';
+import opportunityRoutes from './opportunity.routes';
 
 const router = Router();
 
@@ -40,10 +41,11 @@ router.use('/collections', collectionRoutes);
 router.use('/reports', reportRoutes);
 router.use('/notifications', notificationRoutes);
 
-// Events, Offers, Jobs & Specialized Discovery
+// Events, Offers, Jobs, Opportunities & Specialized Discovery
 router.use('/events', eventRoutes);
 router.use('/jobs', jobRoutes);
 router.use('/offers', offerRoutes);
+router.use('/opportunities', opportunityRoutes);
 router.use('/discovery', discoveryRoutes);
 
 // SEO Engine & Content Platform
