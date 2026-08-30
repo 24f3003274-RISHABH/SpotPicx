@@ -45,6 +45,8 @@ export const AdminDashboardLayout: React.FC = () => {
     { label: 'Student Opportunities', path: ROUTES.ADMIN_OPPORTUNITIES, icon: Award },
     { label: 'SEO & Meta Pages', path: ROUTES.ADMIN_SEO_PAGES, icon: SearchCode },
     { label: 'Top 10 Guides Engine', path: ROUTES.ADMIN_GUIDES, icon: BookOpen },
+    { label: 'Books Discovery Catalog', path: ROUTES.ADMIN_BOOKS, icon: BookOpen },
+    { label: 'Authors Directory', path: ROUTES.ADMIN_AUTHORS, icon: Users },
   ];
 
   return (

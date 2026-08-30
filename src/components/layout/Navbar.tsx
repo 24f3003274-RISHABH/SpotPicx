@@ -16,6 +16,7 @@ import {
   Briefcase,
   LogOut,
   AlertTriangle,
+  BookOpen,
 } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
@@ -261,6 +262,17 @@ export const Navbar: React.FC = () => {
           >
             <Sparkles className="h-3.5 w-3.5 text-amber-500" />
             <span>Top 10 Guides</span>
+          </Link>
+          <Link
+            to="/books"
+            className={`transition-colors hover:text-indigo-600 flex items-center gap-1 ${
+              location.pathname.startsWith('/books') || location.pathname.startsWith('/authors')
+                ? 'text-indigo-600 font-semibold'
+                : ''
+            }`}
+          >
+            <BookOpen className="h-3.5 w-3.5 text-indigo-500" />
+            <span>Books</span>
           </Link>
           <Link
             to="/articles"
@@ -530,6 +542,14 @@ export const Navbar: React.FC = () => {
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-500" />
               <span>Top 10 Guides Content Engine</span>
+            </Link>
+            <Link
+              to="/books"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-50 text-indigo-700 flex items-center gap-1.5"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-indigo-600" />
+              <span>Book Discovery & Knowledge Hub (Authors, Guides, Paths)</span>
             </Link>
             <Link
               to="/articles"

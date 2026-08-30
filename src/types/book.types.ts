@@ -38,6 +38,8 @@ export interface ILegitimateLink {
   type?: 'PURCHASE' | 'LIBRARY' | 'OFFICIAL' | 'DIGITAL' | 'PUBLIC_DOMAIN';
 }
 
+export type BookReadingLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'ALL_LEVELS';
+
 export interface IBook {
   _id?: string;
   title: string;
@@ -55,7 +57,7 @@ export interface IBook {
   whoShouldRead: string[];
   whoShouldNotRead?: string[];
   bestFor: string[];
-  readingLevel: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'ALL_LEVELS';
+  readingLevel: BookReadingLevel;
   prerequisites: string[];
   estimatedReadingTime: string;
   pageCount?: number;

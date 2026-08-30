@@ -136,6 +136,31 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-500">
               <li>
+                <Link to="/books" className="hover:text-indigo-600 font-semibold text-indigo-600 transition-colors flex items-center gap-1">
+                  <span>Books & Knowledge Hub</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/books/categories" className="hover:text-indigo-600 transition-colors">
+                  Book Categories & Taxonomy
+                </Link>
+              </li>
+              <li>
+                <Link to="/books/paths" className="hover:text-indigo-600 transition-colors">
+                  Curated Reading Paths
+                </Link>
+              </li>
+              <li>
+                <Link to="/authors" className="hover:text-indigo-600 transition-colors">
+                  Authors Directory
+                </Link>
+              </li>
+              <li>
+                <Link to="/books/india" className="hover:text-indigo-600 transition-colors">
+                  Indian Authors & Books
+                </Link>
+              </li>
+              <li>
                 <Link to="/delhi/weekend-getaways" className="hover:text-sky-600 font-semibold text-sky-600 transition-colors flex items-center gap-1">
                   <span>Weekend Getaways From Delhi</span>
                 </Link>

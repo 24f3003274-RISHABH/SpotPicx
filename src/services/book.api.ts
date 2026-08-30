@@ -248,48 +248,48 @@ export const BookApi = {
   /**
    * Admin: Create Book
    */
-  async createBook(data: Partial<IBook>) {
+  async createBook(data: Partial<IBook>): Promise<IBook | null> {
     const response = await apiClient.post<{ success: boolean; data: IBook }>('/books', data);
-    return response.data;
+    return response.data?.data || null;
   },
 
   /**
    * Admin: Update Book
    */
-  async updateBook(id: string, data: Partial<IBook>) {
+  async updateBook(id: string, data: Partial<IBook>): Promise<IBook | null> {
     const response = await apiClient.put<{ success: boolean; data: IBook }>(`/books/${id}`, data);
-    return response.data;
+    return response.data?.data || null;
   },
 
   /**
    * Admin: Delete Book
    */
-  async deleteBook(id: string) {
+  async deleteBook(id: string): Promise<boolean> {
     const response = await apiClient.delete<{ success: boolean; data: { deleted: boolean } }>(`/books/${id}`);
-    return response.data;
+    return Boolean(response.data?.success);
   },
 
   /**
    * Admin: Create Author
    */
-  async createAuthor(data: Partial<IAuthor>) {
+  async createAuthor(data: Partial<IAuthor>): Promise<IAuthor | null> {
     const response = await apiClient.post<{ success: boolean; data: IAuthor }>('/authors', data);
-    return response.data;
+    return response.data?.data || null;
   },
 
   /**
    * Admin: Update Author
    */
-  async updateAuthor(id: string, data: Partial<IAuthor>) {
+  async updateAuthor(id: string, data: Partial<IAuthor>): Promise<IAuthor | null> {
     const response = await apiClient.put<{ success: boolean; data: IAuthor }>(`/authors/${id}`, data);
-    return response.data;
+    return response.data?.data || null;
   },
 
   /**
    * Admin: Delete Author
    */
-  async deleteAuthor(id: string) {
+  async deleteAuthor(id: string): Promise<boolean> {
     const response = await apiClient.delete<{ success: boolean; data: { deleted: boolean } }>(`/authors/${id}`);
-    return response.data;
+    return Boolean(response.data?.success);
   },
 };

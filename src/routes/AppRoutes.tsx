@@ -79,6 +79,17 @@ import { AdminOpportunitiesTab } from '../pages/admin/AdminOpportunitiesTab';
 import { AdminSeoPagesTab } from '../pages/admin/AdminSeoPagesTab';
 import { AdminDataSourcesTab } from '../pages/admin/AdminDataSourcesTab';
 import { AdminGuidesTab } from '../pages/admin/AdminGuidesTab';
+import { AdminBooksTab } from '../pages/admin/AdminBooksTab';
+import { AdminAuthorsTab } from '../pages/admin/AdminAuthorsTab';
+
+// Books & Knowledge Discovery Hub
+import { BooksHubPage } from '../pages/books/BooksHubPage';
+import { BookDetailPage } from '../pages/books/BookDetailPage';
+import { BookCategoriesPage } from '../pages/books/BookCategoriesPage';
+import { AuthorListPage } from '../pages/books/AuthorListPage';
+import { AuthorDetailPage } from '../pages/books/AuthorDetailPage';
+import { ReadingPathsPage } from '../pages/books/ReadingPathsPage';
+import { ReadingPathDetailPage } from '../pages/books/ReadingPathDetailPage';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -149,6 +160,27 @@ export const AppRoutes: React.FC = () => {
         <Route path={ROUTES.JOBS} element={<JobsPage />} />
         <Route path={ROUTES.SPECIAL_DISCOVERY} element={<SpecialDiscoveryPage />} />
         <Route path="/special" element={<SpecialDiscoveryPage />} />
+
+        {/* Book Discovery, Authors Directory & Knowledge Platform */}
+        <Route path="/books" element={<BooksHubPage />} />
+        <Route path="/books/categories" element={<BookCategoriesPage />} />
+        <Route path="/books/category/:slug" element={<BooksHubPage />} />
+        <Route path="/books/topics/:topic" element={<BooksHubPage />} />
+        <Route path="/books/goals" element={<BooksHubPage />} />
+        <Route path="/books/goals/:goal" element={<BooksHubPage />} />
+        <Route path="/books/careers" element={<BooksHubPage />} />
+        <Route path="/books/careers/:career" element={<BooksHubPage />} />
+        <Route path="/books/india" element={<BooksHubPage />} />
+        <Route path="/books/world" element={<BooksHubPage />} />
+        <Route path="/books/paths" element={<ReadingPathsPage />} />
+        <Route path="/books/paths/:slug" element={<ReadingPathDetailPage />} />
+        <Route path="/books/reading-paths/:slug" element={<ReadingPathDetailPage />} />
+        <Route path="/books/authors" element={<AuthorListPage />} />
+        <Route path="/books/authors/:slug" element={<AuthorDetailPage />} />
+        <Route path="/authors" element={<AuthorListPage />} />
+        <Route path="/authors/:slug" element={<AuthorDetailPage />} />
+        <Route path="/authors/india" element={<AuthorListPage />} />
+        <Route path="/books/:slug" element={<BookDetailPage />} />
 
         {/* SpotPicks Top 10 Guides Content Engine */}
         <Route path={ROUTES.GUIDES} element={<GuidesIndexPage />} />
@@ -228,6 +260,8 @@ export const AppRoutes: React.FC = () => {
           <Route path="opportunities" element={<AdminOpportunitiesTab />} />
           <Route path="seo-pages" element={<AdminSeoPagesTab />} />
           <Route path="guides" element={<AdminGuidesTab />} />
+          <Route path="books" element={<AdminBooksTab />} />
+          <Route path="authors" element={<AdminAuthorsTab />} />
           <Route path="sources" element={<AdminDataSourcesTab />} />
         </Route>
 
