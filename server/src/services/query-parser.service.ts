@@ -152,54 +152,104 @@ export class QueryParserService {
   private static categoryCatalog: CategoryMapping[] = [
     {
       keywords: [
-        'restaurant', 'restaurants', 'cafe', 'cafes', 'coffee', 'bakery', 'bakeries',
-        'food', 'dining', 'momos', 'pizza', 'burger', 'rooftop cafe', 'breakfast',
-        'street food', 'chaat', 'dessert', 'diner', 'dhaba', 'biryani', 'ramen', 'tibetan food', 'laphing', 'thukpa', 'vada pav', 'misal pav', 'filter coffee', 'dosa'
+        'cafe', 'cafes', 'coffee', 'bakery', 'bakeries', 'tea', 'chai', 'roastery',
+        'roasters', 'cold brew', 'pour over', 'cappuccino', 'latte', 'espresso',
+        'croissant', 'pastry', 'cheesecake', 'waffle', 'pancake'
+      ],
+      canonicalSlug: 'cafes-bakeries',
+      defaultTags: ['cafe', 'coffee', 'bakery'],
+    },
+    {
+      keywords: [
+        'momo', 'momos', 'street food', 'chaat', 'laphing', 'thukpa', 'vada pav',
+        'misal pav', 'chole bhature', 'chole kulche', 'parantha', 'paranthas',
+        'golgappa', 'pani puri', 'kachori', 'samosa', 'jalebi', 'kathi roll', 'shawarma',
+        'tandoori', 'kebabs', 'street eats', 'food stall', 'dhaba'
+      ],
+      canonicalSlug: 'street-food',
+      defaultTags: ['street-food', 'momos'],
+    },
+    {
+      keywords: [
+        'restaurant', 'restaurants', 'dining', 'fine dining', 'biryani', 'buffet',
+        'chinese', 'tibetan', 'italian', 'mughlai', 'north indian', 'south indian',
+        'dosa', 'thali', 'curry', 'pasta', 'pizza', 'burger', 'diner'
       ],
       canonicalSlug: 'food-dining',
       defaultTags: ['food', 'dining'],
     },
     {
       keywords: [
-        'pg', 'pgs', 'hostel', 'hostels', 'hotel', 'hotels', 'student stay', 'stay',
-        'co-living', 'coliving', 'room', 'paying guest', 'residency', 'accommodation', 'boys pg', 'girls pg'
+        'pg', 'pgs', 'hostel', 'hostels', 'paying guest', 'student stay', 'student housing',
+        'co-living', 'coliving', 'boys pg', 'girls pg', 'shared room', 'dorm'
+      ],
+      canonicalSlug: 'pgs-hostels',
+      defaultTags: ['pg', 'student-friendly'],
+    },
+    {
+      keywords: [
+        'hotel', 'hotels', 'resort', 'resorts', 'homestay', 'staycation', 'lodge',
+        'boutique hotel', 'guest house'
       ],
       canonicalSlug: 'stays-living',
       defaultTags: ['stay', 'accommodation'],
     },
     {
       keywords: [
-        'repair', 'laptop repair', 'macbook repair', 'mobile repair', 'iphone repair',
-        'electronics service', 'veterinary', 'pet clinic', 'cleaning', 'plumbing',
-        'mechanic', 'car service', 'home repair', 'service'
+        'laptop repair', 'macbook repair', 'mobile repair', 'iphone repair',
+        'computer repair', 'screen replacement', 'motherboard repair', 'gadget repair',
+        'chip level repair', 'ssd upgrade', 'data recovery', 'electronics repair'
+      ],
+      canonicalSlug: 'laptop-mobile-repair',
+      defaultTags: ['repair', 'electronics'],
+    },
+    {
+      keywords: [
+        'repair', 'plumbing', 'electrician', 'cleaning', 'mechanic', 'car service',
+        'bike repair', 'service', 'dry cleaning', 'laundry', 'carpenter'
       ],
       canonicalSlug: 'services-repairs',
       defaultTags: ['repair', 'services'],
     },
     {
       keywords: [
-        'shopping', 'market', 'markets', 'mall', 'malls', 'clothes', 'fashion',
-        'bookstore', 'book store', 'thrifting', 'thrift', 'electronics market', 'boutique', 'jewellery'
+        'monument', 'monuments', 'historical', 'heritage', 'fort', 'tomb', 'baoli',
+        'unesco', 'palace', 'ancient', 'archaeology', 'red fort', 'qutub minar', 'humayun tomb'
       ],
-      canonicalSlug: 'shopping-markets',
-      defaultTags: ['shopping', 'retail'],
+      canonicalSlug: 'historical-monuments',
+      defaultTags: ['heritage', 'monument'],
     },
     {
       keywords: [
-        'monument', 'monuments', 'historical', 'heritage', 'museum', 'museums',
-        'park', 'parks', 'garden', 'tomb', 'fort', 'sightseeing', 'temple', 'gallery', 'art gallery',
-        'places to visit', 'place to visit', 'tourist spots', 'attractions'
+        'park', 'parks', 'garden', 'gardens', 'lake', 'sunder nursery', 'lodhi garden',
+        'deer park', 'green spaces', 'botanical', 'nature walk', 'biodiversity park'
+      ],
+      canonicalSlug: 'parks-gardens',
+      defaultTags: ['nature', 'park'],
+    },
+    {
+      keywords: [
+        'places to visit', 'place to visit', 'tourist spots', 'tourist places',
+        'sightseeing', 'attractions', 'delhi sightseeing', 'must visit'
       ],
       canonicalSlug: 'places-visit',
-      defaultTags: ['sightseeing', 'heritage'],
+      defaultTags: ['sightseeing', 'places'],
     },
     {
       keywords: [
         'bar', 'bars', 'pub', 'pubs', 'club', 'clubs', 'nightlife', 'lounge',
-        'cocktail', 'live music', 'gig', 'date place', 'romantic'
+        'cocktail', 'cocktails', 'live music', 'gig', 'brewery', 'microbrewery'
       ],
       canonicalSlug: 'nightlife-bars',
       defaultTags: ['nightlife', 'party'],
+    },
+    {
+      keywords: [
+        'shopping', 'market', 'markets', 'mall', 'malls', 'clothes', 'fashion',
+        'thrifting', 'thrift', 'bazaar', 'street market', 'apparel', 'textiles', 'handloom'
+      ],
+      canonicalSlug: 'shopping-markets',
+      defaultTags: ['shopping', 'retail'],
     },
     {
       keywords: [

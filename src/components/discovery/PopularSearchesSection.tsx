@@ -104,9 +104,20 @@ export const PopularSearchesSection: React.FC<PopularSearchesSectionProps> = ({
     const params = new URLSearchParams();
     if (item.query) params.set('q', item.query);
     if (item.category && item.category !== 'All') params.set('category', item.category);
-    if (item.location && item.location !== 'All') params.set('locality', item.location);
+
+    const knownCities = ['delhi', 'delhi ncr', 'new delhi', 'mumbai', 'bangalore', 'dehradun', 'jaipur', 'goa'];
+    if (item.location && item.location !== 'All') {
+      if (knownCities.includes(item.location.toLowerCase())) {
+        params.set('city', item.location);
+      } else {
+        params.set('locality', item.location);
+        params.set('city', 'Delhi');
+      }
+    }
 
     if (item.filters) {
+      if (item.filters.city) params.set('city', item.filters.city);
+      if (item.filters.locality) params.set('locality', item.filters.locality);
       if (item.filters.priceMax) params.set('priceMax', String(item.filters.priceMax));
       if (item.filters.priceMin) params.set('priceMin', String(item.filters.priceMin));
       if (item.filters.priceRange) params.set('priceRange', item.filters.priceRange);
@@ -124,14 +135,14 @@ export const PopularSearchesSection: React.FC<PopularSearchesSectionProps> = ({
 
   // Fallback defaults if API is loading or empty
   const defaultItems: PopularSearchItem[] = [
-    { id: '1', title: 'Best cafes', slug: 'best-cafes', query: 'best cafes', category: 'cafes-bakeries', icon: 'Coffee', group: 'FOOD' },
-    { id: '2', title: 'Momos under 200', slug: 'momos-under-200', query: 'momos under 200', category: 'street-food', icon: 'Flame', badge: '₹200', group: 'FOOD' },
-    { id: '3', title: 'Quiet cafes with WiFi', slug: 'quiet-cafes-wifi', query: 'quiet cafes with wifi', category: 'cafes-bakeries', icon: 'Wifi', group: 'STUDENTS' },
-    { id: '4', title: 'Rooftop date places', slug: 'rooftop-date-places', query: 'rooftop date places', icon: 'Heart', group: 'EXPERIENCES' },
-    { id: '5', title: 'Laptop repair', slug: 'laptop-repair', query: 'laptop repair', location: 'Nehru Place', icon: 'Wrench', group: 'SERVICES' },
-    { id: '6', title: 'Student PGs', slug: 'student-pgs', query: 'student pgs', category: 'pgs-hostels', icon: 'Building', group: 'STUDENTS' },
-    { id: '7', title: 'Delhi Heritage Places', slug: 'delhi-heritage', query: 'delhi heritage places', icon: 'Landmark', group: 'PLACES' },
-    { id: '8', title: 'Places in Dehradun', slug: 'places-in-dehradun', query: 'places to visit in dehradun', icon: 'Mountain', group: 'TRAVEL' },
+    { id: '1', title: 'Best Cafes in Delhi', slug: 'best-cafes', query: 'best cafes', category: 'cafes-bakeries', location: 'Delhi', icon: 'Coffee', group: 'FOOD' },
+    { id: '2', title: 'Momos Under ₹200', slug: 'momos-under-200', query: 'momos under 200', category: 'street-food', location: 'Delhi', icon: 'Flame', badge: '₹200', group: 'FOOD' },
+    { id: '3', title: 'Quiet Cafes with WiFi', slug: 'quiet-cafes-wifi', query: 'quiet cafes with wifi', category: 'cafes-bakeries', location: 'Delhi', icon: 'Wifi', group: 'STUDENTS' },
+    { id: '4', title: 'Rooftop Date Places', slug: 'rooftop-date-places', query: 'rooftop date places', location: 'Delhi', icon: 'Heart', group: 'EXPERIENCES' },
+    { id: '5', title: 'Laptop Repair Near Me', slug: 'laptop-repair', query: 'laptop repair', category: 'laptop-mobile-repair', location: 'Nehru Place', icon: 'Wrench', group: 'SERVICES' },
+    { id: '6', title: 'Best PGs for Students', slug: 'student-pgs', query: 'best pgs for students', category: 'pgs-hostels', location: 'Delhi', icon: 'Building', group: 'STUDENTS' },
+    { id: '7', title: 'Best Street Food in Delhi', slug: 'delhi-street-food', query: 'best street food in delhi', category: 'street-food', location: 'Delhi', icon: 'UtensilsCrossed', group: 'FOOD' },
+    { id: '8', title: 'Delhi Heritage Places', slug: 'delhi-heritage', query: 'delhi heritage places', category: 'places-visit', location: 'Delhi', icon: 'Landmark', group: 'PLACES' },
   ];
 
   const itemsToRender = popularSearches.length > 0 ? popularSearches : defaultItems;
