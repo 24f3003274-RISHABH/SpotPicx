@@ -86,6 +86,8 @@ import { AdminAuthorsTab } from '../pages/admin/AdminAuthorsTab';
 import { BooksHubPage } from '../pages/books/BooksHubPage';
 import { BookDetailPage } from '../pages/books/BookDetailPage';
 import { BookCategoriesPage } from '../pages/books/BookCategoriesPage';
+import { BookCollectionsPage } from '../pages/books/BookCollectionsPage';
+import { BookCollectionDetailPage } from '../pages/books/BookCollectionDetailPage';
 import { AuthorListPage } from '../pages/books/AuthorListPage';
 import { AuthorDetailPage } from '../pages/books/AuthorDetailPage';
 import { ReadingPathsPage } from '../pages/books/ReadingPathsPage';
@@ -175,6 +177,8 @@ export const AppRoutes: React.FC = () => {
         <Route path="/books/paths" element={<ReadingPathsPage />} />
         <Route path="/books/paths/:slug" element={<ReadingPathDetailPage />} />
         <Route path="/books/reading-paths/:slug" element={<ReadingPathDetailPage />} />
+        <Route path="/books/collections" element={<BookCollectionsPage />} />
+        <Route path="/books/collections/:slug" element={<BookCollectionDetailPage />} />
         <Route path="/books/authors" element={<AuthorListPage />} />
         <Route path="/books/authors/:slug" element={<AuthorDetailPage />} />
         <Route path="/authors" element={<AuthorListPage />} />

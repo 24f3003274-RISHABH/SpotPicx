@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useParams, useLocation } from 'react-router-dom';
 import {
   BookOpen,
   Search,
@@ -29,17 +29,24 @@ import { BookCompareModal } from '../../components/books/BookCompareModal';
 
 export const BooksHubPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeCategoryParam = searchParams.get('category') || 'all';
-  const activePurposeParam = searchParams.get('purpose') || '';
-  const activeCareerParam = searchParams.get('career') || '';
+  const routeParams = useParams<{ slug?: string; topic?: string; goal?: string; career?: string }>();
+  const location = useLocation();
+
+  const isIndiaRoute = location.pathname === '/books/india';
+  const isWorldRoute = location.pathname === '/books/world';
+  const categoryFromRoute = routeParams.slug || searchParams.get('category') || 'all';
+  const topicFromRoute = routeParams.topic || searchParams.get('topic') || '';
+  const goalFromRoute = routeParams.goal || searchParams.get('purpose') || '';
+  const careerFromRoute = routeParams.career || searchParams.get('career') || '';
   const searchQueryParam = searchParams.get('q') || '';
 
   const [searchQuery, setSearchQuery] = useState(searchQueryParam);
-  const [activeCategory, setActiveCategory] = useState(activeCategoryParam);
-  const [activePurpose, setActivePurpose] = useState(activePurposeParam);
-  const [activeCareer, setActiveCareer] = useState(activeCareerParam);
+  const [activeCategory, setActiveCategory] = useState(categoryFromRoute);
+  const [activeTopic, setActiveTopic] = useState(topicFromRoute);
+  const [activePurpose, setActivePurpose] = useState(goalFromRoute);
+  const [activeCareer, setActiveCareer] = useState(careerFromRoute);
   const [activeLevel, setActiveLevel] = useState<string>('ALL');
-  const [indianOnly, setIndianOnly] = useState<boolean>(false);
+  const [indianOnly, setIndianOnly] = useState<boolean>(isIndiaRoute);
 
   const [loading, setLoading] = useState(true);
   const [hubData, setHubData] = useState<{
@@ -63,13 +70,25 @@ export const BooksHubPage: React.FC = () => {
   const [compareList, setCompareList] = useState<IBook[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
 
+  // Sync state when route or search params change
+  useEffect(() => {
+    setActiveCategory(routeParams.slug || searchParams.get('category') || 'all');
+    setActiveTopic(routeParams.topic || searchParams.get('topic') || '');
+    setActivePurpose(routeParams.goal || searchParams.get('purpose') || '');
+    setActiveCareer(routeParams.career || searchParams.get('career') || '');
+    setSearchQuery(searchParams.get('q') || '');
+    if (isIndiaRoute) {
+      setIndianOnly(true);
+    }
+  }, [location.pathname, searchParams, routeParams]);
+
   useEffect(() => {
     loadHubData();
   }, []);
 
   useEffect(() => {
     fetchFilteredBooks();
-  }, [activeCategory, activePurpose, activeCareer, activeLevel, indianOnly, searchQueryParam]);
+  }, [activeCategory, activeTopic, activePurpose, activeCareer, activeLevel, indianOnly, searchQueryParam]);
 
   const loadHubData = async () => {
     setLoading(true);
@@ -84,12 +103,13 @@ export const BooksHubPage: React.FC = () => {
     setBrowseLoading(true);
     const result = await BookApi.getBooks({
       category: activeCategory !== 'all' ? activeCategory : undefined,
+      topic: activeTopic || undefined,
       readingPurpose: activePurpose || undefined,
       career: activeCareer || undefined,
       readingLevel: activeLevel !== 'ALL' ? activeLevel : undefined,
       isIndianAuthor: indianOnly ? true : undefined,
       search: searchQueryParam || undefined,
-      limit: 18,
+      limit: 24,
     });
     setBrowseBooks(result.books || []);
     setBrowseTotal(result.total || 0);
@@ -341,7 +361,7 @@ export const BooksHubPage: React.FC = () => {
 
         {/* Section 3: Interactive Discovery & Filter Grid */}
         <section className="mb-14">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
             <div>
               <h2 className="text-2xl font-extrabold text-gray-900">Browse Knowledge & Discovery Directory</h2>
               <p className="text-xs text-gray-500 mt-0.5">
@@ -363,7 +383,7 @@ export const BooksHubPage: React.FC = () => {
                 }}
                 className="text-xs font-semibold bg-white border border-gray-200 rounded-xl px-3 py-2 text-gray-700 focus:outline-hidden"
               >
-                <option value="all">All Categories (20+)</option>
+                <option value="all">All Categories ({hubData?.categories?.length || 12})</option>
                 {hubData?.categories?.map((cat) => (
                   <option key={cat.slug} value={cat.slug}>
                     {cat.name}
@@ -397,6 +417,93 @@ export const BooksHubPage: React.FC = () => {
               </button>
             </div>
           </div>
+
+          {/* Active Filter Chips */}
+          {(activeCategory !== 'all' || activeTopic || activePurpose || activeCareer || activeLevel !== 'ALL' || indianOnly || searchQueryParam) && (
+            <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-white rounded-2xl border border-gray-200">
+              <span className="text-xs font-bold text-gray-500 flex items-center gap-1">
+                <Filter className="w-3.5 h-3.5" /> Filters:
+              </span>
+
+              {activeCategory !== 'all' && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-semibold">
+                  Category: {hubData?.categories?.find(c => c.slug === activeCategory)?.name || activeCategory}
+                  <button
+                    onClick={() => {
+                      setActiveCategory('all');
+                      const newParams = new URLSearchParams(searchParams);
+                      newParams.delete('category');
+                      setSearchParams(newParams);
+                    }}
+                    className="hover:text-blue-900 font-bold ml-1"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+
+              {activeTopic && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 text-xs font-semibold">
+                  Topic: {activeTopic}
+                  <button onClick={() => setActiveTopic('')} className="hover:text-purple-900 font-bold ml-1">×</button>
+                </span>
+              )}
+
+              {activePurpose && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-semibold">
+                  Goal: {hubData?.readingPurposes?.find(p => p.id === activePurpose)?.label || activePurpose}
+                  <button onClick={() => setActivePurpose('')} className="hover:text-emerald-900 font-bold ml-1">×</button>
+                </span>
+              )}
+
+              {activeCareer && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold">
+                  Career: {hubData?.careerPaths?.find(c => c.id === activeCareer)?.label || activeCareer}
+                  <button onClick={() => setActiveCareer('')} className="hover:text-indigo-900 font-bold ml-1">×</button>
+                </span>
+              )}
+
+              {indianOnly && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 text-xs font-semibold">
+                  🇮🇳 Indian Authors Only
+                  <button onClick={() => setIndianOnly(false)} className="hover:text-amber-900 font-bold ml-1">×</button>
+                </span>
+              )}
+
+              {searchQueryParam && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 text-gray-800 text-xs font-semibold">
+                  Search: "{searchQueryParam}"
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      const newParams = new URLSearchParams(searchParams);
+                      newParams.delete('q');
+                      setSearchParams(newParams);
+                    }}
+                    className="hover:text-gray-950 font-bold ml-1"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+
+              <button
+                onClick={() => {
+                  setActiveCategory('all');
+                  setActiveTopic('');
+                  setActivePurpose('');
+                  setActiveCareer('');
+                  setActiveLevel('ALL');
+                  setIndianOnly(false);
+                  setSearchQuery('');
+                  setSearchParams({});
+                }}
+                className="text-xs font-bold text-red-600 hover:text-red-700 underline ml-auto cursor-pointer"
+              >
+                Clear all
+              </button>
+            </div>
+          )}
 
           {browseLoading ? (
             <div className="py-16 text-center">
