@@ -1,8 +1,36 @@
 # SpotPicx — Local Discovery & Recommendation Platform
-# SpotPicx
 
 > **"Discover. Explore. Pick the Best."**
-> SpotPicks is a scalable, data-driven local discovery and recommendation platform built for Delhi-NCR and architected for rapid expansion across major Indian metros (Mumbai, Bengaluru, Hyderabad, Pune, etc.).
+> SpotPicks is a scalable, data-driven local discovery and recommendation platform built for Delhi-NCR and architected for rapid expansion across major Indian metros.
+
+## 🚀 How to Run (Quick Start)
+
+### Prerequisites
+- [Bun](https://bun.sh/) (recommended) or [Node.js](https://nodejs.org/) (v18+)
+- A [MongoDB Atlas](https://www.mongodb.com/products/platform/atlas-database) URI (or local MongoDB instance)
+
+### 1. Install Dependencies
+This project uses Bun as its package manager (indicated by `bun.lock`), but `npm` can also be used.
+```bash
+bun install
+# or npm install
+```
+
+### 2. Configure Environment Variables
+Copy the example environment file and fill in your MongoDB URI.
+```bash
+cp .env.example .env
+```
+Open `.env` and set your `MONGODB_URI`. The database will automatically seed with initial data on the first run.
+
+### 3. Start the Development Server
+```bash
+bun run dev
+# or npm run dev
+```
+This single command spins up both the **Vite frontend** and the **Express backend**.
+- Application: `http://localhost:3000`
+- API Health: `http://localhost:3000/api/v1/health`
 
 ---
 
