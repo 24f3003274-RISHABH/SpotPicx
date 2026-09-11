@@ -25,7 +25,7 @@ export const regionalIndiaGuides1: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Places to Visit in Dehradun (2026) — Robber’s Cave, FRI, Mindrolling',
       metaDescription: 'Factual guide to top 10 places in Dehradun: Forest Research Institute, Robber’s Cave, Mindrolling Monastery, Sahastradhara, and Tapkeshwar Temple.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-places-to-visit-in-dehradun',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-places-to-visit-in-dehradun',
       keywords: ['places to visit in dehradun', 'dehradun sightseeing', 'robbers cave dehradun', 'forest research institute fri', 'mindrolling monastery'],
     },
     faq: [
@@ -203,7 +203,7 @@ export const regionalIndiaGuides1: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Places to Visit in Uttarakhand (2026) — Rishikesh, Kedarnath, Corbett, Nainital',
       metaDescription: 'Factual guide to top 10 places in Uttarakhand: Rishikesh, Badrinath, Kedarnath, Valley of Flowers, Mussoorie, Nainital, and Jim Corbett.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-places-to-visit-in-uttarakhand',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-places-to-visit-in-uttarakhand',
       keywords: ['places to visit in uttarakhand', 'uttarakhand tourist places', 'rishikesh', 'kedarnath', 'jim corbett national park', 'nainital'],
     },
     faq: [
@@ -386,7 +386,7 @@ export const regionalIndiaGuides1: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Places to Visit in Uttar Pradesh (2026) — Taj Mahal, Varanasi, Lucknow, Ayodhya',
       metaDescription: 'Factual guide to top 10 places in Uttar Pradesh: Taj Mahal Agra, Varanasi Ghats, Fatehpur Sikri, Sarnath, Ayodhya, Mathura, and Lucknow Bara Imambara.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-places-to-visit-in-uttar-pradesh',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-places-to-visit-in-uttar-pradesh',
       keywords: ['places to visit in uttar pradesh', 'taj mahal agra', 'varanasi ghats', 'lucknow bara imambara', 'ayodhya ram mandir', 'fatehpur sikri'],
     },
     faq: [

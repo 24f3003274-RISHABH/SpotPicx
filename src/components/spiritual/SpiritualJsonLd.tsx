@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { SpiritualPlace, SpiritualStateInfo, SpiritualGuide } from '../../types/spiritual.types';
+import { SITE_URL } from '../../constants/site';
 
 interface SpiritualJsonLdProps {
   type: 'hub' | 'place' | 'state' | 'guide';
@@ -24,7 +25,7 @@ export const SpiritualJsonLd: React.FC<SpiritualJsonLdProps> = ({
         name: 'Spiritual India Discovery Directory',
         description:
           'Comprehensive, respectful directory of sacred destinations, temple towns, pilgrimage circuits, and historic religious architecture across India covering Hindu, Buddhist, Jain, Sikh, Muslim, Christian, Zoroastrian, and other traditions.',
-        url: 'https://spotpicks.com/india/spiritual',
+        url: `${SITE_URL}/india/spiritual`,
         touristType: ['Pilgrimage', 'Cultural Tourism', 'Religious Heritage', 'Spiritual Retreat'],
       };
     } else if (type === 'place' && place) {
@@ -34,7 +35,7 @@ export const SpiritualJsonLd: React.FC<SpiritualJsonLdProps> = ({
           '@type': 'PlaceOfWorship',
           name: place.name,
           description: place.shortDescription,
-          url: `https://spotpicks.com/india/spiritual/place/${place.slug}`,
+          url: `${SITE_URL}/india/spiritual/place/${place.slug}`,
           image: place.heroImage,
           address: {
             '@type': 'PostalAddress',
@@ -58,25 +59,25 @@ export const SpiritualJsonLd: React.FC<SpiritualJsonLdProps> = ({
               '@type': 'ListItem',
               position: 1,
               name: 'Home',
-              item: 'https://spotpicks.com',
+              item: SITE_URL,
             },
             {
               '@type': 'ListItem',
               position: 2,
               name: 'Spiritual India',
-              item: 'https://spotpicks.com/india/spiritual',
+              item: `${SITE_URL}/india/spiritual`,
             },
             {
               '@type': 'ListItem',
               position: 3,
               name: place.stateName,
-              item: `https://spotpicks.com/india/spiritual/${place.stateSlug}`,
+              item: `${SITE_URL}/india/spiritual/${place.stateSlug}`,
             },
             {
               '@type': 'ListItem',
               position: 4,
               name: place.name,
-              item: `https://spotpicks.com/india/spiritual/place/${place.slug}`,
+              item: `${SITE_URL}/india/spiritual/place/${place.slug}`,
             },
           ],
         },
@@ -87,7 +88,7 @@ export const SpiritualJsonLd: React.FC<SpiritualJsonLdProps> = ({
         '@type': 'TouristDestination',
         name: `Spiritual & Pilgrimage Destinations in ${stateInfo.stateName}`,
         description: stateInfo.overview,
-        url: `https://spotpicks.com/india/spiritual/${stateInfo.stateSlug}`,
+        url: `${SITE_URL}/india/spiritual/${stateInfo.stateSlug}`,
         touristType: ['Pilgrimage', 'Religious Architecture', 'Spiritual Towns'],
       };
     } else if (type === 'guide' && guide) {
@@ -104,14 +105,14 @@ export const SpiritualJsonLd: React.FC<SpiritualJsonLdProps> = ({
           },
           publisher: {
             '@type': 'Organization',
-            name: 'SpotPicks',
+            name: 'SpotPicx',
             logo: {
               '@type': 'ImageObject',
-              url: 'https://spotpicks.com/logo.png',
+              url: `${SITE_URL}/logo.png`,
             },
           },
           datePublished: '2026-08-01',
-          url: `https://spotpicks.com/india/spiritual/guide/${guide.slug}`,
+          url: `${SITE_URL}/india/spiritual/guide/${guide.slug}`,
         },
         {
           '@context': 'https://schema.org',

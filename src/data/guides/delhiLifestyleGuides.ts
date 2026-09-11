@@ -32,7 +32,7 @@ export const delhiLifestyleGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Cafes in Delhi (2026) — Specialty Roasters & Heritage Coffee Houses',
       metaDescription: 'Discover Delhi’s top 10 cafes: Blue Tokai Champa Gali, Cafe Lota Crafts Museum, AMA Cafe MKT, Diggin Chanakyapuri, United Coffee House, and Indian Coffee House.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-cafes-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-cafes-in-delhi',
       keywords: ['best cafes in delhi', 'top 10 cafes delhi', 'blue tokai champa gali', 'cafe lota', 'ama cafe majnu ka tilla', 'delhi coffee places'],
     },
     faq: [
@@ -234,7 +234,7 @@ export const delhiLifestyleGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Student-Friendly Places in Delhi (2026) — Budget Hangouts & Campus Hubs',
       metaDescription: 'Top 10 student-friendly places in Delhi: Hudson Lane, Majnu Ka Tilla, Dilli Haat INA, Triveni Terrace Cafe, Lodhi Gardens, and Kamla Nagar.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-student-friendly-places-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-student-friendly-places-in-delhi',
       keywords: ['student places in delhi', 'hudson lane delhi', 'budget hangout delhi', 'kamla nagar market', 'majnu ka tilla student', 'triveni cafe'],
     },
     faq: [
@@ -436,7 +436,7 @@ export const delhiLifestyleGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Museums in Delhi (2026) — National Museum, NGMA, Rail Museum & More',
       metaDescription: 'Complete guide to the 10 best museums in Delhi: National Museum, Crafts Museum, National Rail Museum, Pradhanmantri Sangrahalaya, and NGMA.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-museums-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-museums-in-delhi',
       keywords: ['museums in delhi', 'national museum janpath', 'crafts museum pragati maidan', 'national rail museum chanakyapuri', 'pradhanmantri sangrahalaya'],
     },
     faq: [
@@ -638,7 +638,7 @@ export const delhiLifestyleGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Markets in Delhi (2026) — Chandni Chowk, Dilli Haat, Sarojini & Khan Market',
       metaDescription: 'Discover Delhi’s 10 best shopping markets: Chandni Chowk, Dilli Haat INA, Khan Market, Sarojini Nagar, Lajpat Nagar, and Janpath.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-markets-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-markets-in-delhi',
       keywords: ['markets in delhi', 'shopping in delhi', 'chandni chowk shopping', 'dilli haat ina', 'sarojini nagar market', 'khan market delhi'],
     },
     faq: [
@@ -840,7 +840,7 @@ export const delhiLifestyleGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Places for Street Food in Delhi (2026) — Legendary Chaat, Kebabs & Bhature',
       metaDescription: 'Discover Delhi’s 10 best street food spots: Paranthe Wali Gali, Natraj Dahi Bhalla, Sita Ram Diwan Chand, Karim’s, Dolma Aunty, and Kuremal Kulfi.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-places-for-street-food-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-places-for-street-food-in-delhi',
       keywords: ['street food in delhi', 'best street food delhi', 'paranthe wali gali', 'sita ram diwan chand chole bhature', 'karims jama masjid', 'dolma aunty momos'],
     },
     faq: [

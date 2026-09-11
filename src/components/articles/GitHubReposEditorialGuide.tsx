@@ -138,8 +138,8 @@ export const GitHubReposEditorialGuide: React.FC = () => {
     return true;
   });
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : 'https://spotpicks.delhi/articles/top-10-github-repositories-every-student-should-know';
-  const shareTitle = 'Top 10 GitHub Repositories Every Computer Science Student Should Know | SpotPicks Editorial';
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : 'https://spotpicx.me/articles/top-10-github-repositories-every-student-should-know';
+  const shareTitle = 'Top 10 GitHub Repositories Every Computer Science Student Should Know | SpotPicx Editorial';
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {

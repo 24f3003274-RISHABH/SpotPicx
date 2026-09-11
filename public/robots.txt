@@ -3,15 +3,21 @@ Allow: /
 Allow: /explore
 Allow: /categories
 Allow: /locations
+Allow: /delhi
+Allow: /delhi/*
 Allow: /india
 Allow: /india/*
+Allow: /guides
+Allow: /guides/*
+Allow: /books
+Allow: /books/*
+Allow: /articles
+Allow: /articles/*
 Allow: /events
 Allow: /offers
 Allow: /students
 Allow: /housing
 Allow: /jobs
-Allow: /articles
-Allow: /articles/*
 Allow: /spot/*
 Allow: /business/*
 
@@ -21,8 +27,13 @@ Disallow: /admin/*
 Disallow: /business/dashboard
 Disallow: /business/leads
 Disallow: /business/subscription
+Disallow: /business/reviews
+Disallow: /business/analytics
+Disallow: /business/offers
+Disallow: /login
+Disallow: /register
 Disallow: /profile
 Disallow: /saved
 Disallow: /api/*
 
-Sitemap: https://spotpicks.in/sitemap.xml
+Sitemap: https://spotpicx.me/sitemap.xml

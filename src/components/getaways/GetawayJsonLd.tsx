@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { WeekendGetawayPlace, GetawayEditorialGuide } from '../../types/weekendGetaways.types';
+import { SITE_URL, toCanonicalUrl } from '../../constants/site';
 
 interface GetawayJsonLdProps {
   place?: WeekendGetawayPlace;
@@ -32,7 +33,7 @@ export const GetawayJsonLd: React.FC<GetawayJsonLdProps> = ({
     metaDesc.content = description;
 
     // 3. Update Canonical Link
-    const fullUrl = canonicalUrl.startsWith('http') ? canonicalUrl : `https://spotpicks.in${canonicalUrl}`;
+    const fullUrl = toCanonicalUrl(canonicalUrl);
     let linkCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!linkCanonical) {
       linkCanonical = document.createElement('link');
@@ -76,7 +77,7 @@ export const GetawayJsonLd: React.FC<GetawayJsonLdProps> = ({
         '@type': 'ListItem',
         position: idx + 1,
         name: b.name,
-        item: b.url.startsWith('http') ? b.url : `https://spotpicks.in${b.url}`,
+        item: toCanonicalUrl(b.url),
       })),
     });
 
@@ -126,14 +127,14 @@ export const GetawayJsonLd: React.FC<GetawayJsonLdProps> = ({
         dateModified: '2026-08-29',
         author: {
           '@type': 'Organization',
-          name: guide.author || 'SpotPicks Travel Editorial',
+          name: guide.author || 'SpotPicx Travel Editorial',
         },
         publisher: {
           '@type': 'Organization',
-          name: 'SpotPicks',
+          name: 'SpotPicx',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://spotpicks.in/logo.png',
+            url: `${SITE_URL}/logo.png`,
           },
         },
       });

@@ -4,9 +4,7 @@ import { asyncHandler } from '../utils/asyncHandler';
 
 export class SitemapController {
   public static getSitemapXml = asyncHandler(async (req: Request, res: Response) => {
-    const host = req.get('host') || 'spotpicks.delhi';
-    const protocol = req.protocol || 'https';
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = process.env.SITE_URL || 'https://spotpicx.me';
 
     const xml = await SitemapService.generateSitemapXml(baseUrl);
     res.setHeader('Content-Type', 'application/xml');
@@ -14,9 +12,7 @@ export class SitemapController {
   });
 
   public static getRobotsTxt = asyncHandler(async (req: Request, res: Response) => {
-    const host = req.get('host') || 'spotpicks.delhi';
-    const protocol = req.protocol || 'https';
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = process.env.SITE_URL || 'https://spotpicx.me';
 
     const txt = SitemapService.generateRobotsTxt(baseUrl);
     res.setHeader('Content-Type', 'text/plain');

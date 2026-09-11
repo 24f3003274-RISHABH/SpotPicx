@@ -125,9 +125,9 @@ export const InternshipPlatformsEditorialGuide: React.FC = () => {
   const shareUrl =
     typeof window !== 'undefined'
       ? window.location.href
-      : 'https://spotpicks.delhi/articles/best-internship-websites-for-college-students';
+      : 'https://spotpicx.me/articles/best-internship-websites-for-college-students';
   const shareTitle =
-    'Best Places to Find Internships & Jobs for College Students | SpotPicks Career Intelligence';
+    'Best Places to Find Internships & Jobs for College Students | SpotPicx Career Intelligence';
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {

@@ -14,4 +14,7 @@ export const ENV = {
   JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   
   API_PREFIX: '/api/v1',
+  
+  // Production Canonical Site URL
+  SITE_URL: process.env.SITE_URL || process.env.APP_URL || process.env.FRONTEND_URL || 'https://spotpicx.me',
 };

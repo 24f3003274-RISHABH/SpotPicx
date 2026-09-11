@@ -32,7 +32,7 @@ export const delhiPlacesGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Places to Visit in Delhi (2026 Guide) — Factual Sightseeing Index',
       metaDescription: 'Editorially verified guide to the top 10 places to visit in Delhi including Qutub Minar, Red Fort, Humayun’s Tomb, India Gate, and Akshardham with timings and metro routes.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-places-to-visit-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-places-to-visit-in-delhi',
       keywords: ['places to visit in delhi', 'top 10 delhi monuments', 'delhi sightseeing guide', 'qutub minar', 'humayun tomb', 'red fort delhi'],
     },
     faq: [
@@ -343,7 +343,7 @@ export const delhiPlacesGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Heritage Places in Delhi (2026) — Archaeological Survey Verified',
       metaDescription: 'Discover Delhi’s 10 greatest heritage monuments: Humayun’s Tomb, Qutub Complex, Purana Qila, Safdarjung Tomb, Agrasen ki Baoli, and Tughlaqabad Fort.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-heritage-places-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-heritage-places-in-delhi',
       keywords: ['heritage places in delhi', 'delhi historical monuments', 'asi monuments delhi', 'purana qila', 'safdarjung tomb', 'agrasen ki baoli'],
     },
     faq: [
@@ -545,7 +545,7 @@ export const delhiPlacesGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Religious Places in Delhi (2026) — Temples, Gurudwaras, Dargahs & Shrines',
       metaDescription: 'Complete factual guide to Delhi’s top 10 spiritual places: Bangla Sahib, Akshardham, Nizamuddin Dargah, Jama Masjid, Lotus Temple, and Sacred Heart Cathedral.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-religious-places-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-religious-places-in-delhi',
       keywords: ['religious places in delhi', 'gurudwara bangla sahib', 'akshardham temple delhi', 'nizamuddin dargah', 'sacred heart cathedral delhi', 'delhi temples'],
     },
     faq: [
@@ -747,7 +747,7 @@ export const delhiPlacesGuides: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Hidden Gems in Delhi (2026) — Offbeat Heritage & Secret Spots',
       metaDescription: 'Discover Delhi’s secret monuments and offbeat places: Satpula Dam, Mirza Ghalib Haveli, Bhool Bhulaiya, Hijron Ka Khanqah, and Rajon Ki Baoli.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-hidden-gems-in-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-hidden-gems-in-delhi',
       keywords: ['hidden gems in delhi', 'offbeat places in delhi', 'satpula dam malviya nagar', 'mirza ghalib haveli ballimaran', 'rajon ki baoli'],
     },
     faq: [

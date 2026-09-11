@@ -6,6 +6,7 @@ import { sendSuccess, sendError } from '../utils/response';
 import { asyncHandler } from '../utils/asyncHandler';
 import { GoogleGenAI } from '@google/genai';
 import { SeedService } from '../services/seed.service';
+import { ENV } from '../config/env';
 
 // In-memory store for SEO organic analytics tracking
 interface SeoLandingEvent {
@@ -52,9 +53,7 @@ export class SeoPageController {
       return sendError(res, 'Curated SEO guide not found', 404);
     }
 
-    const host = req.get('host') || 'spotpicks.delhi';
-    const protocol = req.protocol || 'https';
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = ENV.SITE_URL || 'https://spotpicx.me';
     const jsonLd = SeoPageService.generateJsonLd(page, baseUrl);
 
     return sendSuccess(res, { page, jsonLd }, 'SEO page details retrieved successfully');

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { SITE_URL, toCanonicalUrl } from '../../constants/site';
 
 export interface SEOHeadProps {
   title: string;
@@ -21,7 +22,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 }) => {
   useEffect(() => {
     // 1. Update document title
-    const fullTitle = title.includes('SpotPicks') ? title : `${title} | SpotPicks Delhi`;
+    const fullTitle = title.includes('SpotPicx') || title.includes('SpotPicks')
+      ? title
+      : `${title} | SpotPicx`;
     document.title = fullTitle;
 
     // 2. Helper to set or create meta tag
@@ -42,34 +45,44 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       setMeta('keywords', keywords.join(', '));
     }
 
-    // OpenGraph
+    // Canonical link calculation (strictly using https://spotpicx.me apex domain)
+    const effectiveCanonicalUrl = toCanonicalUrl(canonicalUrl);
+
+    // Resolve og:image absolute URL
+    const resolvedOgImage = ogImage.startsWith('http')
+      ? ogImage
+      : `${SITE_URL}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+
+    // OpenGraph metadata
     setMeta('og:title', fullTitle, true);
     setMeta('og:description', description, true);
     setMeta('og:type', ogType, true);
-    setMeta('og:image', ogImage, true);
-    if (canonicalUrl) {
-      setMeta('og:url', canonicalUrl, true);
-    }
+    setMeta('og:image', resolvedOgImage, true);
+    setMeta('og:url', effectiveCanonicalUrl, true);
+    setMeta('og:site_name', 'SpotPicx', true);
 
-    // Twitter Card
+    // Twitter Card metadata
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', fullTitle);
     setMeta('twitter:description', description);
-    setMeta('twitter:image', ogImage);
+    setMeta('twitter:image', resolvedOgImage);
+    setMeta('twitter:url', effectiveCanonicalUrl);
 
-    // Canonical link
-    if (canonicalUrl) {
-      let canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
-      }
-      canonicalEl.setAttribute('href', canonicalUrl);
+    // Canonical link tag
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
     }
+    canonicalEl.setAttribute('href', effectiveCanonicalUrl);
 
     // 3. Inject JSON-LD Schema Script
-    const scriptId = 'spotpicks-jsonld-schema';
+    const scriptId = 'spotpicx-jsonld-schema';
+    const legacyScript = document.getElementById('spotpicks-jsonld-schema');
+    if (legacyScript) {
+      legacyScript.remove();
+    }
     const existingScript = document.getElementById(scriptId);
     if (existingScript) {
       existingScript.remove();
@@ -79,7 +92,12 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       const script = document.createElement('script');
       script.id = scriptId;
       script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(jsonLd);
+      // Normalize any old domain strings in jsonLd payload
+      const jsonStr = JSON.stringify(jsonLd)
+        .replace(/https?:\/\/(www\.)?spotpicks\.in/g, SITE_URL)
+        .replace(/https?:\/\/(www\.)?spotpicks\.delhi/g, SITE_URL)
+        .replace(/https?:\/\/(www\.)?spotpicx\.com/g, SITE_URL);
+      script.innerHTML = jsonStr;
       document.head.appendChild(script);
     }
 

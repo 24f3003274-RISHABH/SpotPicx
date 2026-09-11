@@ -73,10 +73,10 @@ export class GuidesService {
         role: 'Senior Content Editor',
       },
       seo: {
-        metaTitle: guideData.seo?.metaTitle || `${guideData.title || 'Top 10 Guide'} — SpotPicks`,
-        metaDescription: guideData.seo?.metaDescription || `Discover the verified top 10 places in ${guideData.location || 'India'} with SpotPicks factual editorial guide.`,
-        canonicalUrl: guideData.seo?.canonicalUrl || `https://spotpicks.in/guides/${newSlug}`,
-        keywords: guideData.seo?.keywords || ['top 10', 'spotpicks guide', guideData.location || 'delhi'],
+        metaTitle: guideData.seo?.metaTitle || `${guideData.title || 'Top 10 Guide'} — SpotPicx`,
+        metaDescription: guideData.seo?.metaDescription || `Discover the verified top 10 places in ${guideData.location || 'India'} with SpotPicx factual editorial guide.`,
+        canonicalUrl: guideData.seo?.canonicalUrl || `https://spotpicx.me/guides/${newSlug}`,
+        keywords: guideData.seo?.keywords || ['top 10', 'spotpicx guide', guideData.location || 'delhi'],
       },
       faq: guideData.faq || [
         {

@@ -3,6 +3,7 @@ import { ArticleService } from '../services/article.service';
 import { Article } from '../models/Article';
 import { sendSuccess, sendError } from '../utils/response';
 import { asyncHandler } from '../utils/asyncHandler';
+import { ENV } from '../config/env';
 
 export class ArticleController {
   public static getAll = asyncHandler(async (req: Request, res: Response) => {
@@ -24,9 +25,7 @@ export class ArticleController {
       return sendError(res, 'Article not found', 404);
     }
 
-    const host = req.get('host') || 'spotpicks.delhi';
-    const protocol = req.protocol || 'https';
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = ENV.SITE_URL || 'https://spotpicx.me';
 
     // Generate Article Schema for JSON-LD
     const jsonLd = {
@@ -39,12 +38,12 @@ export class ArticleController {
       dateModified: (article as any).updatedAt || (article as any).publishedAt,
       author: {
         '@type': 'Person',
-        name: (article as any).author || 'SpotPicks Editorial Team',
+        name: (article as any).author || 'SpotPicx Editorial Team',
         jobTitle: (article as any).authorRole || 'Delhi City Curator',
       },
       publisher: {
         '@type': 'Organization',
-        name: 'SpotPicks Delhi',
+        name: 'SpotPicx',
         logo: {
           '@type': 'ImageObject',
           url: `${baseUrl}/favicon.ico`,

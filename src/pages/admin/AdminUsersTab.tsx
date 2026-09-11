@@ -25,7 +25,7 @@ export const AdminUsersTab: React.FC = () => {
     {
       _id: 'usr-admin-1',
       name: 'System Superadmin',
-      email: 'admin@spotpicks.in',
+      email: 'admin@spotpicx.me',
       role: 'SUPER_ADMIN',
       isEmailVerified: true,
       createdAt: '2025-01-01',

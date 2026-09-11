@@ -97,15 +97,15 @@ export const GuideDetailPage: React.FC = () => {
       },
       publisher: {
         '@type': 'Organization',
-        name: 'SpotPicks',
+        name: 'SpotPicx',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://spotpicks.in/logo.png',
+          url: 'https://spotpicx.me/logo.png',
         },
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': guide.seo.canonicalUrl || `https://spotpicks.in/guides/${guide.slug}`,
+        '@id': guide.seo.canonicalUrl ? guide.seo.canonicalUrl.replace('spotpicks.in', 'spotpicx.me') : `https://spotpicx.me/guides/${guide.slug}`,
       },
     },
     {
@@ -130,19 +130,19 @@ export const GuideDetailPage: React.FC = () => {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://spotpicks.in',
+          item: 'https://spotpicx.me',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Guides',
-          item: 'https://spotpicks.in/guides',
+          item: 'https://spotpicx.me/guides',
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: guide.title,
-          item: guide.seo.canonicalUrl || `https://spotpicks.in/guides/${guide.slug}`,
+          item: guide.seo.canonicalUrl ? guide.seo.canonicalUrl.replace('spotpicks.in', 'spotpicx.me') : `https://spotpicx.me/guides/${guide.slug}`,
         },
       ],
     },
@@ -173,9 +173,9 @@ export const GuideDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-24">
       <SEOHead
-        title={guide.seo.metaTitle || `${guide.title} | SpotPicks Guide`}
+        title={guide.seo.metaTitle || `${guide.title} | SpotPicx Guide`}
         description={guide.seo.metaDescription || guide.subtitle}
-        canonicalUrl={guide.seo.canonicalUrl || `https://spotpicks.in/guides/${guide.slug}`}
+        canonicalUrl={guide.seo.canonicalUrl ? guide.seo.canonicalUrl.replace('spotpicks.in', 'spotpicx.me') : `https://spotpicx.me/guides/${guide.slug}`}
         ogImage={guide.heroImage}
         ogType="article"
         jsonLd={jsonLd}

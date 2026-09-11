@@ -102,9 +102,9 @@ export const FreeWebsitesEditorialGuide: React.FC = () => {
   const shareUrl =
     typeof window !== 'undefined'
       ? window.location.href
-      : 'https://spotpicks.delhi/articles/free-websites-every-college-student-should-know';
+      : 'https://spotpicx.me/articles/free-websites-every-college-student-should-know';
   const shareTitle =
-    '25 Free Websites Every College Student Should Know | SpotPicks Editorial Guide';
+    '25 Free Websites Every College Student Should Know | SpotPicx Editorial Guide';
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {

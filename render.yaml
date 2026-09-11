@@ -17,7 +17,9 @@ services:
       - key: JWT_SECRET
         sync: false
       - key: CORS_ORIGIN
-        value: https://spotpicks.in,https://www.spotpicks.in,http://localhost:5173
+        value: https://spotpicx.me,https://spotpicks.in,https://www.spotpicks.in,http://localhost:5173
+      - key: SITE_URL
+        value: https://spotpicx.me
       - key: GEMINI_API_KEY
         sync: false
       - key: CLOUDINARY_CLOUD_NAME

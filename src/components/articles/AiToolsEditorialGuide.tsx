@@ -122,9 +122,9 @@ export const AiToolsEditorialGuide: React.FC = () => {
   const shareUrl =
     typeof window !== 'undefined'
       ? window.location.href
-      : 'https://spotpicks.delhi/articles/best-ai-tools-for-college-students-2026';
+      : 'https://spotpicx.me/articles/best-ai-tools-for-college-students-2026';
   const shareTitle =
-    '20 AI Tools Every College Student Should Know in 2026 | SpotPicks Editorial';
+    '20 AI Tools Every College Student Should Know in 2026 | SpotPicx Editorial';
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {

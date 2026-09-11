@@ -28,7 +28,7 @@ export const regionalIndiaGuides2: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Heritage Places in Rajasthan (2026) — Amber Fort, Mehrangarh, City Palace',
       metaDescription: 'Top 10 heritage places in Rajasthan: Amber Fort Jaipur, Mehrangarh Fort Jodhpur, City Palace Udaipur, Jaisalmer Golden Fort, Chittorgarh, and Kumbhalgarh.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-heritage-places-in-rajasthan',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-heritage-places-in-rajasthan',
       keywords: ['heritage places in rajasthan', 'rajasthan forts and palaces', 'amber fort jaipur', 'mehrangarh fort jodhpur', 'city palace udaipur', 'jaisalmer fort'],
     },
     faq: [
@@ -210,7 +210,7 @@ export const regionalIndiaGuides2: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Spiritual Places in India (2026) — Varanasi, Golden Temple, Bodh Gaya, Tirupati',
       metaDescription: 'Top 10 spiritual places in India: Varanasi Ghats, Sri Harmandir Sahib Amritsar, Mahabodhi Temple Bodh Gaya, Tirumala Tirupati, Kedarnath, and Ajmer Sharif.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-spiritual-places-in-india',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-spiritual-places-in-india',
       keywords: ['spiritual places in india', 'golden temple amritsar', 'varanasi kashi', 'bodh gaya temple', 'tirupati balaji', 'kedarnath temple'],
     },
     faq: [
@@ -395,7 +395,7 @@ export const regionalIndiaGuides2: Top10Guide[] = [
     seo: {
       metaTitle: 'Top 10 Weekend Getaways From Delhi (2026) — Rishikesh, Jaipur, Neemrana, Corbett',
       metaDescription: 'Discover the top 10 weekend getaways from Delhi: Rishikesh, Jaipur, Neemrana Fort Palace, Jim Corbett, Lansdowne, Mussoorie, and Bharatpur.',
-      canonicalUrl: 'https://spotpicks.in/guides/top-10-weekend-getaways-from-delhi',
+      canonicalUrl: 'https://spotpicx.me/guides/top-10-weekend-getaways-from-delhi',
       keywords: ['weekend getaways from delhi', 'places near delhi for weekend', 'road trips from delhi', 'delhi weekend trips', 'neemrana fort', 'rishikesh from delhi'],
     },
     faq: [

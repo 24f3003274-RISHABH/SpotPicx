@@ -79,16 +79,16 @@ export const GuidesIndexPage: React.FC = () => {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'SpotPicks Top 10 Guides — Factual Editorial Travel & Lifestyle Directory',
+    name: 'SpotPicx Top 10 Guides — Factual Editorial Travel & Lifestyle Directory',
     description:
       'Curated directory of high-quality, factual Top 10 guides across Delhi, Uttarakhand, Uttar Pradesh, Rajasthan, and India. Reviewed under a strict 90-day verification policy.',
-    url: 'https://spotpicks.in/guides',
+    url: 'https://spotpicx.me/guides',
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: filteredGuides.map((g, idx) => ({
         '@type': 'ListItem',
         position: idx + 1,
-        url: `https://spotpicks.in/guides/${g.slug}`,
+        url: `https://spotpicx.me/guides/${g.slug}`,
         name: g.title,
       })),
     },
@@ -97,9 +97,9 @@ export const GuidesIndexPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
       <SEOHead
-        title="SpotPicks Top 10 Guides — Verified Factual Editorial Travel Directory"
+        title="SpotPicx Top 10 Guides — Verified Factual Editorial Travel Directory"
         description="Explore 15+ comprehensive, verified Top 10 guides across Delhi, Uttarakhand, Rajasthan, UP, and India. Unbiased editorial selections with 90-day freshness reviews."
-        canonicalUrl="https://spotpicks.in/guides"
+        canonicalUrl="https://spotpicx.me/guides"
         jsonLd={jsonLd}
         keywords={[
           'spotpicks guides',

@@ -1011,7 +1011,7 @@ export const AdminGuidesTab: React.FC = () => {
                           },
                         })
                       }
-                      placeholder="https://spotpicks.in/guides/top-10-..."
+                      placeholder="https://spotpicx.me/guides/top-10-..."
                       className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono"
                     />
                   </div>

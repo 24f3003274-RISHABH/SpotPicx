@@ -69,25 +69,25 @@ export const HeritageJsonLd: React.FC<HeritageJsonLdProps> = ({
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://spotpicks.in/',
+          item: 'https://spotpicx.me/',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Delhi Heritage',
-          item: 'https://spotpicks.in/delhi/heritage',
+          item: 'https://spotpicx.me/delhi/heritage',
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: place.category,
-          item: `https://spotpicks.in/delhi/heritage/category/${place.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+          item: `https://spotpicx.me/delhi/heritage/category/${place.category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: place.name,
-          item: `https://spotpicks.in/delhi/heritage/place/${place.slug}`,
+          item: `https://spotpicx.me/delhi/heritage/place/${place.slug}`,
         },
       ],
     });
@@ -105,10 +105,10 @@ export const HeritageJsonLd: React.FC<HeritageJsonLdProps> = ({
       },
       publisher: {
         '@type': 'Organization',
-        name: 'SpotPicks',
+        name: 'SpotPicx',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://spotpicks.in/logo.png',
+          url: 'https://spotpicx.me/logo.png',
         },
       },
       datePublished: '2026-01-01',
@@ -137,7 +137,7 @@ export const HeritageJsonLd: React.FC<HeritageJsonLdProps> = ({
       name: categoryName ? `${categoryName} in Delhi` : 'Delhi Heritage & History Discovery Guide',
       description:
         'Comprehensive guide to historical places, Mughal architecture, Sultanate monuments, ancient stepwells, and museums across Delhi.',
-      url: 'https://spotpicks.in/delhi/heritage',
+      url: 'https://spotpicx.me/delhi/heritage',
     });
   }
 

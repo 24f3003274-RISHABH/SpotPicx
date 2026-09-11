@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Article, IArticle } from '../models/Article';
 
 export const curatedArticlesData = [
@@ -564,31 +565,33 @@ export class ArticleService {
    * Get all published articles with optional category/tag filters
    */
   public static async getAllArticles(filters: { category?: string; tag?: string; location?: string; search?: string } = {}) {
-    try {
-      const query: any = { published: true };
-      if (filters.category && filters.category !== 'all') {
-        query.category = new RegExp(filters.category, 'i');
-      }
-      if (filters.tag) {
-        query.tags = new RegExp(filters.tag, 'i');
-      }
-      if (filters.location) {
-        query.locations = new RegExp(filters.location, 'i');
-      }
-      if (filters.search) {
-        query.$or = [
-          { title: new RegExp(filters.search, 'i') },
-          { excerpt: new RegExp(filters.search, 'i') },
-          { tags: new RegExp(filters.search, 'i') },
-        ];
-      }
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const query: any = { published: true };
+        if (filters.category && filters.category !== 'all') {
+          query.category = new RegExp(filters.category, 'i');
+        }
+        if (filters.tag) {
+          query.tags = new RegExp(filters.tag, 'i');
+        }
+        if (filters.location) {
+          query.locations = new RegExp(filters.location, 'i');
+        }
+        if (filters.search) {
+          query.$or = [
+            { title: new RegExp(filters.search, 'i') },
+            { excerpt: new RegExp(filters.search, 'i') },
+            { tags: new RegExp(filters.search, 'i') },
+          ];
+        }
 
-      const dbArticles = await Article.find(query).sort({ featured: -1, publishedAt: -1, createdAt: -1 }).lean();
-      if (dbArticles && dbArticles.length > 0) {
-        return dbArticles;
+        const dbArticles = await Article.find(query).sort({ featured: -1, publishedAt: -1, createdAt: -1 }).lean();
+        if (dbArticles && dbArticles.length > 0) {
+          return dbArticles;
+        }
+      } catch (e) {
+        console.warn('DB Article find failed, returning curated fallback articles:', e);
       }
-    } catch (e) {
-      console.warn('DB Article find failed, returning curated fallback articles:', e);
     }
 
     // Curated fallback filter

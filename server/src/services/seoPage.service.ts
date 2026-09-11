@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { SeoPage, ISeoPage } from '../models/SeoPage';
 import { Top10Service } from './top10.service';
 
@@ -91,7 +92,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Restaurants', 'Fine Dining', 'Mughlai', 'Bar & Lounge'],
     relatedLocations: ['Connaught Place', 'Chanakyapuri', 'Lodhi Colony', 'Saket'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-restaurants-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-restaurants-in-delhi',
     keywords: ['best restaurants in delhi', 'delhi fine dining', 'top 10 food places delhi', 'indian accent', 'bukhara delhi'],
   },
   {
@@ -139,7 +140,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Cafes', 'Bakeries', 'Desserts', 'Breakfast'],
     relatedLocations: ['Hauz Khas', 'Saket', 'Chhatarpur', 'Khan Market'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-cafes-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-cafes-in-delhi',
     keywords: ['best cafes in delhi', 'aesthetic cafes delhi', 'delhi coffee shops', 'blue tokai delhi', 'diggin delhi'],
   },
   {
@@ -185,7 +186,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Street Food', 'Tibetan', 'Asian', 'Fast Food'],
     relatedLocations: ['Majnu Ka Tilla', 'Lajpat Nagar', 'Chanakyapuri', 'Old Delhi'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-momos-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-momos-in-delhi',
     keywords: ['best momos in delhi', 'majnu ka tilla momos', 'tandoori momos delhi', 'yashwant place momos'],
   },
   {
@@ -233,7 +234,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Fine Dining', 'Cafes', 'Italian', 'Rooftop Lounge'],
     relatedLocations: ['Mehrauli', 'Chanakyapuri', 'Lodhi Colony', 'Hauz Khas'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-date-places-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-date-places-in-delhi',
     keywords: ['best date places delhi', 'romantic restaurants delhi', 'couple spots delhi', 'olive mehrauli date'],
   },
   {
@@ -274,7 +275,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Parks', 'Heritage', 'Outdoors', 'Photography'],
     relatedLocations: ['Lodhi Colony', 'Nizamuddin', 'Hauz Khas', 'Mehrauli'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-parks-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-parks-in-delhi',
     keywords: ['best parks in delhi', 'sunder nursery delhi', 'lodhi garden', 'delhi picnic spots'],
   },
   {
@@ -321,7 +322,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Shopping', 'Fashion', 'Handicrafts', 'Bazaars'],
     relatedLocations: ['Sarojini Nagar', 'Khan Market', 'INA', 'Chandni Chowk'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-markets-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-markets-in-delhi',
     keywords: ['best markets in delhi', 'sarojini nagar shopping', 'khan market delhi', 'dilli haat ina'],
   },
   {
@@ -362,7 +363,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Living', 'Hostels', 'Co-Living', 'Student Hubs'],
     relatedLocations: ['North Campus', 'Satya Niketan', 'Saket', 'Laxmi Nagar'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-pg-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-pg-in-delhi',
     keywords: ['best pg in delhi', 'co living delhi', 'student pg south campus', 'delhi university pg'],
   },
   {
@@ -408,7 +409,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Street Food', 'Mughlai', 'Desserts', 'Heritage'],
     relatedLocations: ['Old Delhi', 'Chandni Chowk', 'Jama Masjid', 'Daryaganj'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-street-food-in-old-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-street-food-in-old-delhi',
     keywords: ['best street food old delhi', 'chandni chowk food', 'paranthe wali gali', 'karims delhi'],
   },
   {
@@ -449,7 +450,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Cafes', 'Co-Working', 'Specialty Coffee'],
     relatedLocations: ['Saket', 'Hauz Khas', 'Connaught Place', 'Aerocity'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-co-working-cafes-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-co-working-cafes-in-delhi',
     keywords: ['work cafes delhi', 'co working cafes delhi', 'laptop friendly cafes delhi', 'wifi cafe delhi'],
   },
   {
@@ -486,7 +487,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Nightlife', 'Bars', 'Rooftops', 'Cocktails'],
     relatedLocations: ['Connaught Place', 'Mehrauli', 'Aerocity', 'Hauz Khas'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-rooftop-bars-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-rooftop-bars-in-delhi',
     keywords: ['best rooftop bars delhi', 'skyline lounge delhi', 'rooftop restaurants cp', 'nightlife delhi'],
   },
   {
@@ -539,7 +540,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Living', 'PGs & Hostels', 'Student Hubs', 'Budget Stays'],
     relatedLocations: ['Munirka', 'Vasant Kunj', 'Hauz Khas', 'Saket'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-pg-near-jnu',
+    canonicalUrl: 'https://spotpicx.me/best-pg-near-jnu',
     keywords: ['best pg near jnu', 'jnu student pg munirka', 'pg in ber sarai delhi', 'hostels near jnu campus'],
   },
   {
@@ -583,7 +584,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Cafes', 'Student Hubs', 'Coffee', 'Late Night'],
     relatedLocations: ['Munirka', 'Vasant Kunj', 'Hauz Khas', 'Saket'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-cafes-near-jnu',
+    canonicalUrl: 'https://spotpicx.me/best-cafes-near-jnu',
     keywords: ['cafes near jnu', 'student cafes jnu delhi', 'study cafes munirka', 'budget cafes south delhi'],
   },
   {
@@ -631,7 +632,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Street Food', 'Mughlai', 'Chaat', 'Fast Food'],
     relatedLocations: ['Chandni Chowk', 'Lajpat Nagar', 'Karol Bagh', 'Connaught Place'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-street-food-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-street-food-in-delhi',
     keywords: ['best street food in delhi', 'delhi street food guide', 'chole bhature delhi', 'chandni chowk street food'],
   },
   {
@@ -679,7 +680,7 @@ export const curatedDelhiSeoPages: SeedSeoPageData[] = [
     relatedCategories: ['Places to Visit', 'Historical Monuments', 'Parks', 'Heritage'],
     relatedLocations: ['Connaught Place', 'Mehrauli', 'Old Delhi', 'Nizamuddin'],
     published: true,
-    canonicalUrl: 'https://spotpicks.delhi/best-places-to-visit-in-delhi',
+    canonicalUrl: 'https://spotpicx.me/best-places-to-visit-in-delhi',
     keywords: ['best places to visit in delhi', 'delhi sightseeing', 'qutub minar', 'red fort delhi', 'delhi tourist places'],
   },
 ];
@@ -689,6 +690,9 @@ export class SeoPageService {
    * Initialize or retrieve all curated SEO pages
    */
   public static async getAllPublished() {
+    if (mongoose.connection.readyState !== 1) {
+      return curatedDelhiSeoPages;
+    }
     try {
       const pages = await SeoPage.find({ published: true }).sort({ createdAt: -1 }).lean();
       if (pages && pages.length > 0) {
@@ -708,10 +712,12 @@ export class SeoPageService {
 
     let pageData: any = null;
 
-    try {
-      pageData = await SeoPage.findOne({ slug: cleanSlug, published: true }).lean();
-    } catch (err) {
-      console.warn('Error fetching SEO page from DB:', err);
+    if (mongoose.connection.readyState === 1) {
+      try {
+        pageData = await SeoPage.findOne({ slug: cleanSlug, published: true }).lean();
+      } catch (err) {
+        console.warn('Error fetching SEO page from DB:', err);
+      }
     }
 
     if (!pageData) {
@@ -761,7 +767,7 @@ export class SeoPageService {
         relatedCategories: [capitalizedCategory, 'Restaurants', 'Cafes'],
         relatedLocations: [capitalizedLocation, 'Delhi NCR', 'South Delhi'],
         published: true,
-        canonicalUrl: `https://spotpicks.delhi/${cleanSlug}`,
+        canonicalUrl: `https://spotpicx.me/${cleanSlug}`,
         keywords: [`best ${categoryPart} in ${locationPart}`, `${categoryPart} ${locationPart}`, `top 10 ${categoryPart}`],
       };
     }
@@ -793,7 +799,7 @@ export class SeoPageService {
   /**
    * Generate JSON-LD Structured Data Schema for the SEO page
    */
-  public static generateJsonLd(seoPage: any, baseUrl = 'https://spotpicks.delhi') {
+  public static generateJsonLd(seoPage: any, baseUrl = 'https://spotpicx.me') {
     const canonical = seoPage.canonicalUrl || `${baseUrl}/${seoPage.slug}`;
 
     // 1. BreadcrumbList Schema

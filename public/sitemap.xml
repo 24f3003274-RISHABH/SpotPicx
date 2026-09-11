@@ -1,107 +1,319 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Static Discovery Entrypoints -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Core High-Priority Discovery Pages -->
   <url>
-    <loc>https://spotpicks.in/</loc>
+    <loc>https://spotpicx.me/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/explore</loc>
+    <loc>https://spotpicx.me/explore</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/categories</loc>
+    <loc>https://spotpicx.me/categories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/locations</loc>
+    <loc>https://spotpicx.me/locations</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india</loc>
+    <loc>https://spotpicx.me/delhi</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/india</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- India State & City Dynamic Landing Pages -->
+  <!-- Editorial Guides Directory -->
   <url>
-    <loc>https://spotpicks.in/india/delhi</loc>
+    <loc>https://spotpicx.me/guides</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/delhi/south-delhi</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <loc>https://spotpicx.me/guides/top-10-places-to-visit-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/delhi/central-delhi</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <loc>https://spotpicx.me/guides/delhi-heritage-walks-and-monuments-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/delhi/north-delhi</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <loc>https://spotpicx.me/guides/best-museums-and-galleries-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/delhi/west-delhi</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <loc>https://spotpicx.me/guides/delhi-gardens-and-parks-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/delhi/east-delhi</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <loc>https://spotpicx.me/guides/architectural-landmarks-of-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/maharashtra/mumbai</loc>
+    <loc>https://spotpicx.me/guides/best-cafes-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/best-date-places-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/best-street-food-in-old-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/delhi-shopping-bazaars-bargaining-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/nightlife-and-rooftop-bars-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/places-to-visit-in-jaipur</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/agra-heritage-and-taj-mahal-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/rishikesh-spiritual-and-adventure-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/best-places-to-visit-in-mumbai</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/bangalore-gardens-and-tech-city-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/varanasi-ghats-and-spiritual-heritage-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/amritsar-golden-temple-and-heritage-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/udaipur-city-of-lakes-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/goa-heritage-churches-and-culture-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/guides/manali-and-himachal-valley-escape-guide</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Curated SEO Landing Pages (Top 10 Rankings) -->
+  <url>
+    <loc>https://spotpicx.me/best-restaurants-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/best-cafes-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/best-date-places-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/best-street-food-in-old-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/best-rooftop-bars-in-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Specialized Editorial Magazines & Articles -->
+  <url>
+    <loc>https://spotpicx.me/articles</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/articles/delhi-street-food-trail-chandni-chowk</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/articles/hidden-aesthetic-cafes-south-delhi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/articles/sarojini-nagar-bargaining-insider-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/articles/romantic-heritage-date-spots-delhi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/articles/free-websites-every-college-student-should-know</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Books, Authors & Reading Paths Engine -->
+  <url>
+    <loc>https://spotpicx.me/books</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/books/categories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/india/karnataka/bangalore</loc>
+    <loc>https://spotpicx.me/books/collections</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/books/paths</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/books/authors</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Delhi Heritage & Weekend Getaways Hubs -->
+  <url>
+    <loc>https://spotpicx.me/delhi/heritage</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/delhi/weekend-getaways</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/india/spiritual</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Verified Category & Locality Hubs -->
+  <url>
+    <loc>https://spotpicx.me/category/restaurants</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/category/cafes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/category/nightlife</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/category/shopping</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/category/heritage</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/location/south-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/location/central-delhi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://spotpicx.me/location/old-delhi</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Lifestyle & Specialized Portals -->
   <url>
-    <loc>https://spotpicks.in/events</loc>
+    <loc>https://spotpicx.me/events</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/offers</loc>
+    <loc>https://spotpicx.me/offers</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/students</loc>
+    <loc>https://spotpicx.me/students</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/housing</loc>
+    <loc>https://spotpicx.me/housing</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/jobs</loc>
+    <loc>https://spotpicx.me/jobs</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://spotpicks.in/articles</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://spotpicks.in/pricing</loc>
+    <loc>https://spotpicx.me/pricing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
