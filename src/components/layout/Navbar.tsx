@@ -17,6 +17,7 @@ import {
   LogOut,
   AlertTriangle,
   BookOpen,
+  Globe,
 } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
@@ -283,6 +284,17 @@ export const Navbar: React.FC = () => {
             }`}
           >
             Magazine
+          </Link>
+          <Link
+            to="/brics"
+            className={`transition-colors flex items-center gap-1 hover:text-amber-600 ${
+              location.pathname.startsWith('/brics')
+                ? 'text-amber-600 font-semibold'
+                : ''
+            }`}
+          >
+            <span className="flex h-1.5 w-1.5 rounded-full bg-amber-500" />
+            <span>BRICS 2026</span>
           </Link>
           {hasRole(['BUSINESS_OWNER', 'ADMIN', 'SUPER_ADMIN']) && (
             <Link
@@ -557,6 +569,14 @@ export const Navbar: React.FC = () => {
               className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-slate-800"
             >
               Editorial Magazine & Stories
+            </Link>
+            <Link
+              to="/brics"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-50 text-amber-700 flex items-center gap-1.5"
+            >
+              <Globe className="h-3.5 w-3.5" />
+              <span>BRICS 2026 India Hub</span>
             </Link>
             <Link
               to={ROUTES.EXPLORE}

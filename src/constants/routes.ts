@@ -64,6 +64,11 @@ export const ROUTES = {
   BOOK_COLLECTION_DETAILS: '/books/collections/:slug',
   BOOK_COMPARE: '/books/compare',
 
+  // BRICS 2026 India Knowledge Hub Platform
+  BRICS: '/brics',
+  BRICS_2026: '/brics/2026',
+  BRICS_COUNTRY: '/brics/countries/:slug',
+
   // Business Owner Dashboard Routes
   BUSINESS_DASHBOARD: '/business/dashboard',
   BUSINESS_LISTINGS: '/business/businesses',
@@ -95,6 +100,7 @@ export const ROUTES = {
   ADMIN_BOOKS: '/admin/books',
   ADMIN_AUTHORS: '/admin/authors',
   ADMIN_DATA_SOURCES: '/admin/sources',
+  ADMIN_BRICS: '/admin/brics',
 
   NOT_FOUND: '*',
 } as const;

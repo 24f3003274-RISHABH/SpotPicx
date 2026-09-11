@@ -20,6 +20,7 @@ import {
   Database,
   Award,
   BookOpen,
+  Globe,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Container';
 import { ROUTES } from '../../constants/routes';
@@ -47,6 +48,7 @@ export const AdminDashboardLayout: React.FC = () => {
     { label: 'Top 10 Guides Engine', path: ROUTES.ADMIN_GUIDES, icon: BookOpen },
     { label: 'Books Discovery Catalog', path: ROUTES.ADMIN_BOOKS, icon: BookOpen },
     { label: 'Authors Directory', path: ROUTES.ADMIN_AUTHORS, icon: Users },
+    { label: 'BRICS 2026 Hub', path: ROUTES.ADMIN_BRICS, icon: Globe },
   ];
 
   return (

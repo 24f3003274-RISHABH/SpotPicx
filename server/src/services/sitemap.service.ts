@@ -63,6 +63,21 @@ export class SitemapService {
       { path: '/housing', priority: '0.8', changefreq: 'daily' },
       { path: '/jobs', priority: '0.7', changefreq: 'daily' },
       { path: '/pricing', priority: '0.6', changefreq: 'monthly' },
+      // BRICS 2026 India Knowledge Hub
+      { path: '/brics', priority: '0.95', changefreq: 'daily' },
+      { path: '/brics/2026', priority: '0.90', changefreq: 'weekly' },
+      { path: '/articles/brics-summit-2026-india', priority: '0.95', changefreq: 'weekly' },
+      { path: '/brics/countries/india', priority: '0.85', changefreq: 'monthly' },
+      { path: '/brics/countries/brazil', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/russia', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/china', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/south-africa', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/egypt', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/ethiopia', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/iran', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/saudi-arabia', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/united-arab-emirates', priority: '0.80', changefreq: 'monthly' },
+      { path: '/brics/countries/indonesia', priority: '0.85', changefreq: 'monthly' },
     ];
 
     for (const r of staticRoutes) {
@@ -224,6 +239,8 @@ Allow: /guides
 Allow: /guides/
 Allow: /books
 Allow: /books/
+Allow: /brics
+Allow: /brics/
 Allow: /business/
 Allow: /best-*
 Allow: /top-*

@@ -93,6 +93,11 @@ import { AuthorDetailPage } from '../pages/books/AuthorDetailPage';
 import { ReadingPathsPage } from '../pages/books/ReadingPathsPage';
 import { ReadingPathDetailPage } from '../pages/books/ReadingPathDetailPage';
 
+// BRICS 2026 India Knowledge Hub Platform
+import { BricsHubPage } from '../pages/brics/BricsHubPage';
+import { BricsCountryPage } from '../pages/brics/BricsCountryPage';
+import { AdminBricsTab } from '../pages/admin/AdminBricsTab';
+
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
@@ -150,6 +155,11 @@ export const AppRoutes: React.FC = () => {
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/articles/:slug" element={<ArticleDetailPage />} />
         <Route path="/article/:slug" element={<ArticleDetailPage />} />
+
+        {/* BRICS 2026 India Knowledge Hub Platform */}
+        <Route path="/brics" element={<BricsHubPage />} />
+        <Route path="/brics/2026" element={<BricsHubPage />} />
+        <Route path="/brics/countries/:slug" element={<BricsCountryPage />} />
 
         {/* Phase 10: Events, Offers, Jobs & Specialized Discovery */}
         <Route path={ROUTES.EVENTS} element={<EventsPage />} />
@@ -267,6 +277,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="books" element={<AdminBooksTab />} />
           <Route path="authors" element={<AdminAuthorsTab />} />
           <Route path="sources" element={<AdminDataSourcesTab />} />
+          <Route path="brics" element={<AdminBricsTab />} />
         </Route>
 
         {/* Generic SEO Page & Guide Slug Matcher */}

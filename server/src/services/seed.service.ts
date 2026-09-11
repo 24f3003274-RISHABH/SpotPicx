@@ -13,6 +13,7 @@ import { Author } from '../models/Author';
 import { SEED_AUTHORS, SEED_BOOKS } from '../seed/booksData';
 import { SEED_OPPORTUNITIES } from './opportunity.service';
 import { AuthService } from './auth.service';
+import { BricsService } from './brics.service';
 import { dbConnection } from '../config/db';
 import {
   SEED_CATEGORIES,
@@ -876,6 +877,10 @@ export class SeedService {
         );
       }
       console.log('⚡ [SeedService] Seeded verified Books into MongoDB Atlas.');
+
+      // Check and seed BRICS 2026 Knowledge Hub collections
+      await BricsService.seedBricsCollections();
+      console.log('⚡ [SeedService] Seeded BRICS 2026 Knowledge Hub into MongoDB Atlas.');
 
       const totalCats = await Category.countDocuments();
       const totalLocs = await Location.countDocuments();

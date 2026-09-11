@@ -26,6 +26,7 @@ import opportunityRoutes from './opportunity.routes';
 import popularSearchRoutes from './popular-search.routes';
 import bookRoutes from './book.routes';
 import authorRoutes from './author.routes';
+import bricsRoutes from './brics.routes';
 
 const router = Router();
 
@@ -60,6 +61,7 @@ router.use('/discovery', discoveryRoutes);
 router.use('/top10', top10Routes);
 router.use('/seo-pages', seoPageRoutes);
 router.use('/articles', articleRoutes);
+router.use('/brics', bricsRoutes);
 
 // Monetization, Ads & Leads (Phase 19)
 router.use('/monetization', monetizationRoutes);

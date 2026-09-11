@@ -13,6 +13,8 @@ Allow: /books
 Allow: /books/*
 Allow: /articles
 Allow: /articles/*
+Allow: /brics
+Allow: /brics/*
 Allow: /events
 Allow: /offers
 Allow: /students

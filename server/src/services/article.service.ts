@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Article, IArticle } from '../models/Article';
+import { SEED_BRICS_ARTICLE } from '../seed/bricsData';
 
 export const curatedArticlesData = [
   {
@@ -558,6 +559,7 @@ Artificial intelligence is transforming higher education from passive memorizati
     readingTimeMinutes: 10,
     featured: true,
   },
+  SEED_BRICS_ARTICLE,
 ];
 
 export class ArticleService {

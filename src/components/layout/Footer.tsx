@@ -136,6 +136,16 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-slate-500">
               <li>
+                <Link to="/brics" className="hover:text-amber-600 font-semibold text-amber-600 transition-colors flex items-center gap-1">
+                  <span>BRICS 2026 India Knowledge Hub</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/articles/brics-summit-2026-india" className="hover:text-amber-600 transition-colors">
+                  18th BRICS Summit Guide
+                </Link>
+              </li>
+              <li>
                 <Link to="/books" className="hover:text-indigo-600 font-semibold text-indigo-600 transition-colors flex items-center gap-1">
                   <span>Books & Knowledge Hub</span>
                 </Link>
